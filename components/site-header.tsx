@@ -1,24 +1,25 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { Leaf, Menu, X, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const products = [
-  { name: "Rythu360", desc: "Farmer super-app" },
-  { name: "Akanksha AI", desc: "AI crop advisory" },
-  { name: "Marketplace", desc: "Buy & sell produce" },
-  { name: "Organic Store", desc: "Farm-fresh goods" },
-  { name: "Drone Services", desc: "Precision spraying" },
+  { name: "Rythu360", desc: "Farmer super-app", href: "/products/rythu360" },
+  { name: "Akanksha AI", desc: "AI crop advisory", href: "/products/akanksha-ai" },
+  { name: "Marketplace", desc: "Buy & sell produce", href: "/marketplace" },
+  { name: "Organic Store", desc: "Farm-fresh goods", href: "/organic-store" },
+  { name: "Drone Services", desc: "Precision spraying", href: "/drone-services" },
 ]
 
 const nav = [
-  { label: "Solutions", href: "#solutions" },
-  { label: "Products", href: "#products", children: products },
-  { label: "Government", href: "#segments" },
-  { label: "Enterprise", href: "#segments" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "About", href: "#about" },
+  { label: "Solutions", href: "/#solutions" },
+  { label: "Products", href: "/#products", children: products },
+  { label: "Marketplace", href: "/marketplace" },
+  { label: "Government", href: "/#segments" },
+  { label: "Enterprise", href: "/#segments" },
+  { label: "Pricing", href: "/#pricing" },
 ]
 
 export function SiteHeader() {
@@ -27,31 +28,31 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <a href="#" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Leaf className="size-5" />
           </span>
           <span className="font-serif text-xl font-semibold tracking-tight text-foreground">
             SmartFarmin
           </span>
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
           {nav.map((item) => (
             <div key={item.label} className="group relative">
-              <a
+              <Link
                 href={item.href}
                 className="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
               >
                 {item.label}
                 {item.children && <ChevronDown className="size-3.5 opacity-60" />}
-              </a>
+              </Link>
               {item.children && (
                 <div className="invisible absolute left-0 top-full w-64 translate-y-1 rounded-xl border border-border bg-popover p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                   {item.children.map((child) => (
-                    <a
+                    <Link
                       key={child.name}
-                      href="#products"
+                      href={child.href}
                       className="block rounded-lg px-3 py-2 hover:bg-secondary"
                     >
                       <span className="block text-sm font-medium text-foreground">
@@ -60,7 +61,7 @@ export function SiteHeader() {
                       <span className="block text-xs text-muted-foreground">
                         {child.desc}
                       </span>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -90,14 +91,14 @@ export function SiteHeader() {
         <div className="border-t border-border bg-background lg:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4">
             {nav.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-border pt-3">
               <Button variant="outline" size="sm">

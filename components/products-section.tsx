@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import {
   Smartphone,
   Brain,
@@ -13,24 +14,28 @@ const products = [
     name: "Rythu360",
     tag: "Farmer super-app",
     icon: Smartphone,
+    href: "/products/rythu360",
     desc: "One app for crop planning, weather, mandi prices, credit and expert support in your language.",
   },
   {
     name: "Akanksha AI",
     tag: "AI advisory",
     icon: Brain,
+    href: "/products/akanksha-ai",
     desc: "AI that reads your soil, satellite and weather data to tell you exactly when to sow, water and spray.",
   },
   {
     name: "Marketplace",
     tag: "Buy & sell",
     icon: Store,
+    href: "/marketplace",
     desc: "Sell your harvest directly to buyers at fair prices and source seeds, inputs and equipment with ease.",
   },
   {
     name: "Drone Services",
     tag: "Precision farming",
     icon: Plane,
+    href: "/drone-services",
     desc: "Book on-demand drone spraying and field mapping that cuts input costs and protects your health.",
     image: "/images/drone-services.png",
   },
@@ -38,6 +43,7 @@ const products = [
     name: "Organic Store",
     tag: "Farm to table",
     icon: ShoppingBasket,
+    href: "/organic-store",
     desc: "A trusted store for certified organic produce, delivering farm-fresh goods to conscious consumers.",
     image: "/images/organic-produce.png",
   },
@@ -64,7 +70,8 @@ export function ProductsSection() {
             const Icon = product.icon
             const featured = Boolean(product.image)
             return (
-              <article
+              <Link
+                href={product.href}
                 key={product.name}
                 className={`group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-lg ${
                   featured ? "md:col-span-1 lg:row-span-1" : ""
@@ -97,7 +104,7 @@ export function ProductsSection() {
                     {product.desc}
                   </p>
                 </div>
-              </article>
+              </Link>
             )
           })}
         </div>
