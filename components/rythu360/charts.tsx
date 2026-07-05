@@ -389,3 +389,79 @@ export function DonutProgress({
     </div>
   )
 }
+
+/* ---------------- Executive charts ---------------- */
+
+export function RevenueGmvChart({
+  data,
+}: {
+  data: Array<{ label: string; gmv: number; revenue: number }>
+}) {
+  return (
+    <ResponsiveContainer width="100%" height={280}>
+      <ComposedChart data={data} margin={{ left: 4, right: 8, top: 8 }}>
+        <defs>
+          <linearGradient id="fillGmv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--chart-2)" stopOpacity={0.28} />
+            <stop offset="95%" stopColor="var(--chart-2)" stopOpacity={0} />
+          </linearGradient>
+          <linearGradient id="fillRev" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.32} />
+            <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} />
+        <YAxis {...axisProps} width={46} tickFormatter={(v) => `${v / 100000}L`} />
+        <Tooltip content={<TooltipBox prefix="₹" />} cursor={{ stroke: "var(--border)" }} />
+        <Area type="monotone" dataKey="gmv" name="GMV" stroke="var(--chart-2)" strokeWidth={2.5} fill="url(#fillGmv)" />
+        <Area type="monotone" dataKey="revenue" name="revenue" stroke="var(--chart-1)" strokeWidth={2.5} fill="url(#fillRev)" />
+      </ComposedChart>
+    </ResponsiveContainer>
+  )
+}
+
+export function RevenueStreamChart({
+  data,
+}: {
+  data: Array<{ label: string; marketplace: number; subscriptions: number; commissions: number }>
+}) {
+  return (
+    <ResponsiveContainer width="100%" height={280}>
+      <BarChart data={data} margin={{ left: 4, right: 8, top: 8 }}>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} />
+        <YAxis {...axisProps} width={44} tickFormatter={(v) => `${v / 100000}L`} />
+        <Tooltip content={<TooltipBox prefix="₹" />} cursor={{ fill: "var(--muted)", opacity: 0.4 }} />
+        <Bar dataKey="marketplace" name="marketplace" stackId="r" fill="var(--chart-1)" maxBarSize={30} />
+        <Bar dataKey="subscriptions" name="subscriptions" stackId="r" fill="var(--chart-2)" maxBarSize={30} />
+        <Bar dataKey="commissions" name="commissions" stackId="r" fill="var(--chart-3)" radius={[6, 6, 0, 0]} maxBarSize={30} />
+      </BarChart>
+    </ResponsiveContainer>
+  )
+}
+
+export function AiUsageChart({
+  data,
+}: {
+  data: Array<{ label: string; queries: number; scans: number }>
+}) {
+  return (
+    <ResponsiveContainer width="100%" height={220}>
+      <ComposedChart data={data} margin={{ left: -8, right: 8, top: 8 }}>
+        <defs>
+          <linearGradient id="fillAi" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--accent)" stopOpacity={0.3} />
+            <stop offset="95%" stopColor="var(--accent)" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} />
+        <YAxis {...axisProps} width={40} tickFormatter={(v) => `${v / 1000}k`} />
+        <Tooltip content={<TooltipBox />} cursor={{ stroke: "var(--border)" }} />
+        <Area type="monotone" dataKey="queries" name="AI queries" stroke="var(--accent)" strokeWidth={2.5} fill="url(#fillAi)" />
+        <Line type="monotone" dataKey="scans" name="crop scans" stroke="var(--chart-3)" strokeWidth={2.5} dot={false} />
+      </ComposedChart>
+    </ResponsiveContainer>
+  )
+}
