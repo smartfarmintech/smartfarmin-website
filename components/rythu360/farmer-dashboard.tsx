@@ -143,7 +143,7 @@ const advisories = [
 const quickActions = [
   { label: "Crop Advisory", icon: Lightbulb, tint: "bg-primary/12 text-primary" },
   { label: "Market Prices", icon: TrendingUp, tint: "bg-accent/15 text-accent", href: "/app/market" },
-  { label: "Machinery Booking", icon: Tractor, tint: "bg-chart-3/15 text-chart-3" },
+  { label: "Machinery Booking", icon: Tractor, tint: "bg-chart-3/15 text-chart-3", href: "/app/machinery" },
   { label: "Nearby Services", icon: MapPinned, tint: "bg-chart-4/15 text-chart-4" },
   { label: "Government Schemes", icon: Landmark, tint: "bg-primary/12 text-primary" },
   { label: "Marketplace", icon: Store, tint: "bg-accent/15 text-accent" },
