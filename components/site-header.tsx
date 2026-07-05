@@ -17,9 +17,9 @@ const nav = [
   { label: "Solutions", href: "/#solutions" },
   { label: "Products", href: "/#products", children: products },
   { label: "Marketplace", href: "/marketplace" },
-  { label: "Government", href: "/#segments" },
-  { label: "Enterprise", href: "/#segments" },
-  { label: "Pricing", href: "/#pricing" },
+  { label: "Government", href: "/government" },
+  { label: "Enterprise", href: "/enterprise" },
+  { label: "Pricing", href: "/pricing" },
 ]
 
 export function SiteHeader() {
@@ -70,10 +70,18 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <Button variant="ghost" size="sm" className="text-foreground/80">
+          <Button
+            render={<Link href="/contact" />}
+            nativeButton={false}
+            variant="ghost"
+            size="sm"
+            className="text-foreground/80"
+          >
             Login
           </Button>
-          <Button size="sm">Get Started</Button>
+          <Button render={<Link href="/pricing" />} nativeButton={false} size="sm">
+            Get Started
+          </Button>
         </div>
 
         <button
@@ -101,10 +109,21 @@ export function SiteHeader() {
               </Link>
             ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-border pt-3">
-              <Button variant="outline" size="sm">
+              <Button
+                render={<Link href="/contact" onClick={() => setOpen(false)} />}
+                nativeButton={false}
+                variant="outline"
+                size="sm"
+              >
                 Login
               </Button>
-              <Button size="sm">Get Started</Button>
+              <Button
+                render={<Link href="/pricing" onClick={() => setOpen(false)} />}
+                nativeButton={false}
+                size="sm"
+              >
+                Get Started
+              </Button>
             </div>
           </nav>
         </div>

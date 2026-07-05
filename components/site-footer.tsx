@@ -15,18 +15,18 @@ const columns = [
   {
     title: "Solutions",
     links: [
-      { label: "Government", href: "/#segments" },
-      { label: "Enterprise", href: "/#segments" },
-      { label: "Pricing", href: "/#pricing" },
+      { label: "Government", href: "/government" },
+      { label: "Enterprise", href: "/enterprise" },
+      { label: "Pricing", href: "/pricing" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About", href: "/#about" },
-      { label: "Investors", href: "/#about" },
-      { label: "Careers", href: "/#about" },
-      { label: "Contact", href: "/#about" },
+      { label: "About", href: "/about" },
+      { label: "Investors", href: "/investors" },
+      { label: "Careers", href: "/careers" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ]
@@ -81,7 +81,7 @@ export function SiteFooter() {
             <Link href="/#about" className="hover:text-foreground">
               Terms
             </Link>
-            <Link href="/#about" className="hover:text-foreground">
+            <Link href="/contact" className="hover:text-foreground">
               Contact
             </Link>
           </div>
