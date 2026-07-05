@@ -26,11 +26,11 @@ const WORKSPACE: Partial<
     cta: "Open CRM Dashboard",
   },
   admin: {
-    href: "/app/crm",
-    title: "Your enterprise CRM is ready",
+    href: "/app/command",
+    title: "Your command center is ready",
     blurb:
-      "Launch the Admin command center — call analytics, AI lead scoring, registrations, targets, follow-ups, and the team leaderboard in one place.",
-    cta: "Open CRM Dashboard",
+      "Launch the enterprise command center — users, roles & permissions, server status, approvals, notifications, platform health, and district & state analytics.",
+    cta: "Open Command Center",
   },
   "super-admin": {
     href: "/app/executive",
