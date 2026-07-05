@@ -129,7 +129,14 @@ export function AppShell() {
             </div>
 
             <div className="ml-auto flex items-center gap-1.5">
-              <Button variant="ghost" size="icon" aria-label="Notifications" className="relative rounded-full">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Notifications"
+                className="relative rounded-full"
+                render={<Link href="/app/notifications" />}
+                nativeButton={false}
+              >
                 <Bell className="size-4" />
                 <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />
               </Button>
