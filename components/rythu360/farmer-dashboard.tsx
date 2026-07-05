@@ -147,8 +147,8 @@ const quickActions = [
   { label: "Nearby Services", icon: MapPinned, tint: "bg-chart-4/15 text-chart-4" },
   { label: "Government Schemes", icon: Landmark, tint: "bg-primary/12 text-primary" },
   { label: "Marketplace", icon: Store, tint: "bg-accent/15 text-accent", href: "/app/shop" },
-  { label: "Organic Store", icon: ShoppingBasket, tint: "bg-chart-3/15 text-chart-3", href: "/app/shop" },
-  { label: "Wallet", icon: Wallet, tint: "bg-chart-4/15 text-chart-4" },
+  { label: "Organic Store", icon: ShoppingBasket, tint: "bg-chart-3/15 text-chart-3", href: "/app/organic" },
+  { label: "Wallet", icon: Wallet, tint: "bg-chart-4/15 text-chart-4", href: "/app/wallet" },
   { label: "Orders", icon: Package, tint: "bg-primary/12 text-primary" },
 ]
 
