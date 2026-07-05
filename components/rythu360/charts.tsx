@@ -294,3 +294,98 @@ export function WeatherChart() {
     </ResponsiveContainer>
   )
 }
+
+/* ---------------- CRM charts ---------------- */
+
+export function CallsTrendChart({
+  data,
+}: {
+  data: Array<{ label: string; calls: number; connected: number }>
+}) {
+  return (
+    <ResponsiveContainer width="100%" height={260}>
+      <ComposedChart data={data} margin={{ left: -4, right: 8, top: 8 }}>
+        <defs>
+          <linearGradient id="fillCalls" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.3} />
+            <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} />
+        <YAxis {...axisProps} width={40} />
+        <Tooltip content={<TooltipBox />} cursor={{ stroke: "var(--border)" }} />
+        <Area type="monotone" dataKey="calls" name="calls" stroke="var(--chart-1)" strokeWidth={2.5} fill="url(#fillCalls)" />
+        <Line type="monotone" dataKey="connected" name="connected" stroke="var(--accent)" strokeWidth={2.5} dot={false} />
+      </ComposedChart>
+    </ResponsiveContainer>
+  )
+}
+
+export function RegistrationsBarChart({
+  data,
+}: {
+  data: Array<{ label: string; farmers: number; operators: number }>
+}) {
+  return (
+    <ResponsiveContainer width="100%" height={260}>
+      <BarChart data={data} margin={{ left: -12, right: 8, top: 8 }}>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} />
+        <YAxis {...axisProps} width={32} />
+        <Tooltip content={<TooltipBox />} cursor={{ fill: "var(--muted)", opacity: 0.4 }} />
+        <Bar dataKey="farmers" name="farmers" fill="var(--chart-1)" radius={[6, 6, 0, 0]} maxBarSize={26} />
+        <Bar dataKey="operators" name="operators" fill="var(--chart-3)" radius={[6, 6, 0, 0]} maxBarSize={26} />
+      </BarChart>
+    </ResponsiveContainer>
+  )
+}
+
+export function RevenueTargetChart({
+  data,
+}: {
+  data: Array<{ label: string; revenue: number; target: number }>
+}) {
+  return (
+    <ResponsiveContainer width="100%" height={260}>
+      <ComposedChart data={data} margin={{ left: -4, right: 8, top: 8 }}>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} />
+        <YAxis {...axisProps} width={44} tickFormatter={(v) => `${v / 1000}k`} />
+        <Tooltip content={<TooltipBox prefix="₹" />} cursor={{ fill: "var(--muted)", opacity: 0.4 }} />
+        <Bar dataKey="revenue" name="revenue" fill="var(--chart-1)" radius={[6, 6, 0, 0]} maxBarSize={34} />
+        <Line type="monotone" dataKey="target" name="target" stroke="var(--accent)" strokeWidth={2.5} strokeDasharray="5 4" dot={false} />
+      </ComposedChart>
+    </ResponsiveContainer>
+  )
+}
+
+export function DonutProgress({
+  value = 72,
+  label,
+}: {
+  value?: number
+  label?: string
+}) {
+  const data = [{ name: "progress", value }]
+  return (
+    <div className="relative w-full">
+      <ResponsiveContainer width="100%" height={120}>
+        <RadialBarChart data={data} startAngle={90} endAngle={-270} innerRadius="78%" outerRadius="100%" barSize={12}>
+          <defs>
+            <linearGradient id="donutGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="var(--chart-2)" />
+              <stop offset="100%" stopColor="var(--chart-1)" />
+            </linearGradient>
+          </defs>
+          <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+          <RadialBar background={{ fill: "var(--muted)" }} dataKey="value" cornerRadius={12} fill="url(#donutGrad)" />
+        </RadialBarChart>
+      </ResponsiveContainer>
+      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-serif text-lg font-semibold tabular-nums">{value}%</span>
+        {label ? <span className="text-[10px] text-muted-foreground">{label}</span> : null}
+      </div>
+    </div>
+  )
+}

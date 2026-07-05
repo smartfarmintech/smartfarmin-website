@@ -1,10 +1,14 @@
 "use client"
 
+import Link from "next/link"
 import { motion } from "motion/react"
-import { ArrowUpRight, Sparkles } from "lucide-react"
+import { ArrowUpRight, LayoutDashboard, Sparkles } from "lucide-react"
 import type { Role, RoleId } from "@/lib/rythu360/roles"
 import { GlassCard } from "@/components/rythu360/glass-card"
 import { Button } from "@/components/ui/button"
+
+// Roles whose workspace routes through the enterprise CRM dashboard.
+const CRM_ROLES: RoleId[] = ["telecaller", "field-agent", "admin", "super-admin"]
 
 const fade = {
   initial: { opacity: 0, y: 14 },
@@ -64,6 +68,7 @@ const roleStats: Record<RoleId, { label: string; value: string; delta: string }[
 export function RolePlaceholder({ role, active }: { role: Role; active: string }) {
   const Icon = role.icon
   const stats = roleStats[role.id] ?? []
+  const hasCrm = CRM_ROLES.includes(role.id)
 
   return (
     <div className="mx-auto w-full max-w-6xl">
@@ -106,22 +111,44 @@ export function RolePlaceholder({ role, active }: { role: Role; active: string }
           />
           <div className="relative">
             <span className="mx-auto flex size-14 items-center justify-center rounded-3xl bg-accent/15 text-accent">
-              <Sparkles className="size-7" />
+              {hasCrm ? <LayoutDashboard className="size-7" /> : <Sparkles className="size-7" />}
             </span>
-            <h2 className="mt-4 text-balance font-serif text-xl font-semibold tracking-tight">
-              The full {role.label} experience is on its way
-            </h2>
-            <p className="mx-auto mt-2 max-w-md text-pretty leading-relaxed text-muted-foreground">
-              The Farmer workspace is fully built in this preview. {role.label} modules —
-              including {role.nav.slice(1, 4).map((n) => n.label).join(", ")} — are being
-              crafted with the same premium experience.
-            </p>
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-              <Button className="rounded-full">Notify me</Button>
-              <Button variant="outline" className="rounded-full">
-                Explore Farmer demo
-              </Button>
-            </div>
+            {hasCrm ? (
+              <>
+                <h2 className="mt-4 text-balance font-serif text-xl font-semibold tracking-tight">
+                  Your enterprise CRM is ready
+                </h2>
+                <p className="mx-auto mt-2 max-w-md text-pretty leading-relaxed text-muted-foreground">
+                  Launch the {role.label} command center — call analytics, AI lead scoring,
+                  registrations, targets, follow-ups, and the team leaderboard in one place.
+                </p>
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                  <Button asChild className="rounded-full">
+                    <Link href="/app/crm">
+                      Open CRM Dashboard
+                      <ArrowUpRight className="size-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="mt-4 text-balance font-serif text-xl font-semibold tracking-tight">
+                  The full {role.label} experience is on its way
+                </h2>
+                <p className="mx-auto mt-2 max-w-md text-pretty leading-relaxed text-muted-foreground">
+                  The Farmer workspace is fully built in this preview. {role.label} modules —
+                  including {role.nav.slice(1, 4).map((n) => n.label).join(", ")} — are being
+                  crafted with the same premium experience.
+                </p>
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                  <Button className="rounded-full">Notify me</Button>
+                  <Button variant="outline" className="rounded-full">
+                    Explore Farmer demo
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </GlassCard>
       </motion.div>
