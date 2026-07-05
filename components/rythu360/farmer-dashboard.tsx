@@ -145,7 +145,7 @@ const quickActions = [
   { label: "Ask Akanksha AI", icon: Sparkles, tint: "bg-primary/12 text-primary", href: "/app/ai" },
   { label: "Market Prices", icon: TrendingUp, tint: "bg-accent/15 text-accent", href: "/app/market" },
   { label: "Machinery Booking", icon: Tractor, tint: "bg-chart-3/15 text-chart-3", href: "/app/machinery" },
-  { label: "Nearby Services", icon: MapPinned, tint: "bg-chart-4/15 text-chart-4" },
+  { label: "Nearby Services", icon: MapPinned, tint: "bg-chart-4/15 text-chart-4", href: "/app/nearby" },
   { label: "Government Schemes", icon: Landmark, tint: "bg-primary/12 text-primary" },
   { label: "Marketplace", icon: Store, tint: "bg-accent/15 text-accent", href: "/app/shop" },
   { label: "Organic Store", icon: ShoppingBasket, tint: "bg-chart-3/15 text-chart-3", href: "/app/organic" },
