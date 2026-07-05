@@ -153,11 +153,9 @@ export function RolePlaceholder({ role, active }: { role: Role; active: string }
                   {workspace.blurb}
                 </p>
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-                  <Button asChild className="rounded-full">
-                    <Link href={workspace.href}>
-                      {workspace.cta}
-                      <ArrowUpRight className="size-4" />
-                    </Link>
+                  <Button render={<Link href={workspace.href} />} nativeButton={false} className="rounded-full">
+                    {workspace.cta}
+                    <ArrowUpRight className="size-4" />
                   </Button>
                 </div>
               </>

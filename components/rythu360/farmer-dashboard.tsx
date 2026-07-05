@@ -367,8 +367,8 @@ function Overview() {
               <p className="mt-1.5 text-xs text-muted-foreground">28 of 40 days remaining</p>
             </div>
 
-            <Button asChild variant="outline" className="relative mt-auto w-full rounded-full">
-              <Link href="/app/pricing">Manage plan</Link>
+            <Button render={<Link href="/app/pricing" />} nativeButton={false} variant="outline" className="relative mt-auto w-full rounded-full">
+              Manage plan
             </Button>
           </GlassCard>
         </motion.div>

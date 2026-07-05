@@ -134,7 +134,11 @@ export function AppShell() {
                 <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />
               </Button>
               <ThemeToggle />
-              <div className="ml-1 flex items-center gap-2.5 rounded-full border border-border/70 bg-card/60 py-1 pl-1 pr-3">
+              <Link
+                href="/app/profile"
+                aria-label="Open profile"
+                className="ml-1 flex items-center gap-2.5 rounded-full border border-border/70 bg-card/60 py-1 pl-1 pr-3 transition-colors hover:bg-card"
+              >
                 <span
                   className={cn(
                     "flex size-7 items-center justify-center rounded-full",
@@ -147,7 +151,7 @@ export function AppShell() {
                   <p className="text-xs font-medium">Demo {role.label}</p>
                   <p className="text-[11px] text-muted-foreground">SmartFarmin</p>
                 </div>
-              </div>
+              </Link>
             </div>
           </header>
 
