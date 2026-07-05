@@ -188,6 +188,75 @@ export function CropHealthGauge({ value = 88 }: { value?: number }) {
   )
 }
 
+export function Sparkline({ data, up }: { data: number[]; up: boolean }) {
+  const chartData = data.map((v, i) => ({ i, v }))
+  const color = up ? "var(--chart-1)" : "var(--destructive)"
+  const id = `spark-${up ? "up" : "down"}`
+  return (
+    <ResponsiveContainer width="100%" height={44}>
+      <AreaChart data={chartData} margin={{ top: 4, bottom: 2, left: 0, right: 0 }}>
+        <defs>
+          <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity={0.28} />
+            <stop offset="100%" stopColor={color} stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <Area type="monotone" dataKey="v" stroke={color} strokeWidth={2} fill={`url(#${id})`} isAnimationActive={false} />
+      </AreaChart>
+    </ResponsiveContainer>
+  )
+}
+
+export function MarketAreaChart({
+  data,
+  unit,
+  up,
+}: {
+  data: Array<{ label: string; price: number }>
+  unit: string
+  up: boolean
+}) {
+  const color = up ? "var(--chart-1)" : "var(--destructive)"
+  return (
+    <ResponsiveContainer width="100%" height={280}>
+      <AreaChart data={data} margin={{ left: -8, right: 8, top: 8 }}>
+        <defs>
+          <linearGradient id="fillMarket" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor={color} stopOpacity={0.32} />
+            <stop offset="95%" stopColor={color} stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} minTickGap={16} />
+        <YAxis {...axisProps} width={52} domain={["dataMin - dataMin * 0.03", "dataMax + dataMax * 0.02"]} tickFormatter={(v) => Number(v).toLocaleString("en-IN")} />
+        <Tooltip content={<TooltipBox prefix="₹" suffix={` ${unit.replace("₹/", "/")}`} />} cursor={{ stroke: "var(--border)" }} />
+        <Area type="monotone" dataKey="price" name="price" stroke={color} strokeWidth={2.5} fill="url(#fillMarket)" />
+      </AreaChart>
+    </ResponsiveContainer>
+  )
+}
+
+export function MarketTrendChart({
+  data,
+  up,
+}: {
+  data: Array<{ label: string; price: number }>
+  up: boolean
+}) {
+  const color = up ? "var(--chart-1)" : "var(--destructive)"
+  return (
+    <ResponsiveContainer width="100%" height={220}>
+      <LineChart data={data} margin={{ left: -8, right: 8, top: 8 }}>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} minTickGap={16} />
+        <YAxis {...axisProps} width={52} domain={["dataMin - dataMin * 0.03", "dataMax + dataMax * 0.02"]} tickFormatter={(v) => Number(v).toLocaleString("en-IN")} />
+        <Tooltip content={<TooltipBox prefix="₹" />} cursor={{ stroke: "var(--border)" }} />
+        <Line type="monotone" dataKey="price" name="price" stroke={color} strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
+      </LineChart>
+    </ResponsiveContainer>
+  )
+}
+
 const rainData = [
   { day: "Mon", temp: 31, rain: 2 },
   { day: "Tue", temp: 33, rain: 0 },

@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { motion } from "motion/react"
 import {
   ArrowDownRight,
@@ -141,7 +142,7 @@ const advisories = [
 
 const quickActions = [
   { label: "Crop Advisory", icon: Lightbulb, tint: "bg-primary/12 text-primary" },
-  { label: "Market Prices", icon: TrendingUp, tint: "bg-accent/15 text-accent" },
+  { label: "Market Prices", icon: TrendingUp, tint: "bg-accent/15 text-accent", href: "/app/market" },
   { label: "Machinery Booking", icon: Tractor, tint: "bg-chart-3/15 text-chart-3" },
   { label: "Nearby Services", icon: MapPinned, tint: "bg-chart-4/15 text-chart-4" },
   { label: "Government Schemes", icon: Landmark, tint: "bg-primary/12 text-primary" },
@@ -248,14 +249,8 @@ function Overview() {
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-9">
           {quickActions.map((a, i) => {
             const Icon = a.icon
-            return (
-              <motion.button
-                key={a.label}
-                type="button"
-                {...fade}
-                transition={{ delay: 0.1 + i * 0.03 }}
-                className="group flex flex-col items-center gap-2 rounded-3xl border border-border/70 bg-card/70 p-3 text-center backdrop-blur-xl transition-colors hover:bg-card"
-              >
+            const inner = (
+              <>
                 <span
                   className={cn(
                     "flex size-11 items-center justify-center rounded-2xl transition-transform group-hover:scale-105",
@@ -265,6 +260,25 @@ function Overview() {
                   <Icon className="size-5" />
                 </span>
                 <span className="text-[11px] font-medium leading-tight text-foreground">{a.label}</span>
+              </>
+            )
+            const className =
+              "group flex flex-col items-center gap-2 rounded-3xl border border-border/70 bg-card/70 p-3 text-center backdrop-blur-xl transition-colors hover:bg-card"
+            return "href" in a && a.href ? (
+              <motion.div key={a.label} {...fade} transition={{ delay: 0.1 + i * 0.03 }}>
+                <Link href={a.href} className={cn(className, "h-full")}>
+                  {inner}
+                </Link>
+              </motion.div>
+            ) : (
+              <motion.button
+                key={a.label}
+                type="button"
+                {...fade}
+                transition={{ delay: 0.1 + i * 0.03 }}
+                className={className}
+              >
+                {inner}
               </motion.button>
             )
           })}
