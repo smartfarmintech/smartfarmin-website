@@ -465,3 +465,27 @@ export function AiUsageChart({
     </ResponsiveContainer>
   )
 }
+
+export function MrrTrendChart({
+  data,
+}: {
+  data: Array<{ label: string; mrr: number }>
+}) {
+  return (
+    <ResponsiveContainer width="100%" height={240}>
+      <AreaChart data={data} margin={{ left: 4, right: 8, top: 8 }}>
+        <defs>
+          <linearGradient id="fillMrr" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--accent)" stopOpacity={0.32} />
+            <stop offset="95%" stopColor="var(--accent)" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="4 4" />
+        <XAxis dataKey="label" {...axisProps} />
+        <YAxis {...axisProps} width={44} tickFormatter={(v) => `${v / 100000}L`} />
+        <Tooltip content={<TooltipBox prefix="₹" />} cursor={{ stroke: "var(--border)" }} />
+        <Area type="monotone" dataKey="mrr" name="MRR" stroke="var(--accent)" strokeWidth={2.5} fill="url(#fillMrr)" />
+      </AreaChart>
+    </ResponsiveContainer>
+  )
+}
