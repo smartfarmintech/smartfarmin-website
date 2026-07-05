@@ -207,7 +207,7 @@ export function OnboardingScreen() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
                 <Link
-                  href="/app/login"
+                  href="/app/auth?mode=register"
                   className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-7 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-auto"
                 >
                   Get Started
@@ -216,7 +216,7 @@ export function OnboardingScreen() {
               </motion.div>
               <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
                 <Link
-                  href="/app/login"
+                  href="/app/auth"
                   className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-border bg-card/60 px-7 text-sm font-semibold text-foreground backdrop-blur transition-colors hover:bg-card focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-auto"
                 >
                   <LogIn className="size-4" />
