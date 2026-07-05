@@ -16,7 +16,7 @@ export function SolutionsSection() {
           <div className="relative order-2 lg:order-1">
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-border shadow-xl">
               <Image
-                src="/images/farmer-app.png"
+                src="/images/farmer.jpg"
                 alt="Farmer using the SmartFarmin app in the field"
                 fill
                 className="object-cover"

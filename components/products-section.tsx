@@ -37,7 +37,7 @@ const products = [
     icon: Plane,
     href: "/drone-services",
     desc: "Book on-demand drone spraying and field mapping that cuts input costs and protects your health.",
-    image: "/images/drone-services.png",
+    image: "/images/drone.jpg",
   },
   {
     name: "Organic Store",
@@ -45,7 +45,7 @@ const products = [
     icon: ShoppingBasket,
     href: "/organic-store",
     desc: "A trusted store for certified organic produce, delivering farm-fresh goods to conscious consumers.",
-    image: "/images/organic-produce.png",
+    image: "/images/organic-store.jpg",
   },
 ]
 

@@ -27,7 +27,7 @@ const listings: Listing[] = [
     location: "Sehore, MP",
     seller: "Rajesh Farms",
     verified: true,
-    image: "/images/market-wheat.png",
+    image: "/images/marketplace.jpg",
   },
   {
     name: "Hybrid Tomatoes",
@@ -37,7 +37,7 @@ const listings: Listing[] = [
     location: "Kolar, KA",
     seller: "Green Valley FPO",
     verified: true,
-    image: "/images/market-tomato.png",
+    image: "/images/marketplace.jpg",
   },
   {
     name: "Certified Seed Pack",
@@ -47,7 +47,7 @@ const listings: Listing[] = [
     location: "Guntur, AP",
     seller: "AgriSeed Co.",
     verified: true,
-    image: "/images/market-seeds.png",
+    image: "/images/marketplace.jpg",
   },
   {
     name: "45 HP Tractor",
@@ -57,7 +57,7 @@ const listings: Listing[] = [
     location: "Ludhiana, PB",
     seller: "FarmRent Hub",
     verified: false,
-    image: "/images/market-tractor.png",
+    image: "/images/marketplace.jpg",
   },
   {
     name: "Basmati Paddy",
@@ -67,7 +67,7 @@ const listings: Listing[] = [
     location: "Karnal, HR",
     seller: "Sunrise Growers",
     verified: true,
-    image: "/images/market-wheat.png",
+    image: "/images/marketplace.jpg",
   },
   {
     name: "Farm-fresh Capsicum",
@@ -77,7 +77,7 @@ const listings: Listing[] = [
     location: "Pune, MH",
     seller: "Sahyadri FPO",
     verified: true,
-    image: "/images/market-tomato.png",
+    image: "/images/marketplace.jpg",
   },
 ]
 

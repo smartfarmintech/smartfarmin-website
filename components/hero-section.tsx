@@ -52,7 +52,7 @@ export function HeroSection() {
           <div className="relative">
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border shadow-xl">
               <Image
-                src="/images/hero-farm.png"
+                src="/images/hero.jpg"
                 alt="Aerial view of lush Indian farmland at golden hour"
                 fill
                 priority

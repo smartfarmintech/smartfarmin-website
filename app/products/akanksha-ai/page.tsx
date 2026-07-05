@@ -114,7 +114,7 @@ export default function AkankshaAIPage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border">
               <Image
-                src="/images/akanksha-ai.png"
+                src="/images/farmer.jpg"
                 alt="Satellite crop health analytics over farmland"
                 fill
                 className="object-cover"
