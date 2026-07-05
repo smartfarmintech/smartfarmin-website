@@ -7,8 +7,39 @@ import type { Role, RoleId } from "@/lib/rythu360/roles"
 import { GlassCard } from "@/components/rythu360/glass-card"
 import { Button } from "@/components/ui/button"
 
-// Roles whose workspace routes through the enterprise CRM dashboard.
-const CRM_ROLES: RoleId[] = ["telecaller", "field-agent", "admin", "super-admin"]
+// Roles that have a fully built workspace, with their destination + copy.
+const WORKSPACE: Partial<
+  Record<RoleId, { href: string; title: string; blurb: string; cta: string }>
+> = {
+  "field-agent": {
+    href: "/app/field",
+    title: "Your GPS field dashboard is ready",
+    blurb:
+      "Launch your on-ground workspace — today's route, village visits, live map, attendance, geo-tagged photos, tasks, mileage and incentives.",
+    cta: "Open Field Dashboard",
+  },
+  telecaller: {
+    href: "/app/crm",
+    title: "Your enterprise CRM is ready",
+    blurb:
+      "Launch the Telecaller command center — call analytics, AI lead scoring, registrations, targets, follow-ups, and the team leaderboard in one place.",
+    cta: "Open CRM Dashboard",
+  },
+  admin: {
+    href: "/app/crm",
+    title: "Your enterprise CRM is ready",
+    blurb:
+      "Launch the Admin command center — call analytics, AI lead scoring, registrations, targets, follow-ups, and the team leaderboard in one place.",
+    cta: "Open CRM Dashboard",
+  },
+  "super-admin": {
+    href: "/app/crm",
+    title: "Your enterprise CRM is ready",
+    blurb:
+      "Launch the Super Admin command center — call analytics, AI lead scoring, registrations, targets, follow-ups, and the team leaderboard in one place.",
+    cta: "Open CRM Dashboard",
+  },
+}
 
 const fade = {
   initial: { opacity: 0, y: 14 },
@@ -68,7 +99,7 @@ const roleStats: Record<RoleId, { label: string; value: string; delta: string }[
 export function RolePlaceholder({ role, active }: { role: Role; active: string }) {
   const Icon = role.icon
   const stats = roleStats[role.id] ?? []
-  const hasCrm = CRM_ROLES.includes(role.id)
+  const workspace = WORKSPACE[role.id]
 
   return (
     <div className="mx-auto w-full max-w-6xl">
@@ -111,21 +142,20 @@ export function RolePlaceholder({ role, active }: { role: Role; active: string }
           />
           <div className="relative">
             <span className="mx-auto flex size-14 items-center justify-center rounded-3xl bg-accent/15 text-accent">
-              {hasCrm ? <LayoutDashboard className="size-7" /> : <Sparkles className="size-7" />}
+              {workspace ? <LayoutDashboard className="size-7" /> : <Sparkles className="size-7" />}
             </span>
-            {hasCrm ? (
+            {workspace ? (
               <>
                 <h2 className="mt-4 text-balance font-serif text-xl font-semibold tracking-tight">
-                  Your enterprise CRM is ready
+                  {workspace.title}
                 </h2>
                 <p className="mx-auto mt-2 max-w-md text-pretty leading-relaxed text-muted-foreground">
-                  Launch the {role.label} command center — call analytics, AI lead scoring,
-                  registrations, targets, follow-ups, and the team leaderboard in one place.
+                  {workspace.blurb}
                 </p>
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
                   <Button asChild className="rounded-full">
-                    <Link href="/app/crm">
-                      Open CRM Dashboard
+                    <Link href={workspace.href}>
+                      {workspace.cta}
                       <ArrowUpRight className="size-4" />
                     </Link>
                   </Button>
