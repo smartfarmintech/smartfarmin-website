@@ -21,6 +21,7 @@ import {
   MapPinned,
   Package,
   ShoppingBasket,
+  Sparkles,
   Sprout,
   Store,
   Sun,
@@ -141,7 +142,7 @@ const advisories = [
 ]
 
 const quickActions = [
-  { label: "Crop Advisory", icon: Lightbulb, tint: "bg-primary/12 text-primary" },
+  { label: "Ask Akanksha AI", icon: Sparkles, tint: "bg-primary/12 text-primary", href: "/app/ai" },
   { label: "Market Prices", icon: TrendingUp, tint: "bg-accent/15 text-accent", href: "/app/market" },
   { label: "Machinery Booking", icon: Tractor, tint: "bg-chart-3/15 text-chart-3", href: "/app/machinery" },
   { label: "Nearby Services", icon: MapPinned, tint: "bg-chart-4/15 text-chart-4" },
@@ -379,7 +380,7 @@ function Overview() {
           <GlassCard className="p-5">
             <div className="mb-4">
               <h2 className="font-semibold tracking-tight">Paddy mandi price</h2>
-              <p className="text-sm text-muted-foreground">Warangal · ₹/quintal · 8 weeks</p>
+              <p className="text-sm text-muted-foreground">Warangal · ���/quintal · 8 weeks</p>
             </div>
             <MandiLineChart />
           </GlassCard>
