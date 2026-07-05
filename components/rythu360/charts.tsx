@@ -9,6 +9,9 @@ import {
   ComposedChart,
   Line,
   LineChart,
+  PolarAngleAxis,
+  RadialBar,
+  RadialBarChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -151,6 +154,36 @@ export function SoilMoistureChart() {
         <Tooltip content={<TooltipBox suffix="%" />} cursor={{ fill: "var(--muted)", opacity: 0.4 }} />
         <Bar dataKey="moisture" fill="var(--chart-1)" radius={[8, 8, 0, 0]} maxBarSize={44} />
       </BarChart>
+    </ResponsiveContainer>
+  )
+}
+
+export function CropHealthGauge({ value = 88 }: { value?: number }) {
+  const data = [{ name: "health", value }]
+  return (
+    <ResponsiveContainer width="100%" height={200}>
+      <RadialBarChart
+        data={data}
+        startAngle={220}
+        endAngle={-40}
+        innerRadius="72%"
+        outerRadius="100%"
+        barSize={14}
+      >
+        <defs>
+          <linearGradient id="healthGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="var(--chart-2)" />
+            <stop offset="100%" stopColor="var(--chart-1)" />
+          </linearGradient>
+        </defs>
+        <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+        <RadialBar
+          background={{ fill: "var(--muted)" }}
+          dataKey="value"
+          cornerRadius={12}
+          fill="url(#healthGrad)"
+        />
+      </RadialBarChart>
     </ResponsiveContainer>
   )
 }

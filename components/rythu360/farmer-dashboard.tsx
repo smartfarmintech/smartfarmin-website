@@ -5,22 +5,33 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   BadgeIndianRupee,
+  Bell,
   CalendarDays,
+  ChevronRight,
   CloudRain,
   CloudSun,
+  Crown,
   Droplets,
+  HeartPulse,
+  Landmark,
   Leaf,
   Lightbulb,
   MapPin,
+  MapPinned,
+  Package,
+  ShoppingBasket,
   Sprout,
   Store,
   Sun,
   ThermometerSun,
+  Tractor,
   TrendingUp,
+  Wallet,
   Wind,
 } from "lucide-react"
 import { GlassCard } from "@/components/rythu360/glass-card"
 import {
+  CropHealthGauge,
   IncomeAreaChart,
   MandiLineChart,
   SoilMoistureChart,
@@ -128,42 +139,146 @@ const advisories = [
   { icon: Lightbulb, title: "Top-dress urea", note: "Paddy at tillering stage — apply nitrogen.", tone: "text-accent" },
 ]
 
-const tasks = [
-  { label: "Book drone spray — North field", due: "Today", done: false },
-  { label: "Sell 12 qtl paddy at Warangal mandi", due: "Tomorrow", done: false },
-  { label: "Soil test — East field", due: "Completed", done: true },
+const quickActions = [
+  { label: "Crop Advisory", icon: Lightbulb, tint: "bg-primary/12 text-primary" },
+  { label: "Market Prices", icon: TrendingUp, tint: "bg-accent/15 text-accent" },
+  { label: "Machinery Booking", icon: Tractor, tint: "bg-chart-3/15 text-chart-3" },
+  { label: "Nearby Services", icon: MapPinned, tint: "bg-chart-4/15 text-chart-4" },
+  { label: "Government Schemes", icon: Landmark, tint: "bg-primary/12 text-primary" },
+  { label: "Marketplace", icon: Store, tint: "bg-accent/15 text-accent" },
+  { label: "Organic Store", icon: ShoppingBasket, tint: "bg-chart-3/15 text-chart-3" },
+  { label: "Wallet", icon: Wallet, tint: "bg-chart-4/15 text-chart-4" },
+  { label: "Orders", icon: Package, tint: "bg-primary/12 text-primary" },
+]
+
+const summaryItems = [
+  { label: "Today's income", value: "₹4,280", icon: BadgeIndianRupee },
+  { label: "Tasks due", value: "3 pending", icon: CalendarDays },
+  { label: "Active alerts", value: "2 advisories", icon: Bell },
+  { label: "Water saved", value: "1,240 L", icon: Droplets },
 ]
 
 function Overview() {
   return (
     <>
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
-            <CalendarDays className="size-4" />
-            {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}
-          </p>
-          <h1 className="mt-1 text-balance font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
-            Namaste, Ravi Kumar
-          </h1>
-          <p className="mt-1 flex items-center gap-1.5 text-muted-foreground">
-            <MapPin className="size-4" /> Warangal, Telangana · 6.5 acres
-          </p>
+      {/* ---------- Top: profile, location, weather, notifications ---------- */}
+      <motion.div {...fade}>
+        <GlassCard className="relative overflow-hidden p-5 sm:p-6">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-primary/10 blur-3xl"
+          />
+          <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-4">
+              <span className="flex size-14 shrink-0 items-center justify-center rounded-3xl bg-primary text-2xl font-semibold text-primary-foreground shadow-sm">
+                RK
+              </span>
+              <div>
+                <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <CalendarDays className="size-3.5" />
+                  {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}
+                </p>
+                <h1 className="mt-0.5 text-balance font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
+                  Namaste, Ravi Kumar
+                </h1>
+                <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <MapPin className="size-4" /> Warangal, Telangana · 6.5 acres
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 rounded-2xl border border-border/70 bg-card/60 px-4 py-3">
+                <CloudSun className="size-8 text-accent" />
+                <div className="leading-tight">
+                  <p className="text-lg font-semibold tracking-tight">31°C</p>
+                  <p className="text-xs text-muted-foreground">Partly cloudy</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                aria-label="Notifications"
+                className="relative flex size-11 items-center justify-center rounded-2xl border border-border/70 bg-card/60 text-foreground transition-colors hover:bg-card"
+              >
+                <Bell className="size-5" />
+                <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-accent ring-2 ring-card" />
+              </button>
+            </div>
+          </div>
+        </GlassCard>
+      </motion.div>
+
+      {/* ---------- Today's summary ---------- */}
+      <motion.div {...fade} transition={{ delay: 0.05 }} className="mt-4">
+        <GlassCard className="p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-semibold tracking-tight">Today&apos;s summary</h2>
+            <span className="text-xs text-muted-foreground">Live</span>
+          </div>
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {summaryItems.map((s) => {
+              const Icon = s.icon
+              return (
+                <div
+                  key={s.label}
+                  className="flex items-center gap-3 rounded-2xl bg-muted/50 p-3.5"
+                >
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/12 text-primary">
+                    <Icon className="size-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate text-base font-semibold tracking-tight">{s.value}</p>
+                    <p className="truncate text-xs text-muted-foreground">{s.label}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </GlassCard>
+      </motion.div>
+
+      {/* ---------- Quick actions ---------- */}
+      <motion.div {...fade} transition={{ delay: 0.1 }} className="mt-4">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="font-semibold tracking-tight">Quick actions</h2>
+          <button type="button" className="flex items-center gap-1 text-sm text-primary">
+            All services <ChevronRight className="size-4" />
+          </button>
         </div>
-        <Button className="rounded-full">
-          <Sprout className="size-4" /> New crop plan
-        </Button>
-      </div>
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-9">
+          {quickActions.map((a, i) => {
+            const Icon = a.icon
+            return (
+              <motion.button
+                key={a.label}
+                type="button"
+                {...fade}
+                transition={{ delay: 0.1 + i * 0.03 }}
+                className="group flex flex-col items-center gap-2 rounded-3xl border border-border/70 bg-card/70 p-3 text-center backdrop-blur-xl transition-colors hover:bg-card"
+              >
+                <span
+                  className={cn(
+                    "flex size-11 items-center justify-center rounded-2xl transition-transform group-hover:scale-105",
+                    a.tint,
+                  )}
+                >
+                  <Icon className="size-5" />
+                </span>
+                <span className="text-[11px] font-medium leading-tight text-foreground">{a.label}</span>
+              </motion.button>
+            )
+          })}
+        </div>
+      </motion.div>
 
-      <StatCards />
-
+      {/* ---------- Charts: income + crop health ---------- */}
       <div className="mt-4 grid grid-cols-1 gap-3.5 lg:grid-cols-3">
-        <motion.div {...fade} transition={{ delay: 0.1 }} className="lg:col-span-2">
+        <motion.div {...fade} transition={{ delay: 0.12 }} className="lg:col-span-2">
           <GlassCard className="p-5">
             <div className="mb-4 flex items-center justify-between">
               <div>
-                <h2 className="font-semibold tracking-tight">Income vs expenses</h2>
-                <p className="text-sm text-muted-foreground">Last 7 months</p>
+                <h2 className="font-semibold tracking-tight">Today&apos;s income</h2>
+                <p className="text-sm text-muted-foreground">Income vs expenses · 7 months</p>
               </div>
               <div className="flex items-center gap-3 text-xs">
                 <span className="flex items-center gap-1.5">
@@ -178,32 +293,75 @@ function Overview() {
           </GlassCard>
         </motion.div>
 
-        <motion.div {...fade} transition={{ delay: 0.15 }} className="flex flex-col gap-3.5">
-          <WeatherNow />
-          <GlassCard className="flex-1 p-5">
-            <h2 className="mb-3 font-semibold tracking-tight">Advisories</h2>
-            <ul className="flex flex-col gap-3">
-              {advisories.map((a) => {
-                const Icon = a.icon
-                return (
-                  <li key={a.title} className="flex gap-3">
-                    <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-xl bg-muted">
-                      <Icon className={cn("size-4", a.tone)} />
-                    </span>
-                    <div>
-                      <p className="text-sm font-medium">{a.title}</p>
-                      <p className="text-xs leading-relaxed text-muted-foreground">{a.note}</p>
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
+        <motion.div {...fade} transition={{ delay: 0.16 }}>
+          <GlassCard className="flex h-full flex-col p-5">
+            <div className="mb-1 flex items-center gap-2">
+              <HeartPulse className="size-4 text-primary" />
+              <h2 className="font-semibold tracking-tight">Crop health</h2>
+            </div>
+            <div className="relative flex-1">
+              <CropHealthGauge value={88} />
+              <div className="pointer-events-none absolute inset-x-0 bottom-6 flex flex-col items-center">
+                <p className="text-3xl font-semibold tracking-tight">88</p>
+                <p className="text-xs text-muted-foreground">Healthy</p>
+              </div>
+            </div>
+            <p className="text-center text-xs leading-relaxed text-muted-foreground">
+              4 fields monitored · 1 needs attention
+            </p>
           </GlassCard>
         </motion.div>
       </div>
 
+      {/* ---------- Weather forecast + subscription ---------- */}
       <div className="mt-4 grid grid-cols-1 gap-3.5 lg:grid-cols-3">
-        <motion.div {...fade} transition={{ delay: 0.1 }} className="lg:col-span-2">
+        <motion.div {...fade} transition={{ delay: 0.12 }} className="lg:col-span-2">
+          <GlassCard className="p-5">
+            <div className="mb-4">
+              <h2 className="font-semibold tracking-tight">Weather forecast</h2>
+              <p className="text-sm text-muted-foreground">Temperature &amp; rainfall · Warangal</p>
+            </div>
+            <WeatherChart />
+          </GlassCard>
+        </motion.div>
+
+        <motion.div {...fade} transition={{ delay: 0.16 }}>
+          <GlassCard className="relative flex h-full flex-col overflow-hidden p-5">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-accent/15 blur-3xl"
+            />
+            <div className="relative flex items-center gap-2">
+              <span className="flex size-9 items-center justify-center rounded-2xl bg-accent/15 text-accent">
+                <Crown className="size-5" />
+              </span>
+              <div>
+                <h2 className="font-semibold tracking-tight">Rythu360 Plus</h2>
+                <p className="text-xs text-muted-foreground">Subscription status</p>
+              </div>
+            </div>
+
+            <div className="relative mt-4">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                <span className="size-1.5 rounded-full bg-primary" /> Active
+              </span>
+              <p className="mt-3 text-sm text-muted-foreground">Renews on 14 Aug 2026</p>
+              <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
+                <div className="h-full rounded-full bg-primary" style={{ width: "68%" }} />
+              </div>
+              <p className="mt-1.5 text-xs text-muted-foreground">28 of 40 days remaining</p>
+            </div>
+
+            <Button variant="outline" className="relative mt-auto w-full rounded-full">
+              Manage plan
+            </Button>
+          </GlassCard>
+        </motion.div>
+      </div>
+
+      {/* ---------- Mandi price + soil moisture ---------- */}
+      <div className="mt-4 grid grid-cols-1 gap-3.5 lg:grid-cols-2">
+        <motion.div {...fade} transition={{ delay: 0.12 }}>
           <GlassCard className="p-5">
             <div className="mb-4">
               <h2 className="font-semibold tracking-tight">Paddy mandi price</h2>
@@ -212,37 +370,13 @@ function Overview() {
             <MandiLineChart />
           </GlassCard>
         </motion.div>
-        <motion.div {...fade} transition={{ delay: 0.15 }}>
-          <GlassCard className="h-full p-5">
-            <h2 className="mb-3 font-semibold tracking-tight">Tasks</h2>
-            <ul className="flex flex-col gap-2.5">
-              {tasks.map((t) => (
-                <li key={t.label} className="flex items-start gap-2.5">
-                  <span
-                    className={cn(
-                      "mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-md border",
-                      t.done ? "border-primary bg-primary text-primary-foreground" : "border-border",
-                    )}
-                  >
-                    {t.done && <span className="text-[10px]">✓</span>}
-                  </span>
-                  <div>
-                    <p className={cn("text-sm", t.done && "text-muted-foreground line-through")}>{t.label}</p>
-                    <p className="text-xs text-muted-foreground">{t.due}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+        <motion.div {...fade} transition={{ delay: 0.16 }}>
+          <GlassCard className="p-5">
+            <h2 className="mb-4 font-semibold tracking-tight">Soil moisture by field</h2>
+            <SoilMoistureChart />
           </GlassCard>
         </motion.div>
       </div>
-
-      <motion.div {...fade} transition={{ delay: 0.1 }} className="mt-4">
-        <GlassCard className="p-5">
-          <h2 className="mb-4 font-semibold tracking-tight">Soil moisture by field</h2>
-          <SoilMoistureChart />
-        </GlassCard>
-      </motion.div>
     </>
   )
 }
