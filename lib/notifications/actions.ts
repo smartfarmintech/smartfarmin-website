@@ -118,3 +118,206 @@ export async function updateNotificationPreferences(
     return { ok: false, error: err.message }
   }
 }
+
+/**
+ * Create notification for user
+ */
+export async function createNotification(
+  userId: string,
+  {
+    title,
+    body,
+    category,
+    channel = "in-app",
+    priority = "normal",
+    actionUrl = null,
+    imageUrl = null,
+    data = null,
+  }: {
+    title: string
+    body: string
+    category: string
+    channel?: string
+    priority?: "low" | "normal" | "high" | "urgent"
+    actionUrl?: string | null
+    imageUrl?: string | null
+    data?: Record<string, unknown> | null
+  }
+): Promise<ActionState> {
+  const supabase = await createClient()
+
+  try {
+    const { error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: userId,
+        title,
+        body,
+        category,
+        channel,
+        priority,
+        action_url: actionUrl,
+        image_url: imageUrl,
+        data,
+        status: "delivered",
+      })
+
+    if (error) throw error
+    return { ok: true }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
+
+/**
+ * Create booking update notification
+ */
+export async function notifyBookingUpdate(
+  userId: string,
+  bookingId: string,
+  status: "confirmed" | "completed" | "cancelled",
+  machineType: string
+): Promise<ActionState> {
+  const titleMap = {
+    confirmed: `Your ${machineType} booking is confirmed`,
+    completed: `Your ${machineType} booking is completed`,
+    cancelled: `Your ${machineType} booking was cancelled`,
+  }
+
+  return createNotification(userId, {
+    title: titleMap[status],
+    body: `Booking #${bookingId.slice(0, 8)} has been ${status}`,
+    category: "booking",
+    priority: status === "cancelled" ? "high" : "normal",
+    actionUrl: `/farmer/bookings/${bookingId}`,
+  })
+}
+
+/**
+ * Create drone mission notification
+ */
+export async function notifyDroneMission(
+  userId: string,
+  missionId: string,
+  status: "scheduled" | "in-progress" | "completed" | "failed",
+  cropType: string
+): Promise<ActionState> {
+  const titleMap = {
+    scheduled: `Drone mission scheduled for ${cropType}`,
+    "in-progress": `Drone mission in progress for ${cropType}`,
+    completed: `Drone mission completed for ${cropType}`,
+    failed: `Drone mission failed for ${cropType}`,
+  }
+
+  return createNotification(userId, {
+    title: titleMap[status],
+    body: `Mission #${missionId.slice(0, 8)} status: ${status}`,
+    category: "drone_mission",
+    priority: status === "failed" ? "high" : "normal",
+    actionUrl: `/farmer/drone-missions/${missionId}`,
+  })
+}
+
+/**
+ * Create AI report notification
+ */
+export async function notifyAIReport(
+  userId: string,
+  reportId: string,
+  diseaseDetected: string | null,
+  cropType: string
+): Promise<ActionState> {
+  return createNotification(userId, {
+    title: diseaseDetected
+      ? `Disease detected in ${cropType}: ${diseaseDetected}`
+      : `AI analysis complete for ${cropType}`,
+    body: `Report #${reportId.slice(0, 8)} is ready for review`,
+    category: "ai_report",
+    priority: diseaseDetected ? "high" : "normal",
+    actionUrl: `/farmer/ai-reports/${reportId}`,
+  })
+}
+
+/**
+ * Create order notification
+ */
+export async function notifyOrderUpdate(
+  userId: string,
+  orderId: string,
+  status: "confirmed" | "shipped" | "delivered" | "cancelled",
+  productCount: number
+): Promise<ActionState> {
+  const titleMap = {
+    confirmed: `Order #${orderId.slice(0, 8)} confirmed`,
+    shipped: `Order #${orderId.slice(0, 8)} shipped`,
+    delivered: `Order #${orderId.slice(0, 8)} delivered`,
+    cancelled: `Order #${orderId.slice(0, 8)} cancelled`,
+  }
+
+  return createNotification(userId, {
+    title: titleMap[status],
+    body: `${productCount} item${productCount > 1 ? "s" : ""} - Status: ${status}`,
+    category: "order",
+    priority: "normal",
+    actionUrl: `/farmer/marketplace/orders/${orderId}`,
+  })
+}
+
+/**
+ * Create scheme notification
+ */
+export async function notifySchemeUpdate(
+  userId: string,
+  applicationId: string,
+  status: "submitted" | "approved" | "rejected" | "disbursed",
+  schemeName: string
+): Promise<ActionState> {
+  const titleMap = {
+    submitted: `${schemeName} application submitted`,
+    approved: `${schemeName} application approved`,
+    rejected: `${schemeName} application rejected`,
+    disbursed: `${schemeName} funds disbursed`,
+  }
+
+  return createNotification(userId, {
+    title: titleMap[status],
+    body: `Application #${applicationId.slice(0, 8)} - ${status}`,
+    category: "scheme",
+    priority: status === "rejected" ? "high" : "normal",
+    actionUrl: `/farmer/schemes/${applicationId}`,
+  })
+}
+
+/**
+ * Create admin announcement
+ */
+export async function broadcastAdminAnnouncement(
+  title: string,
+  body: string,
+  targetUserIds: string[],
+  actionUrl?: string
+): Promise<ActionState> {
+  const supabase = await createClient()
+
+  try {
+    const notifications = targetUserIds.map((userId) => ({
+      user_id: userId,
+      title,
+      body,
+      category: "admin",
+      channel: "in-app",
+      priority: "high" as const,
+      action_url: actionUrl || null,
+      status: "delivered" as const,
+    }))
+
+    const { error } = await supabase
+      .from("notifications")
+      .insert(notifications)
+
+    if (error) throw error
+    return { ok: true }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
