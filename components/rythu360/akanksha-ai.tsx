@@ -25,10 +25,10 @@ import {
   type Capability,
   type ChatMessage,
   type InsightCard,
-  generateReply,
   makeMessage,
   scanResult,
 } from "@/lib/rythu360/akanksha"
+import { askAkanksha } from "@/lib/rythu360/akanksha-actions"
 
 const CAP_ICON: Record<Capability["icon"], typeof Bug> = {
   disease: Bug,
@@ -62,14 +62,15 @@ export function AkankshaAI() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" })
   }, [messages, thinking])
 
-  function respond(userText: string, attachment?: ChatMessage["attachment"]) {
+  async function respond(userText: string, attachment?: ChatMessage["attachment"]) {
     setMessages((m) => [...m, makeMessage("user", userText, attachment ? { attachment } : undefined)])
     setThinking(true)
-    window.setTimeout(() => {
-      const reply = generateReply(userText)
-      setThinking(false)
+    try {
+      const reply = await askAkanksha(userText)
       setMessages((m) => [...m, makeMessage("ai", reply.text, { cards: reply.cards })])
-    }, 1100)
+    } finally {
+      setThinking(false)
+    }
   }
 
   function send() {

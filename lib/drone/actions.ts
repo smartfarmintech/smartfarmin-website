@@ -115,7 +115,7 @@ export async function recordFlightCompletion(flightData: {
   if (!user) return { ok: false, error: 'Not authenticated' }
 
   // Record flight
-  const { error: flightError, data: flightData } = await supabase
+  const { error: flightError, data: flightRecord } = await supabase
     .from('drone_flights')
     .insert({
       booking_id: flightData.booking_id,
@@ -147,7 +147,7 @@ export async function recordFlightCompletion(flightData: {
   if (bookingError) return { ok: false, error: bookingError.message }
 
   revalidatePath('/drone-services')
-  return { ok: true, data: flightData }
+  return { ok: true, data: flightRecord }
 }
 
 /**

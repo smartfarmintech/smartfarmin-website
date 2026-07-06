@@ -91,7 +91,7 @@ export async function withdrawMoney(_prev: ActionState, formData: FormData): Pro
     // Get wallet balance
     const { data: wallet, error: walletError } = await supabase
       .from("wallets")
-      .select("balance")
+      .select("id, balance")
       .eq("user_id", user.id)
       .single()
 

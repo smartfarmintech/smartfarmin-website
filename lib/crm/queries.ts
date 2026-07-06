@@ -1,6 +1,7 @@
 "use server"
 
-import { cache, redirect } from "react"
+import { cache } from "react"
+import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 
 /**

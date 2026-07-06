@@ -22,33 +22,27 @@ function createLocalStorageProvider() {
     }
   }
 
+  function persist() {
+    if (typeof window === "undefined") return
+    try {
+      localStorage.setItem("swr-cache", JSON.stringify(Object.fromEntries(cache)))
+    } catch {
+      // localStorage quota exceeded - continue with in-memory cache
+    }
+  }
+
+  // Return an object implementing SWR's Cache interface (keys/get/set/delete),
+  // backed by an in-memory Map that is persisted to localStorage for offline use.
   return {
-    getItem: (key: string) => {
-      return cache.get(key)
-    },
-    setItem: (key: string, value: unknown) => {
+    keys: () => cache.keys(),
+    get: (key: string) => cache.get(key),
+    set: (key: string, value: unknown) => {
       cache.set(key, value)
-      if (typeof window !== "undefined") {
-        const data = Object.fromEntries(cache)
-        try {
-          localStorage.setItem("swr-cache", JSON.stringify(data))
-        } catch {
-          // localStorage quota exceeded - continue with in-memory cache
-        }
-      }
+      persist()
     },
-    removeItem: (key: string) => {
+    delete: (key: string) => {
       cache.delete(key)
-      if (typeof window !== "undefined") {
-        const data = Object.fromEntries(cache)
-        localStorage.setItem("swr-cache", JSON.stringify(data))
-      }
-    },
-    clear: () => {
-      cache.clear()
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("swr-cache")
-      }
+      persist()
     },
   }
 }
@@ -59,7 +53,6 @@ export const swrConfig: SWRConfiguration = {
 
   // Revalidate on focus (even from offline)
   revalidateOnFocus: true,
-  focusThrottleInterval: 5 * 60 * 1000, // 5 minutes
 
   // Revalidate when connection is restored
   revalidateOnReconnect: true,

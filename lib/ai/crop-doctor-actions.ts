@@ -2,6 +2,11 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
+import { generateObject } from "ai"
+import { z } from "zod"
+
+// Multimodal model routed through the Vercel AI Gateway (zero-config for Google in v0).
+const VISION_MODEL = "google/gemini-2.5-flash"
 
 export interface DiseaseAnalysis {
   diseaseId: string
@@ -123,94 +128,77 @@ export async function analyzeCropDisease(
 ): Promise<{ ok: boolean; data?: DiseaseAnalysis[]; error?: string }> {
   const supabase = await createClient()
 
+  if (!imageUrl) {
+    return { ok: false, error: "A crop image is required for disease analysis." }
+  }
+
   try {
-    // Simulate AI analysis - in production, call ML API
-    const diseases: DiseaseAnalysis[] = []
-
-    // Disease detection based on crop type
-    if (cropType.toLowerCase().includes("rice")) {
-      diseases.push({
-        diseaseId: "rice_blast",
-        name: "Rice Blast",
-        confidence: 0.89,
-        severity: "high",
-        symptoms: ["Brown/gray lesions on leaves", "Spindle-shaped spots", "Seedling die-off"],
-        riskFactors: ["High humidity", "Cool nights", "Dense planting"],
-        timelineToSpread: "3-5 days",
-        treatment: {
-          steps: [
-            {
-              day: 1,
-              action: "Remove infected leaves",
-              products: ["Tricyclazole", "Propiconazole"],
-              dosage: "1g per liter",
-              timing: "Early morning",
-              precautions: ["Wear gloves", "Avoid skin contact"],
-            },
-            {
-              day: 3,
-              action: "Spray fungicide",
-              products: ["Tricyclazole"],
-              dosage: "1g per liter",
-              timing: "Evening",
-              precautions: ["Do not spray in rain"],
-            },
-            {
-              day: 7,
-              action: "Second spray",
-              products: ["Propiconazole"],
-              dosage: "0.75g per liter",
-              timing: "Early morning",
-              precautions: ["Maintain 15 days safety period"],
-            },
-          ],
-          duration: 14,
-          successRate: 0.92,
-          costEstimate: 2500,
+    const { object } = await generateObject({
+      model: VISION_MODEL,
+      schema: z.object({
+        healthy: z
+          .boolean()
+          .describe("true if the plant appears healthy with no detectable disease"),
+        diseases: z.array(
+          z.object({
+            diseaseId: z
+              .string()
+              .describe("lowercase snake_case identifier, e.g. rice_blast"),
+            name: z.string().describe("Common disease name"),
+            confidence: z.number().min(0).max(1).describe("0-1 confidence"),
+            severity: z.enum(["low", "medium", "high", "critical"]),
+            symptoms: z.array(z.string()),
+            riskFactors: z.array(z.string()),
+            timelineToSpread: z.string().describe("e.g. '3-5 days'"),
+            treatment: z.object({
+              steps: z.array(
+                z.object({
+                  day: z.number().int(),
+                  action: z.string(),
+                  products: z.array(z.string()),
+                  dosage: z.string(),
+                  timing: z.string(),
+                  precautions: z.array(z.string()),
+                })
+              ),
+              duration: z.number().describe("Total treatment duration in days"),
+              successRate: z.number().min(0).max(1),
+              costEstimate: z.number().describe("Estimated cost in INR"),
+            }),
+          })
+        ),
+      }),
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert agricultural plant pathologist for Indian farming conditions. " +
+            "Analyze the crop leaf/plant image and identify any diseases. Provide practical, " +
+            "India-appropriate treatments with products available to smallholder farmers, dosages, " +
+            "timing, precautions, and realistic INR cost estimates. If the plant is healthy, return " +
+            "an empty diseases array and healthy=true. Only report diseases you can actually observe.",
         },
-      })
-    } else if (cropType.toLowerCase().includes("wheat")) {
-      diseases.push({
-        diseaseId: "powdery_mildew",
-        name: "Powdery Mildew",
-        confidence: 0.85,
-        severity: "medium",
-        symptoms: ["White powder on leaves", "Leaf curling", "Stunted growth"],
-        riskFactors: ["Low humidity", "Warm days", "Shade"],
-        timelineToSpread: "7-10 days",
-        treatment: {
-          steps: [
+        {
+          role: "user",
+          content: [
             {
-              day: 1,
-              action: "Sulfur dusting",
-              products: ["Wettable Sulfur"],
-              dosage: "25kg per hectare",
-              timing: "Early morning",
-              precautions: ["Don't use during high heat"],
+              type: "text",
+              text: `Crop type: ${cropType || "unknown"}. Diagnose any diseases visible in this image.`,
             },
-            {
-              day: 7,
-              action: "Repeat spray",
-              products: ["Wettable Sulfur"],
-              dosage: "25kg per hectare",
-              timing: "Evening",
-              precautions: ["Maintain 3 days gap"],
-            },
+            { type: "image", image: imageUrl },
           ],
-          duration: 10,
-          successRate: 0.88,
-          costEstimate: 1800,
         },
-      })
-    }
+      ],
+    })
 
-    // Save report to database
+    const diseases = object.diseases as DiseaseAnalysis[]
+
     if (diseases.length > 0) {
       const { error: dbError } = await supabase.from("crop_health_reports").insert({
         user_id: userId,
         crop_id: cropId,
         report_type: "disease_analysis",
-        analysis_data: { diseases },
+        analysis_data: { diseases, healthy: object.healthy },
         image_url: imageUrl,
         confidence: Math.max(...diseases.map((d) => d.confidence)),
       })
@@ -235,46 +223,45 @@ export async function analyzeNutrientDeficiency(
   cropStage: string
 ): Promise<{ ok: boolean; data?: DeficiencyAnalysis[]; error?: string }> {
   try {
-    const deficiencies: DeficiencyAnalysis[] = []
-
-    // Simulate analysis based on crop stage
-    if (cropStage === "flowering") {
-      deficiencies.push({
-        nutrient: "K",
-        severity: "moderate",
-        confidence: 0.82,
-        visibleSymptoms: ["Leaf edges yellowing", "Weak stems", "Reduced flower size"],
-        rootCauseFactors: ["Sandy soil", "Recent heavy rain", "High potassium removal"],
-        fertilizationPlan: {
-          productName: "Muriate of Potash",
-          quantity: 50,
-          unit: "kg/hectare",
-          applicationMethod: "Soil application + foliar spray",
-          frequency: "Once now, repeat after 15 days",
-          timing: "Evening",
-          costPerApplication: 1200,
+    const { object } = await generateObject({
+      model: VISION_MODEL,
+      schema: z.object({
+        deficiencies: z.array(
+          z.object({
+            nutrient: z.enum(["N", "P", "K", "Ca", "Mg", "S", "Fe", "Zn", "B", "Mn"]),
+            severity: z.enum(["mild", "moderate", "severe"]),
+            confidence: z.number().min(0).max(1),
+            visibleSymptoms: z.array(z.string()),
+            rootCauseFactors: z.array(z.string()),
+            fertilizationPlan: z.object({
+              productName: z.string(),
+              quantity: z.number(),
+              unit: z.string().describe("e.g. kg/hectare"),
+              applicationMethod: z.string(),
+              frequency: z.string(),
+              timing: z.string(),
+              costPerApplication: z.number().describe("INR"),
+            }),
+          })
+        ),
+      }),
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert soil and plant-nutrition agronomist for Indian farming. Given a crop " +
+            "and its growth stage, identify the most likely nutrient deficiencies at that stage, with " +
+            "typical visible symptoms, root causes, and a corrective fertilization plan using products " +
+            "available in India with realistic INR costs. Rank by likelihood; return at most 3.",
         },
-      })
-    } else if (cropStage === "vegetative") {
-      deficiencies.push({
-        nutrient: "N",
-        severity: "mild",
-        confidence: 0.75,
-        visibleSymptoms: ["Pale green leaves", "Slow growth", "Small leaf size"],
-        rootCauseFactors: ["Leaching in heavy rain", "Soil depletion"],
-        fertilizationPlan: {
-          productName: "Urea",
-          quantity: 60,
-          unit: "kg/hectare",
-          applicationMethod: "Split application",
-          frequency: "Two splits, 15 days apart",
-          timing: "Before irrigation",
-          costPerApplication: 900,
+        {
+          role: "user",
+          content: `Crop: ${cropType}. Growth stage: ${cropStage}. What nutrient deficiencies are most likely and how should they be corrected?`,
         },
-      })
-    }
+      ],
+    })
 
-    return { ok: true, data: deficiencies }
+    return { ok: true, data: object.deficiencies as DeficiencyAnalysis[] }
   } catch (err: any) {
     return { ok: false, error: err.message }
   }
@@ -289,40 +276,49 @@ export async function analyzePestInfestation(
   cropType: string
 ): Promise<{ ok: boolean; data?: PestAnalysis[]; error?: string }> {
   try {
-    const pests: PestAnalysis[] = []
+    const { object } = await generateObject({
+      model: VISION_MODEL,
+      schema: z.object({
+        pests: z.array(
+          z.object({
+            pestId: z.string().describe("lowercase snake_case identifier"),
+            commonName: z.string(),
+            scientificName: z.string(),
+            confidence: z.number().min(0).max(1),
+            populationDensity: z.string().describe("e.g. '8 larvae per 100 bolls'"),
+            riskLevel: z.enum(["low", "medium", "high", "critical"]),
+            lifecycleStage: z.string(),
+            recommendations: z.array(
+              z.object({
+                type: z.enum(["cultural", "biological", "chemical", "mechanical"]),
+                action: z.string(),
+                product: z.string().optional(),
+                dosage: z.string().optional(),
+                frequency: z.string().optional(),
+                safetyPeriod: z.number().optional(),
+                cost: z.number().optional(),
+              })
+            ),
+          })
+        ),
+      }),
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an integrated pest management (IPM) specialist for Indian agriculture. For the " +
+            "given crop, list the pests that pose the highest risk this season with cultural, biological, " +
+            "and chemical control options. Prefer IPM/organic first; include India-available chemical " +
+            "products with dosage, frequency, safety period (days), and INR cost. Return at most 3 pests.",
+        },
+        {
+          role: "user",
+          content: `Crop: ${cropType}. What are the highest-risk pests and how should the farmer manage them?`,
+        },
+      ],
+    })
 
-    if (cropType.toLowerCase().includes("cotton")) {
-      pests.push({
-        pestId: "bollworm",
-        commonName: "Cotton Bollworm",
-        scientificName: "Helicoverpa armigera",
-        confidence: 0.87,
-        populationDensity: "8 larvae per 100 bolls",
-        riskLevel: "high",
-        lifecycleStage: "Larval stage (L2-L3)",
-        recommendations: [
-          {
-            type: "cultural",
-            action: "Remove and destroy infested bolls",
-          },
-          {
-            type: "biological",
-            action: "Release parasitoid wasps (Habrobracon hebetor)",
-          },
-          {
-            type: "chemical",
-            action: "Spray Spinosad 45% SC",
-            product: "Spinosad 45% SC",
-            dosage: "3ml per liter",
-            frequency: "Once every 7 days",
-            safetyPeriod: 3,
-            cost: 1500,
-          },
-        ],
-      })
-    }
-
-    return { ok: true, data: pests }
+    return { ok: true, data: object.pests as PestAnalysis[] }
   } catch (err: any) {
     return { ok: false, error: err.message }
   }

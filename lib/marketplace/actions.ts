@@ -145,7 +145,8 @@ export async function checkout(_prev: ActionState, formData: FormData): Promise<
     // Calculate totals
     let subtotal = 0
     for (const item of cart.cart_items) {
-      subtotal += (item.product?.price ?? 0) * item.quantity
+      const itemProduct = Array.isArray(item.product) ? item.product[0] : item.product
+      subtotal += (itemProduct?.price ?? 0) * item.quantity
     }
 
     const tax = Math.round(subtotal * 0.05 * 100) / 100
@@ -174,11 +175,12 @@ export async function checkout(_prev: ActionState, formData: FormData): Promise<
 
     // Create order items
     for (const cartItem of cart.cart_items) {
+      const product = Array.isArray(cartItem.product) ? cartItem.product[0] : cartItem.product
       await supabase.from("order_items").insert({
         order_id: order.id,
         product_id: cartItem.product_id,
         quantity: cartItem.quantity,
-        unit_price: cartItem.product?.price ?? 0,
+        unit_price: product?.price ?? 0,
         tax_rate: 5,
       })
     }
