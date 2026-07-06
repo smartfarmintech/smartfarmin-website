@@ -32,6 +32,12 @@ export async function updateSession(request: NextRequest) {
   const modules = [
     { base: "/farmer", login: "/farmer/login", register: "/farmer/register" },
     { base: "/operator", login: "/operator/login", register: "/operator/register" },
+    { base: "/admin", login: "/admin/login", register: "/admin/register" },
+    { base: "/founder", login: "/founder/login", register: "/founder/register" },
+    { base: "/telecaller", login: "/telecaller/login", register: "/telecaller/register" },
+    { base: "/field-agent", login: "/field-agent/login", register: "/field-agent/register" },
+    { base: "/drone-operator", login: "/drone-operator/login", register: "/drone-operator/register" },
+    { base: "/dealer", login: "/dealer/login", register: "/dealer/register" },
   ]
   const active = modules.find((m) => path.startsWith(m.base))
 

@@ -548,3 +548,91 @@ export async function checkAvailability(
   })
   return data ?? false
 }
+
+// =================== AUTH ACTIONS (Password Reset, Email Verification) ===================
+
+export async function requestPasswordReset(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const email = formData.get("email") as string
+  if (!email) return { ok: false, error: "Email is required" }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/farmer/reset-password`,
+  })
+
+  if (error) {
+    // Don't leak if email exists or not
+    return { ok: true, error: undefined }
+  }
+
+  return { ok: true, error: undefined }
+}
+
+export async function resetPasswordWithToken(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const password = formData.get("password") as string
+  const confirmPassword = formData.get("confirmPassword") as string
+
+  if (!password || !confirmPassword) {
+    return { ok: false, error: "Password and confirmation are required" }
+  }
+
+  if (password !== confirmPassword) {
+    return { ok: false, fieldErrors: { confirmPassword: "Passwords do not match" } }
+  }
+
+  if (password.length < 8) {
+    return { ok: false, fieldErrors: { password: "Password must be at least 8 characters" } }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.updateUser({ password })
+
+  if (error) return { ok: false, error: error.message }
+
+  redirect("/farmer/login?message=Password%20reset%20successful")
+}
+
+export async function verifyEmail(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const email = formData.get("email") as string
+  const token = formData.get("token") as string
+
+  if (!email || !token) {
+    return { ok: false, error: "Email and verification token are required" }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: "email",
+  })
+
+  if (error) return { ok: false, error: error.message }
+
+  await ensureFarmerBootstrap()
+  redirect("/farmer?message=Email%20verified%20successfully")
+}
+
+export async function resendVerificationEmail(): Promise<ActionState> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user?.email) return { ok: false, error: "User email not found" }
+
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email: user.email,
+  })
+
+  if (error) return { ok: false, error: error.message }
+
+  return { ok: true }
+}
