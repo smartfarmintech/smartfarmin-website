@@ -48,14 +48,11 @@ export default function RootError({
             <Button onClick={reset} className="w-full rounded-full sm:w-auto">
               <RotateCcw className="size-4" /> Try again
             </Button>
-            <Button
-              variant="outline"
-              className="w-full rounded-full sm:w-auto"
-              render={<Link href="/" />}
-              nativeButton={false}
-            >
-              <Home className="size-4" /> Go home
-            </Button>
+            <Link href="/">
+              <Button variant="outline" className="w-full rounded-full sm:w-auto">
+                <Home className="size-4" /> Go home
+              </Button>
+            </Link>
           </div>
         </div>
       </main>
