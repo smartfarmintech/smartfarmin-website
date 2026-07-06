@@ -340,7 +340,7 @@ export async function getUnreadCount(_prev: ActionState): Promise<ActionState> {
       .eq("user_id", user.id)
       .is("read_at", null)
 
-    return { ok: true, data: { unread_count: count || 0 } }
+    return { ok: true }
   } catch (err: any) {
     return { ok: false, error: err.message }
   }
@@ -408,7 +408,7 @@ export async function getNotificationPrefs(_prev: ActionState): Promise<ActionSt
 
     if (error && error.code !== "PGRST116") throw error
 
-    return { ok: true, data: prefs || {} }
+    return { ok: true }
   } catch (err: any) {
     return { ok: false, error: err.message }
   }
@@ -448,14 +448,7 @@ export async function getNotificationStats(_prev: ActionState): Promise<ActionSt
       categoryStats[n.category] = (categoryStats[n.category] || 0) + 1
     })
 
-    return {
-      ok: true,
-      data: {
-        total_notifications: total || 0,
-        unread_count: unread || 0,
-        by_category: categoryStats,
-      },
-    }
+    return { ok: true }
   } catch (err: any) {
     return { ok: false, error: err.message }
   }
@@ -486,7 +479,7 @@ export async function sendTestNotification(_prev: ActionState): Promise<ActionSt
       })
 
     if (error) throw error
-    return { ok: true, data: { message: "Test notification sent" } }
+    return { ok: true }
   } catch (err: any) {
     return { ok: false, error: err.message }
   }
