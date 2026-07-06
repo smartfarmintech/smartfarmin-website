@@ -7,7 +7,14 @@ import { SiteFooter } from "@/components/site-footer"
 import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 import { ProductGrid } from "@/components/marketplace/product-grid"
-import { CATEGORIES } from "@/components/marketplace/search-filters"
+
+const CATEGORIES = [
+  { id: "seeds", name: "Seeds", icon: "🌱" },
+  { id: "fertilizers", name: "Fertilizers", icon: "🧪" },
+  { id: "pesticides", name: "Pesticides", icon: "🦠" },
+  { id: "organic", name: "Organic Products", icon: "🌿" },
+  { id: "equipment", name: "Equipment", icon: "⚙️" },
+]
 
 export const metadata: Metadata = {
   title: "Marketplace — Buy & Sell Farm Produce | SmartFarmin",

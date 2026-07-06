@@ -523,3 +523,20 @@ export async function cancelBooking(bookingId: string): Promise<ActionState> {
   revalidatePath("/farmer")
   return { ok: true }
 }
+
+/**
+ * Check if a machine is available for the given time range (callable from client)
+ */
+export async function checkAvailability(
+  machineId: string,
+  startsAt: string,
+  endsAt: string,
+): Promise<boolean> {
+  const supabase = await createClient()
+  const { data } = await supabase.rpc("mach_is_machine_available", {
+    p_machine_id: machineId,
+    p_starts_at: startsAt,
+    p_ends_at: endsAt,
+  })
+  return data ?? false
+}

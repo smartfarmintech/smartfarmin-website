@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { createBooking, checkMachineAvailability } from "@/lib/farmer/actions"
+import { createBooking, checkAvailability } from "@/lib/farmer/actions"
 import type { MachineDetail } from "@/lib/farmer/types"
 import { Button } from "@/components/ui/button"
 import {
@@ -57,7 +57,7 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
     // Check availability
     if (newData.startsAt && newData.endsAt) {
       try {
-        const result = await checkMachineAvailability(
+        const result = await checkAvailability(
           machine.id,
           newData.startsAt,
           newData.endsAt,
