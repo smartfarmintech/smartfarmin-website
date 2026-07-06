@@ -15,6 +15,9 @@ import {
   Sparkles,
   TrendingUp,
   X,
+  Brain,
+  MessageCircle,
+  BarChart3,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
@@ -34,6 +37,9 @@ const CAP_ICON: Record<Capability["icon"], typeof Bug> = {
   schemes: Landmark,
   reco: Lightbulb,
   camera: Camera,
+  voice: Mic,
+  yield: BarChart3,
+  chat: MessageCircle,
 }
 
 // Local purple palette, scoped to this screen only.
