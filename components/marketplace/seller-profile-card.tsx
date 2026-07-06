@@ -38,7 +38,10 @@ export function SellerProfileCard({
             <CardTitle className="text-lg flex items-center gap-2">
               {name}
               {isVerified && (
-                <Shield className="h-4 w-4 text-green-600" title="Verified Seller" />
+                <span title="Verified Seller" className="inline-flex">
+                  <Shield className="h-4 w-4 text-green-600" aria-hidden="true" />
+                  <span className="sr-only">Verified Seller</span>
+                </span>
               )}
             </CardTitle>
             <CardDescription className="flex items-center gap-1 mt-1">

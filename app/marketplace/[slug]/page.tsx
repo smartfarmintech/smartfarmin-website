@@ -29,8 +29,8 @@ async function ProductDetails({ slug }: { slug: string }) {
   }
 
   const seller = {
-    id: "seller-001",
-    name: "Green Valley Seeds",
+  sellerId: "seller-001",
+  name: "Green Valley Seeds",
     rating: 4.8,
     reviewCount: 2345,
     location: "Hyderabad, Telangana",

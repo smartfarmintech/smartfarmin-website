@@ -42,10 +42,8 @@ export async function askAkanksha(question: string): Promise<AkankshaReply> {
           .optional()
           .describe("Up to 3 short summary cards of the key numbers/takeaways"),
       }),
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: question },
-      ],
+      system: SYSTEM_PROMPT,
+      prompt: question,
     })
 
     return { text: object.text, cards: object.cards as InsightCard[] | undefined }

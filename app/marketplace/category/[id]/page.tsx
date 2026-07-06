@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { ProductGrid } from "@/components/marketplace/product-grid"
 import { SearchFilters, CATEGORIES } from "@/components/marketplace/search-filters"
+import type { Product } from "@/lib/marketplace/types"
 
 interface CategoryPageProps {
   params: { id: string }
@@ -12,13 +13,14 @@ async function CategoryProducts({ categoryId }: { categoryId: string }) {
   const category = CATEGORIES.find((c) => c.id === categoryId)
 
   // Mock products for category
-  const products = [
+  const products: Product[] = [
     {
       id: "1",
       name: "Premium Hybrid Paddy Seeds",
       slug: "premium-hybrid-paddy-seeds",
       price: 850,
       compare_at_price: 1200,
+      cost_price: null,
       short_description: "High-yielding hybrid seeds",
       rating_avg: 4.5,
       rating_count: 128,
@@ -44,6 +46,7 @@ async function CategoryProducts({ categoryId }: { categoryId: string }) {
       slug: "organic-fertilizer-20kg",
       price: 1200,
       compare_at_price: 1500,
+      cost_price: null,
       short_description: "Eco-friendly crop nutrition",
       rating_avg: 4.8,
       rating_count: 256,

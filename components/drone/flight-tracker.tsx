@@ -5,7 +5,7 @@ import { Plane, MapPin, Battery, Clock, CheckCircle2, AlertCircle } from 'lucide
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
-import { Timeline } from '@/components/ui/timeline'
+import { Timeline, type TimelineItem } from '@/components/ui/timeline'
 
 interface FlightStatus {
   flight_id: string
@@ -106,7 +106,7 @@ export function FlightTracker({ flightData, bookingId }: FlightTrackerProps) {
     cancelled: 'Cancelled',
   }
 
-  const timeline = [
+  const timeline: TimelineItem[] = [
     {
       status: 'completed' as const,
       title: 'Booking Confirmed',

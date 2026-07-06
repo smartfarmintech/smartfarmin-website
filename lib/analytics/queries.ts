@@ -237,13 +237,22 @@ export const getMarketplaceMetrics = cache(async (dateRange?: {
 export const getDistrictAnalytics = cache(async () => {
   const supabase = await createClient()
 
-  const { data } = await supabase
-    .from("farmers")
-    .select("location->district, count:id")
-    .group_by("location->district")
-    .order("count", { ascending: false })
+  // Supabase's JS client has no SQL GROUP BY; fetch districts and aggregate in JS.
+  const { data } = await supabase.from("farmers").select("location")
 
-  return data || []
+  const counts = new Map<string, number>()
+  for (const row of data ?? []) {
+    const location = (row as { location: Record<string, unknown> | null }).location
+    const district =
+      location && typeof location === "object" && "district" in location
+        ? String((location as { district?: unknown }).district ?? "Unknown")
+        : "Unknown"
+    counts.set(district, (counts.get(district) ?? 0) + 1)
+  }
+
+  return Array.from(counts, ([district, count]) => ({ district, count })).sort(
+    (a, b) => b.count - a.count,
+  )
 })
 
 /**

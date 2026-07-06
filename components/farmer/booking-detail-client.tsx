@@ -35,10 +35,10 @@ export function BookingDetailClient({ booking: initialBooking }: BookingDetailCl
 
     const result = await cancelBooking(booking.id)
 
-    if (result.ok) {
+    if (result?.ok) {
       setBooking({ ...booking, booking_state: "cancelled" })
     } else {
-      setCancelError(result.error || "Failed to cancel booking")
+      setCancelError(result?.error || "Failed to cancel booking")
     }
 
     setCanceling(false)

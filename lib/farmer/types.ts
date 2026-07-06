@@ -202,6 +202,7 @@ export interface MachineCatalogItem {
 export interface MachineDetail extends MachineCatalogItem {
   machine_status: string
   status: string
+  specs: string | null
   description: string | null
   features: string[] | null
   certifications: string[] | null

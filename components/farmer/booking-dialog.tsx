@@ -94,7 +94,7 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
         startsAt: formData.startsAt,
         endsAt: formData.endsAt,
         hourlyRate: machine.hourly_rate,
-        dailyRate: machine.daily_rate,
+        dailyRate: machine.daily_rate ?? undefined,
         unitType: "hourly",
         totalAmount,
         serviceAddress: formData.serviceAddress,

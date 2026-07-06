@@ -28,7 +28,7 @@ export function FounderDashboardClient({ initialMetrics }: FounderDashboardClien
     setIsPending(true)
     try {
       const result = await exportDashboardData("founder", format)
-      if (result.ok) {
+      if (result.ok && result.data) {
         const element = document.createElement("a")
         element.setAttribute("href", `data:text/${format},${encodeURIComponent(result.data)}`)
         element.setAttribute("download", `founder-dashboard.${format}`)
