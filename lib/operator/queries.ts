@@ -74,13 +74,13 @@ export async function getMachines(ownerId: string): Promise<Machine[]> {
     .select(MACHINE_COLUMNS)
     .eq("owner_id", ownerId)
     .order("created_at", { ascending: false })
-  return (data as Machine[]) ?? []
+  return (data as unknown as Machine[]) ?? []
 }
 
 export async function getMachine(id: string): Promise<Machine | null> {
   const supabase = await createClient()
   const { data } = await supabase.from("machines").select(MACHINE_COLUMNS).eq("id", id).maybeSingle()
-  return (data as Machine | null) ?? null
+  return (data as unknown as Machine | null) ?? null
 }
 
 export async function getOperators(ownerId: string): Promise<Operator[]> {
@@ -104,7 +104,7 @@ export async function getOperatorDocuments(ownerId: string): Promise<OperatorDoc
       "id, operator_id, doc_type, verification_status, document_number, document_url, issued_on, expires_on, created_at, operator:operators(id, full_name)",
     )
     .order("created_at", { ascending: false })
-  return (data as OperatorDocument[]) ?? []
+  return (data as unknown as OperatorDocument[]) ?? []
 }
 
 export async function getAvailability(): Promise<AvailabilitySlot[]> {
@@ -113,7 +113,7 @@ export async function getAvailability(): Promise<AvailabilitySlot[]> {
     .from("availability")
     .select("id, machine_id, slot_status, starts_at, ends_at, reason, created_at, machine:machines(id, name)")
     .order("starts_at", { ascending: true })
-  return (data as AvailabilitySlot[]) ?? []
+  return (data as unknown as AvailabilitySlot[]) ?? []
 }
 
 export async function getPricingRules(): Promise<PricingRule[]> {
@@ -124,7 +124,7 @@ export async function getPricingRules(): Promise<PricingRule[]> {
       "id, machine_id, name, unit, price, currency, min_units, max_units, operator_fee, fuel_included, season_start, season_end, valid_from, valid_until, is_active, priority, created_at, machine:machines(id, name)",
     )
     .order("priority", { ascending: false })
-  return (data as PricingRule[]) ?? []
+  return (data as unknown as PricingRule[]) ?? []
 }
 
 export async function getMaintenance(): Promise<MaintenanceRecord[]> {
@@ -135,7 +135,7 @@ export async function getMaintenance(): Promise<MaintenanceRecord[]> {
       "id, machine_id, maint_type, maint_status, title, description, scheduled_at, started_at, completed_at, cost, currency, service_provider, odometer_hours, created_at, machine:machines(id, name)",
     )
     .order("scheduled_at", { ascending: false, nullsFirst: false })
-  return (data as MaintenanceRecord[]) ?? []
+  return (data as unknown as MaintenanceRecord[]) ?? []
 }
 
 export async function getBookings(ownerId: string): Promise<Booking[]> {
@@ -145,13 +145,13 @@ export async function getBookings(ownerId: string): Promise<Booking[]> {
     .select(BOOKING_COLUMNS)
     .eq("owner_id", ownerId)
     .order("created_at", { ascending: false })
-  return (data as Booking[]) ?? []
+  return (data as unknown as Booking[]) ?? []
 }
 
 export async function getBooking(id: string): Promise<Booking | null> {
   const supabase = await createClient()
   const { data } = await supabase.from("bookings").select(BOOKING_COLUMNS).eq("id", id).maybeSingle()
-  return (data as Booking | null) ?? null
+  return (data as unknown as Booking | null) ?? null
 }
 
 export async function getBookingTimeline(bookingId: string): Promise<BookingStatusEvent[]> {
@@ -172,7 +172,7 @@ export async function getReviews(): Promise<MachineReview[]> {
       "id, machine_id, booking_id, operator_id, user_id, rating, operator_rating, title, body, review_status, is_verified_booking, helpful_count, owner_response, responded_at, created_at, machine:machines(id, name)",
     )
     .order("created_at", { ascending: false })
-  return (data as MachineReview[]) ?? []
+  return (data as unknown as MachineReview[]) ?? []
 }
 
 export async function getRecentTracking(): Promise<GpsLocation[]> {
@@ -184,7 +184,7 @@ export async function getRecentTracking(): Promise<GpsLocation[]> {
     )
     .order("recorded_at", { ascending: false })
     .limit(200)
-  return (data as GpsLocation[]) ?? []
+  return (data as unknown as GpsLocation[]) ?? []
 }
 
 export async function getNotifications(limit = 30): Promise<NotificationItem[]> {

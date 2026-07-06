@@ -45,23 +45,29 @@ export function ConfirmDelete({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {triggerLabel ? (
-          <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
-            <Trash2 className="size-4" aria-hidden />
-            {triggerLabel}
-          </Button>
-        ) : (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-8 text-muted-foreground hover:text-destructive"
-            aria-label={label}
-          >
-            <Trash2 className="size-4" aria-hidden />
-          </Button>
-        )}
-      </DialogTrigger>
+      {triggerLabel ? (
+        <DialogTrigger
+          render={
+            <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" />
+          }
+        >
+          <Trash2 className="size-4" aria-hidden />
+          {triggerLabel}
+        </DialogTrigger>
+      ) : (
+        <DialogTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8 text-muted-foreground hover:text-destructive"
+              aria-label={label}
+            />
+          }
+        >
+          <Trash2 className="size-4" aria-hidden />
+        </DialogTrigger>
+      )}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
