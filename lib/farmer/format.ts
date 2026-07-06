@@ -34,8 +34,28 @@ export function relativeTime(value: string | null | undefined): string {
 
 // Machinery & Booking Formatters
 
-export function formatMachineRate(rate: number, unit: string, currency = "₹"): string {
-  return `${currency}${rate.toFixed(0)} ${unit}`
+/** Maps the `pricing_unit` enum to a short, human-friendly label */
+const PRICING_UNIT_LABELS: Record<string, string> = {
+  per_hour: "hr",
+  per_day: "day",
+  per_acre: "acre",
+  per_km: "km",
+  flat: "job",
+}
+
+export function pricingUnitLabel(unit: string | null | undefined): string {
+  if (!unit) return ""
+  return PRICING_UNIT_LABELS[unit] ?? unit
+}
+
+export function formatMachineRate(
+  rate: number | null | undefined,
+  unit: string | null | undefined,
+  currency = "₹",
+): string {
+  if (rate == null) return "On request"
+  const label = pricingUnitLabel(unit)
+  return label ? `${currency}${rate.toFixed(0)} / ${label}` : `${currency}${rate.toFixed(0)}`
 }
 
 export function formatBookingAmount(amount: number, currency = "₹"): string {

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+import type { PricingUnit } from "./types"
 import {
   cropCycleSchema,
   documentSchema,
@@ -433,11 +434,15 @@ export async function markAllNotificationsRead(): Promise<ActionState> {
  */
 export async function createBooking(input: {
   machineId: string
+  ownerId?: string
+  pricingRuleId?: string | null
   startsAt: string
   endsAt: string
-  hourlyRate?: number
-  dailyRate?: number
-  unitType: string
+  units: number
+  unitType: PricingUnit
+  unitPrice: number
+  operatorFee?: number
+  taxAmount?: number
   totalAmount: number
   serviceAddress?: string
   notes?: string
@@ -459,34 +464,37 @@ export async function createBooking(input: {
     return { ok: false, error: "This machine is not available for the selected time period" }
   }
 
-  // Get machine owner
-  const { data: machine } = await supabase
-    .from("machines")
-    .select("id, owner_id")
-    .eq("id", input.machineId)
-    .maybeSingle()
-
-  if (!machine) {
-    return { ok: false, error: "Machine not found" }
+  // Resolve the machine owner (required, NOT NULL on bookings)
+  let ownerId = input.ownerId
+  if (!ownerId) {
+    const { data: machine } = await supabase
+      .from("machines")
+      .select("id, owner_id")
+      .eq("id", input.machineId)
+      .maybeSingle()
+    if (!machine) return { ok: false, error: "Machine not found" }
+    ownerId = machine.owner_id
   }
 
-  // Create booking with initial pending state
+  // Create booking. `booking_number` is auto-populated by the mach_gen_booking_number trigger.
   const { data: booking, error } = await supabase
     .from("bookings")
     .insert({
       renter_id: user.id,
       machine_id: input.machineId,
-      owner_id: machine.owner_id,
+      owner_id: ownerId,
+      pricing_rule_id: input.pricingRuleId ?? null,
       starts_at: input.startsAt,
       ends_at: input.endsAt,
-      booking_state: "pending",
-      payment_status: "pending",
-      hourly_rate: input.hourlyRate ?? null,
-      daily_rate: input.dailyRate ?? null,
+      booking_state: "requested",
+      payment_status: "unpaid",
+      units: input.units,
       unit_type: input.unitType,
+      unit_price: input.unitPrice,
+      operator_fee: input.operatorFee ?? 0,
+      tax_amount: input.taxAmount ?? 0,
       total_amount: input.totalAmount,
-      tax_amount: 0,
-      service_address: input.serviceAddress ?? null,
+      service_address: input.serviceAddress ? { address: input.serviceAddress } : null,
       notes: input.notes ?? null,
     })
     .select("id")

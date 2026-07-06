@@ -181,32 +181,42 @@ export interface WeatherResult {
 }
 
 // Machinery & Booking Types
+
+/** Matches the `pricing_unit` enum in the database */
+export type PricingUnit = "per_hour" | "per_day" | "per_acre" | "per_km" | "flat"
+
+/** Shape returned by the `v_machine_catalog` view */
 export interface MachineCatalogItem {
-  id: string
+  machine_id: string
   name: string
-  category: string
-  owner_id: string
-  owner_name: string | null
-  operating_area: number | null
-  warranty: string | null
-  hourly_rate: number
-  daily_rate: number | null
-  weekly_rate: number | null
-  currency: string
+  slug: string
+  machine_status: string
+  brand: string | null
+  model: string | null
+  fuel: string | null
+  power_hp: number | null
+  operator_included: boolean
+  base_location: string | null
+  service_radius_km: number | null
+  latitude: number | null
+  longitude: number | null
   image_url: string | null
-  description: string | null
-  avg_rating: number | null
-  total_reviews: number
+  rating_avg: number | null
+  rating_count: number
+  total_bookings: number
+  owner_id: string
+  category_id: string | null
+  category_name: string | null
+  min_price: number | null
+  min_unit: PricingUnit | null
 }
 
 export interface MachineDetail extends MachineCatalogItem {
-  machine_status: string
-  status: string
-  specs: string | null
   description: string | null
-  features: string[] | null
-  certifications: string[] | null
-  warranty_details: string | null
+  specifications: Record<string, unknown> | null
+  implements_included: string[] | null
+  gallery_urls: string[] | null
+  min_booking_hours: number | null
   reviews: MachineReview[]
   pricing_rules: PricingRule[]
 }
@@ -214,38 +224,46 @@ export interface MachineDetail extends MachineCatalogItem {
 export interface MachineReview {
   id: string
   machine_id: string
-  reviewer_name: string
   rating: number
-  comment: string | null
+  title: string | null
+  body: string | null
+  review_status: string
   created_at: string
 }
 
 export interface PricingRule {
   id: string
   machine_id: string
-  unit: string // 'hourly' | 'daily' | 'weekly'
-  rate: number
+  name: string | null
+  unit: PricingUnit
+  price: number
   currency: string
-  min_duration: number | null
+  min_units: number | null
+  max_units: number | null
+  operator_fee: number | null
+  fuel_included: boolean
   is_active: boolean
+  priority: number | null
 }
 
 export type BookingState =
-  | "pending"
+  | "requested"
   | "confirmed"
   | "operator_assigned"
   | "in_progress"
   | "completed"
+  | "cancelled"
   | "rejected"
   | "no_show"
-  | "cancelled"
 
 export type PaymentStatus =
-  | "pending"
+  | "unpaid"
   | "advance_paid"
-  | "partial_paid"
+  | "pending"
   | "paid"
-  | "cancelled"
+  | "partially_refunded"
+  | "refunded"
+  | "failed"
 
 export interface Booking {
   id: string
@@ -254,17 +272,23 @@ export interface Booking {
   machine_id: string
   owner_id: string
   operator_id: string | null
+  pricing_rule_id: string | null
   starts_at: string
   ends_at: string
   booking_state: BookingState
   payment_status: PaymentStatus
-  payment_method: string | null
-  total_amount: number
-  hourly_rate: number | null
-  daily_rate: number | null
-  unit_type: string | null
+  units: number
+  unit_type: PricingUnit
+  unit_price: number
+  operator_fee: number | null
+  discount_amount: number | null
   tax_amount: number | null
-  service_address: string | null
+  total_amount: number
+  advance_amount: number | null
+  currency: string
+  service_address: Record<string, unknown> | null
+  latitude: number | null
+  longitude: number | null
   metadata: Record<string, unknown> | null
   notes: string | null
   created_at: string
@@ -272,27 +296,31 @@ export interface Booking {
 }
 
 export interface BookingWithMachine extends Booking {
-  machine?: Pick<
-    MachineDetail,
-    | "id"
-    | "name"
-    | "category"
-    | "owner_name"
-    | "image_url"
-  > | null
-  operator?: Pick<
-    any,
-    "id" | "full_name" | "phone" | "avatar_url"
-  > | null
+  machine?: {
+    id: string
+    name: string
+    image_url: string | null
+    category_id: string | null
+  } | null
+  operator?: {
+    id: string
+    full_name: string | null
+    phone: string | null
+    avatar_url: string | null
+  } | null
 }
 
 export interface BookingDraft {
   machineId: string
+  ownerId: string
+  pricingRuleId?: string | null
   startsAt: string
   endsAt: string
-  hourlyRate?: number
-  dailyRate?: number
-  unitType: string
+  units: number
+  unitType: PricingUnit
+  unitPrice: number
+  operatorFee?: number
+  taxAmount?: number
   totalAmount: number
   serviceAddress?: string
   notes?: string

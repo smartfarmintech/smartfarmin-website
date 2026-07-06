@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { formatDate, formatBookingAmount, formatBookingDuration } from "@/lib/farmer/format"
-import { BOOKING_STATE_LABEL, BOOKING_STATE_COLOR } from "@/lib/farmer/constants"
+import { BOOKING_STATE_LABEL, BOOKING_STATE_COLOR, PRICING_UNIT_LABEL } from "@/lib/farmer/constants"
 import type { BookingWithMachine } from "@/lib/farmer/types"
 import { ChevronRight } from "lucide-react"
 
@@ -47,7 +47,7 @@ export function BookingsListClient({ initialBookings = [] }: BookingsListClientP
                     {booking.machine?.name || "Machine"} - {booking.booking_number}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    {booking.machine?.category}
+                    {booking.units} {PRICING_UNIT_LABEL[booking.unit_type] ?? booking.unit_type}
                   </p>
                 </div>
                 <div
@@ -75,9 +75,9 @@ export function BookingsListClient({ initialBookings = [] }: BookingsListClientP
                 </div>
               </div>
 
-              {/* Owner Info */}
+              {/* Operator Info */}
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>Owner: {booking.machine?.owner_name || "N/A"}</span>
+                <span>Status: {BOOKING_STATE_LABEL[booking.booking_state]}</span>
                 {booking.operator_id && (
                   <>
                     <span>•</span>

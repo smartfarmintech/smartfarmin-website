@@ -46,17 +46,21 @@ export function MachineDetailClient({ machine }: MachineDetailClientProps) {
             <div className="space-y-4">
               <div>
                 <h1 className="text-3xl font-bold">{machine.name}</h1>
-                <p className="text-muted-foreground">{machine.category}</p>
+                <p className="text-muted-foreground">
+                  {machine.category_name ?? "Machinery"}
+                  {machine.brand ? ` • ${machine.brand}` : ""}
+                  {machine.model ? ` ${machine.model}` : ""}
+                </p>
               </div>
 
               {/* Rating */}
               <div className="flex items-center gap-2">
-                {machine.avg_rating ? (
+                {machine.rating_avg && machine.rating_count > 0 ? (
                   <>
                     <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    <span className="text-lg font-semibold">{machine.avg_rating.toFixed(1)}</span>
+                    <span className="text-lg font-semibold">{machine.rating_avg.toFixed(1)}</span>
                     <span className="text-sm text-muted-foreground">
-                      ({machine.total_reviews} {machine.total_reviews === 1 ? "review" : "reviews"})
+                      ({machine.rating_count} {machine.rating_count === 1 ? "review" : "reviews"})
                     </span>
                   </>
                 ) : (
@@ -64,30 +68,45 @@ export function MachineDetailClient({ machine }: MachineDetailClientProps) {
                 )}
               </div>
 
-              {/* Owner Info */}
-              <div className="p-4 rounded-lg bg-muted/50 border border-border">
-                <p className="text-sm text-muted-foreground">Owner</p>
-                <p className="font-semibold">{machine.owner_name || "Not specified"}</p>
+              {/* Machine Info */}
+              <div className="p-4 rounded-lg bg-muted/50 border border-border space-y-1">
+                {machine.base_location && (
+                  <p className="text-sm">
+                    <span className="text-muted-foreground">Location: </span>
+                    <span className="font-medium">{machine.base_location}</span>
+                  </p>
+                )}
+                {machine.power_hp != null && (
+                  <p className="text-sm">
+                    <span className="text-muted-foreground">Power: </span>
+                    <span className="font-medium">{machine.power_hp} HP</span>
+                  </p>
+                )}
+                <p className="text-sm">
+                  <span className="text-muted-foreground">Operator: </span>
+                  <span className="font-medium">
+                    {machine.operator_included ? "Included" : "Not included"}
+                  </span>
+                </p>
               </div>
 
               {/* Pricing */}
               <div className="space-y-2 p-4 rounded-lg bg-card border border-border">
                 <p className="text-sm font-semibold">Pricing</p>
                 <div className="grid gap-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Hourly Rate:</span>
-                    <span className="font-semibold">{formatMachineRate(machine.hourly_rate, "hr")}</span>
-                  </div>
-                  {machine.daily_rate && (
+                  {machine.pricing_rules.length > 0 ? (
+                    machine.pricing_rules.map((rule) => (
+                      <div key={rule.id} className="flex justify-between text-sm">
+                        <span>{rule.name ?? "Rate"}:</span>
+                        <span className="font-semibold">
+                          {formatMachineRate(rule.price, rule.unit, rule.currency === "INR" ? "₹" : rule.currency)}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
                     <div className="flex justify-between text-sm">
-                      <span>Daily Rate:</span>
-                      <span className="font-semibold">{formatMachineRate(machine.daily_rate, "day")}</span>
-                    </div>
-                  )}
-                  {machine.weekly_rate && (
-                    <div className="flex justify-between text-sm">
-                      <span>Weekly Rate:</span>
-                      <span className="font-semibold">{formatMachineRate(machine.weekly_rate, "week")}</span>
+                      <span>Starting at:</span>
+                      <span className="font-semibold">{formatMachineRate(machine.min_price, machine.min_unit)}</span>
                     </div>
                   )}
                 </div>
@@ -98,6 +117,7 @@ export function MachineDetailClient({ machine }: MachineDetailClientProps) {
                 onClick={() => setShowBookingDialog(true)}
                 size="lg"
                 className="w-full"
+                disabled={machine.pricing_rules.length === 0}
               >
                 Book This Machine
               </Button>
@@ -112,40 +132,17 @@ export function MachineDetailClient({ machine }: MachineDetailClientProps) {
             </div>
           )}
 
-          {/* Features & Certifications */}
-          <div className="grid gap-4 md:grid-cols-2">
-            {machine.features && machine.features.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="font-semibold">Features</h3>
-                <ul className="space-y-1">
-                  {machine.features.map((feature, idx) => (
-                    <li key={idx} className="text-sm text-muted-foreground">
-                      • {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {machine.certifications && machine.certifications.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="font-semibold">Certifications</h3>
-                <ul className="space-y-1">
-                  {machine.certifications.map((cert, idx) => (
-                    <li key={idx} className="text-sm text-muted-foreground">
-                      • {cert}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Warranty */}
-          {machine.warranty_details && (
-            <div className="space-y-2 p-4 rounded-lg bg-muted/50 border border-border">
-              <h3 className="font-semibold">Warranty & Support</h3>
-              <p className="text-sm text-muted-foreground">{machine.warranty_details}</p>
+          {/* Implements Included */}
+          {machine.implements_included && machine.implements_included.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="font-semibold">Implements Included</h3>
+              <ul className="space-y-1">
+                {machine.implements_included.map((item, idx) => (
+                  <li key={idx} className="text-sm text-muted-foreground">
+                    • {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
@@ -158,7 +155,7 @@ export function MachineDetailClient({ machine }: MachineDetailClientProps) {
                   <div key={review.id} className="p-4 rounded-lg border border-border bg-card">
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <p className="font-semibold text-sm">{review.reviewer_name}</p>
+                        {review.title && <p className="font-semibold text-sm">{review.title}</p>}
                         <div className="flex items-center gap-1 mt-1">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <Star
@@ -173,8 +170,8 @@ export function MachineDetailClient({ machine }: MachineDetailClientProps) {
                         </div>
                       </div>
                     </div>
-                    {review.comment && (
-                      <p className="text-sm text-muted-foreground">{review.comment}</p>
+                    {review.body && (
+                      <p className="text-sm text-muted-foreground">{review.body}</p>
                     )}
                   </div>
                 ))}

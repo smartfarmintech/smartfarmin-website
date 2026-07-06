@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { formatMachineRate, formatBookingAmount } from "@/lib/farmer/format"
+import { formatMachineRate, formatBookingAmount, pricingUnitLabel } from "@/lib/farmer/format"
 import { AlertCircle, Loader2 } from "lucide-react"
 
 interface BookingDialogProps {
@@ -30,25 +30,38 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
   const [error, setError] = useState<string | null>(null)
   const [available, setAvailable] = useState(true)
 
+  // Primary pricing rule (rules are ordered by priority ascending)
+  const rule = machine.pricing_rules[0] ?? null
+
   const [formData, setFormData] = useState({
     startsAt: "",
     endsAt: "",
+    quantity: "1",
     serviceAddress: "",
     notes: "",
   })
 
-  const calculateTotalAmount = () => {
+  /** Derive billable units for the selected pricing rule and date range */
+  const calculateUnits = (): number => {
+    if (!rule) return 0
+    if (rule.unit === "flat") return 1
+    if (rule.unit === "per_acre" || rule.unit === "per_km") {
+      return Math.max(Number(formData.quantity) || 0, rule.min_units ?? 0)
+    }
+    // Time-based units
     if (!formData.startsAt || !formData.endsAt) return 0
-
-    const start = new Date(formData.startsAt)
-    const end = new Date(formData.endsAt)
-    const diffMs = end.getTime() - start.getTime()
-
+    const diffMs = new Date(formData.endsAt).getTime() - new Date(formData.startsAt).getTime()
     if (diffMs <= 0) return 0
-
-    const hours = Math.ceil(diffMs / 3600000)
-    return hours * machine.hourly_rate
+    const units = rule.unit === "per_day" ? Math.ceil(diffMs / 86400000) : Math.ceil(diffMs / 3600000)
+    return Math.max(units, rule.min_units ?? 0)
   }
+
+  const units = calculateUnits()
+  const operatorFee = machine.operator_included ? (rule?.operator_fee ?? 0) : 0
+  const subtotal = rule ? units * rule.price + operatorFee : 0
+  const totalAmount = subtotal
+
+  const needsQuantity = rule?.unit === "per_acre" || rule?.unit === "per_km"
 
   const handleDateChange = async (field: "startsAt" | "endsAt", value: string) => {
     const newData = { ...formData, [field]: value }
@@ -57,11 +70,7 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
     // Check availability
     if (newData.startsAt && newData.endsAt) {
       try {
-        const result = await checkAvailability(
-          machine.id,
-          newData.startsAt,
-          newData.endsAt,
-        )
+        const result = await checkAvailability(machine.machine_id, newData.startsAt, newData.endsAt)
         setAvailable(result)
       } catch (err) {
         setError("Failed to check availability")
@@ -73,6 +82,12 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
     e.preventDefault()
     setError(null)
     setLoading(true)
+
+    if (!rule) {
+      setError("This machine has no active pricing available")
+      setLoading(false)
+      return
+    }
 
     if (!formData.startsAt || !formData.endsAt) {
       setError("Please select start and end dates")
@@ -86,16 +101,23 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
       return
     }
 
-    const totalAmount = calculateTotalAmount()
+    if (units <= 0) {
+      setError("Please enter a valid duration or quantity")
+      setLoading(false)
+      return
+    }
 
     try {
       const result = await createBooking({
-        machineId: machine.id,
+        machineId: machine.machine_id,
+        ownerId: machine.owner_id,
+        pricingRuleId: rule.id,
         startsAt: formData.startsAt,
         endsAt: formData.endsAt,
-        hourlyRate: machine.hourly_rate,
-        dailyRate: machine.daily_rate ?? undefined,
-        unitType: "hourly",
+        units,
+        unitType: rule.unit,
+        unitPrice: rule.price,
+        operatorFee,
         totalAmount,
         serviceAddress: formData.serviceAddress,
         notes: formData.notes,
@@ -113,8 +135,6 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
       setLoading(false)
     }
   }
-
-  const totalAmount = calculateTotalAmount()
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -149,6 +169,24 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
               required
             />
           </div>
+
+          {/* Quantity (for per-acre / per-km rules) */}
+          {needsQuantity && (
+            <div className="space-y-2">
+              <Label htmlFor="quantity">
+                Quantity ({rule?.unit === "per_acre" ? "acres" : "km"})
+              </Label>
+              <Input
+                id="quantity"
+                type="number"
+                min={rule?.min_units ?? 1}
+                step="0.5"
+                value={formData.quantity}
+                onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                required
+              />
+            </div>
+          )}
 
           {/* Availability Status */}
           {formData.startsAt && formData.endsAt && (
@@ -191,13 +229,25 @@ export function BookingDialog({ open, onOpenChange, machine }: BookingDialogProp
           </div>
 
           {/* Pricing Summary */}
-          {totalAmount > 0 && (
+          {rule && totalAmount > 0 && (
             <div className="p-3 rounded-lg bg-muted/50 border border-border space-y-2">
               <div className="text-sm font-semibold">Booking Summary</div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Hourly Rate:</span>
-                <span>{formatMachineRate(machine.hourly_rate, "hr")}</span>
+                <span className="text-muted-foreground">Rate:</span>
+                <span>{formatMachineRate(rule.price, rule.unit)}</span>
               </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Units:</span>
+                <span>
+                  {units} {pricingUnitLabel(rule.unit)}
+                </span>
+              </div>
+              {operatorFee > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Operator fee:</span>
+                  <span>{formatBookingAmount(operatorFee)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-sm border-t border-border pt-2">
                 <span className="font-semibold">Estimated Total:</span>
                 <span className="font-semibold">{formatBookingAmount(totalAmount)}</span>

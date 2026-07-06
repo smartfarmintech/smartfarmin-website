@@ -23,6 +23,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
 import type { MachineDetail, BookingWithMachine } from '@/lib/farmer/types'
+import { formatMachineRate } from '@/lib/farmer/format'
 
 type BookingStep =
   | 'search'
@@ -225,26 +226,31 @@ function DetailsStep({
         <div className="space-y-4">
           <div>
             <h2 className="text-3xl font-bold">{selectedMachine.name}</h2>
-            <p className="text-muted-foreground">{selectedMachine.category}</p>
+            <p className="text-muted-foreground">{selectedMachine.category_name ?? 'Machinery'}</p>
           </div>
 
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
               <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-              <span className="text-lg font-semibold">{selectedMachine.avg_rating?.toFixed(1) || 'N/A'}</span>
-              <span className="text-sm text-muted-foreground">({selectedMachine.total_reviews || 0})</span>
+              <span className="text-lg font-semibold">{selectedMachine.rating_avg?.toFixed(1) || 'N/A'}</span>
+              <span className="text-sm text-muted-foreground">({selectedMachine.rating_count || 0})</span>
             </div>
           </div>
 
           <div className="space-y-2 border-t border-border pt-4">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Hourly Rate:</span>
-              <span className="font-semibold">₹{selectedMachine.hourly_rate}/hour</span>
-            </div>
-            {selectedMachine.daily_rate && (
+            {selectedMachine.pricing_rules.length > 0 ? (
+              selectedMachine.pricing_rules.map((rule) => (
+                <div key={rule.id} className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">{rule.name ?? 'Rate'}:</span>
+                  <span className="font-semibold">{formatMachineRate(rule.price, rule.unit)}</span>
+                </div>
+              ))
+            ) : (
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Daily Rate:</span>
-                <span className="font-semibold">₹{selectedMachine.daily_rate}/day</span>
+                <span className="text-muted-foreground">Starting at:</span>
+                <span className="font-semibold">
+                  {formatMachineRate(selectedMachine.min_price, selectedMachine.min_unit)}
+                </span>
               </div>
             )}
           </div>
@@ -255,10 +261,14 @@ function DetailsStep({
         </div>
       </div>
 
-      {selectedMachine.specs && (
+      {selectedMachine.implements_included && selectedMachine.implements_included.length > 0 && (
         <div className="rounded-lg border border-border bg-card p-6">
-          <h3 className="font-semibold mb-3">Specifications</h3>
-          <p className="text-sm text-muted-foreground whitespace-pre-line">{selectedMachine.specs}</p>
+          <h3 className="font-semibold mb-3">Implements Included</h3>
+          <ul className="text-sm text-muted-foreground space-y-1">
+            {selectedMachine.implements_included.map((item, idx) => (
+              <li key={idx}>• {item}</li>
+            ))}
+          </ul>
         </div>
       )}
 
@@ -293,15 +303,16 @@ function OperatorStep({
         <div className="space-y-6">
           <div className="flex items-start gap-4">
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold flex-shrink-0">
-              {selectedMachine.owner_name
-                ?.split(' ')
-                .map((n) => n[0])
-                .join('')}
+              {selectedMachine.operator_included ? 'OP' : '—'}
             </div>
 
             <div className="flex-1">
-              <h3 className="text-xl font-bold">{selectedMachine.owner_name || 'Not specified'}</h3>
-              <p className="text-sm text-muted-foreground mb-4">Verified Operator</p>
+              <h3 className="text-xl font-bold">
+                {selectedMachine.operator_included ? 'Operator Included' : 'Self-Operated'}
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                {selectedMachine.base_location ?? 'Verified Machine'}
+              </p>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="flex items-center gap-2">
@@ -311,7 +322,7 @@ function OperatorStep({
                 <div className="flex items-center gap-2">
                   <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
                   <span className="text-sm font-semibold">
-                    {selectedMachine.avg_rating?.toFixed(1) || 'N/A'} ({selectedMachine.total_reviews || 0} reviews)
+                    {selectedMachine.rating_avg?.toFixed(1) || 'N/A'} ({selectedMachine.rating_count || 0} reviews)
                   </span>
                 </div>
               </div>
@@ -327,7 +338,7 @@ function OperatorStep({
           <div className="bg-muted/50 p-4 rounded-lg border border-border">
             <h4 className="font-semibold mb-3">Experience & Reviews</h4>
             <p className="text-sm text-muted-foreground mb-4">
-              {selectedMachine.total_reviews || 0} bookings completed with excellent feedback
+              {selectedMachine.total_bookings || 0} bookings completed with excellent feedback
             </p>
 
             <div className="space-y-2">

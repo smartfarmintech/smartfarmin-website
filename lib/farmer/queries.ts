@@ -164,16 +164,17 @@ export async function getDocuments(farmerId: string): Promise<FarmDocument[]> {
 
 // Machinery & Booking Queries
 
+const MACHINE_CATALOG_COLUMNS =
+  "machine_id, name, slug, machine_status, brand, model, fuel, power_hp, operator_included, base_location, service_radius_km, latitude, longitude, image_url, rating_avg, rating_count, total_bookings, owner_id, category_id, category_name, min_price, min_unit"
+
 /** Get list of available machines from the catalog view */
 export async function getMachineryCatalog(): Promise<MachineCatalogItem[]> {
   const supabase = await createClient()
   const { data } = await supabase
     .from("v_machine_catalog")
-    .select(
-      "id, name, category, owner_id, owner_name, operating_area, warranty, hourly_rate, daily_rate, weekly_rate, currency, image_url, description, avg_rating, total_reviews",
-    )
+    .select(MACHINE_CATALOG_COLUMNS)
     .order("name", { ascending: true })
-  return (data as MachineCatalogItem[]) ?? []
+  return (data as unknown as MachineCatalogItem[]) ?? []
 }
 
 /** Get detailed machine info including reviews and pricing */
@@ -181,47 +182,49 @@ export async function getMachineDetail(machineId: string): Promise<MachineDetail
   const supabase = await createClient()
   const { data: machineData } = await supabase
     .from("v_machine_catalog")
-    .select(
-      "id, name, category, owner_id, owner_name, operating_area, warranty, hourly_rate, daily_rate, weekly_rate, currency, image_url, description, avg_rating, total_reviews",
-    )
-    .eq("id", machineId)
+    .select(MACHINE_CATALOG_COLUMNS)
+    .eq("machine_id", machineId)
     .maybeSingle()
 
   if (!machineData) return null
 
-  // Get full machine details including status
+  // Get extra machine details not exposed by the catalog view
   const { data: fullMachine } = await supabase
     .from("machines")
-    .select("id, machine_status, status, description, features, certifications, warranty_details")
+    .select("id, description, specifications, implements_included, gallery_urls, min_booking_hours")
     .eq("id", machineId)
     .maybeSingle()
 
-  // Get reviews
+  // Get published reviews
   const { data: reviews } = await supabase
     .from("machine_reviews")
-    .select("id, machine_id, reviewer_name, rating, comment, created_at")
+    .select("id, machine_id, rating, title, body, review_status, created_at")
     .eq("machine_id", machineId)
-    .eq("publication_status", "published")
+    .eq("review_status", "published")
+    .is("deleted_at", null)
     .order("created_at", { ascending: false })
 
-  // Get pricing rules
+  // Get active pricing rules
   const { data: pricing } = await supabase
     .from("pricing_rules")
-    .select("id, machine_id, unit, rate, currency, min_duration, is_active")
+    .select(
+      "id, machine_id, name, unit, price, currency, min_units, max_units, operator_fee, fuel_included, is_active, priority",
+    )
     .eq("machine_id", machineId)
     .eq("is_active", true)
+    .is("deleted_at", null)
+    .order("priority", { ascending: true })
 
   return {
-    ...machineData,
-    machine_status: fullMachine?.machine_status ?? "active",
-    status: fullMachine?.status ?? "active",
-    description: fullMachine?.description ?? machineData.description,
-    features: fullMachine?.features ?? null,
-    certifications: fullMachine?.certifications ?? null,
-    warranty_details: fullMachine?.warranty_details ?? null,
-    reviews: (reviews as any[]) ?? [],
-    pricing_rules: (pricing as any[]) ?? [],
-  } as MachineDetail
+    ...(machineData as unknown as MachineCatalogItem),
+    description: fullMachine?.description ?? null,
+    specifications: (fullMachine?.specifications as Record<string, unknown> | null) ?? null,
+    implements_included: (fullMachine?.implements_included as string[] | null) ?? null,
+    gallery_urls: (fullMachine?.gallery_urls as string[] | null) ?? null,
+    min_booking_hours: (fullMachine?.min_booking_hours as number | null) ?? null,
+    reviews: (reviews as unknown as MachineDetail["reviews"]) ?? [],
+    pricing_rules: (pricing as unknown as MachineDetail["pricing_rules"]) ?? [],
+  }
 }
 
 /** Get farmer's bookings */
@@ -235,9 +238,10 @@ export async function getFarmerBookings(): Promise<BookingWithMachine[]> {
   const { data } = await supabase
     .from("bookings")
     .select(
-      `id, booking_number, renter_id, machine_id, owner_id, operator_id, starts_at, ends_at, booking_state, payment_status, 
-       payment_method, total_amount, hourly_rate, daily_rate, unit_type, tax_amount, service_address, metadata, notes, created_at, updated_at,
-       machine:machines(id, name, category, owner_name, image_url)`,
+      `id, booking_number, renter_id, machine_id, owner_id, operator_id, pricing_rule_id, starts_at, ends_at, booking_state, payment_status,
+       units, unit_type, unit_price, operator_fee, discount_amount, tax_amount, total_amount, advance_amount, currency,
+       service_address, latitude, longitude, metadata, notes, created_at, updated_at,
+       machine:machines(id, name, category_id, image_url)`,
     )
     .eq("renter_id", user.id)
     .order("created_at", { ascending: false })
@@ -251,9 +255,10 @@ export async function getBooking(bookingId: string): Promise<BookingWithMachine 
   const { data } = await supabase
     .from("bookings")
     .select(
-      `id, booking_number, renter_id, machine_id, owner_id, operator_id, starts_at, ends_at, booking_state, payment_status, 
-       payment_method, total_amount, hourly_rate, daily_rate, unit_type, tax_amount, service_address, metadata, notes, created_at, updated_at,
-       machine:machines(id, name, category, owner_name, image_url)`,
+      `id, booking_number, renter_id, machine_id, owner_id, operator_id, pricing_rule_id, starts_at, ends_at, booking_state, payment_status,
+       units, unit_type, unit_price, operator_fee, discount_amount, tax_amount, total_amount, advance_amount, currency,
+       service_address, latitude, longitude, metadata, notes, created_at, updated_at,
+       machine:machines(id, name, category_id, image_url)`,
     )
     .eq("id", bookingId)
     .maybeSingle()

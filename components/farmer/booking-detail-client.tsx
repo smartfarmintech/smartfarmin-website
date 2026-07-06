@@ -6,7 +6,7 @@ import { ChevronLeft, MapPin, Clock, DollarSign, User, Loader2 } from "lucide-re
 import { Button } from "@/components/ui/button"
 import { cancelBooking } from "@/lib/farmer/actions"
 import { formatDate, formatDateTime, formatBookingAmount, formatBookingDuration } from "@/lib/farmer/format"
-import { BOOKING_STATE_LABEL, BOOKING_STATE_COLOR, BOOKING_STATES } from "@/lib/farmer/constants"
+import { BOOKING_STATE_LABEL, BOOKING_STATE_COLOR, PRICING_UNIT_LABEL } from "@/lib/farmer/constants"
 import type { BookingWithMachine } from "@/lib/farmer/types"
 
 interface BookingDetailClientProps {
@@ -15,7 +15,7 @@ interface BookingDetailClientProps {
 
 // Timeline of booking states for visual tracking
 const BOOKING_TIMELINE = [
-  "pending",
+  "requested",
   "confirmed",
   "operator_assigned",
   "in_progress",
@@ -47,7 +47,13 @@ export function BookingDetailClient({ booking: initialBooking }: BookingDetailCl
   const currentStateIndex = BOOKING_TIMELINE.indexOf(booking.booking_state as any)
   const isCanceled = booking.booking_state === "cancelled"
   const isRejected = booking.booking_state === "rejected"
-  const canCancel = ["pending", "confirmed"].includes(booking.booking_state)
+  const canCancel = ["requested", "confirmed"].includes(booking.booking_state)
+
+  // service_address is stored as jsonb (e.g. { address: "..." })
+  const serviceAddressText =
+    booking.service_address && typeof booking.service_address === "object"
+      ? ((booking.service_address as Record<string, unknown>).address as string | undefined) ?? null
+      : null
 
   return (
     <div className="flex-1 overflow-auto">
@@ -116,11 +122,13 @@ export function BookingDetailClient({ booking: initialBooking }: BookingDetailCl
             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
               <div>
                 <p className="text-sm text-muted-foreground">Machine</p>
-                <p className="font-semibold">{booking.machine?.category}</p>
+                <p className="font-semibold">{booking.machine?.name ?? "—"}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Owner</p>
-                <p className="font-semibold">{booking.machine?.owner_name}</p>
+                <p className="text-sm text-muted-foreground">Units</p>
+                <p className="font-semibold">
+                  {booking.units} {PRICING_UNIT_LABEL[booking.unit_type] ?? booking.unit_type}
+                </p>
               </div>
             </div>
           </div>
@@ -175,13 +183,13 @@ export function BookingDetailClient({ booking: initialBooking }: BookingDetailCl
           </div>
 
           {/* Service Address */}
-          {booking.service_address && (
+          {serviceAddressText && (
             <div className="space-y-3 p-4 rounded-lg bg-muted/50 border border-border">
               <h3 className="font-semibold flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
                 Service Location
               </h3>
-              <p className="text-sm whitespace-pre-line">{booking.service_address}</p>
+              <p className="text-sm whitespace-pre-line">{serviceAddressText}</p>
             </div>
           )}
 
