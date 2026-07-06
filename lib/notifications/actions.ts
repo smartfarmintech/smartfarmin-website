@@ -321,3 +321,173 @@ export async function broadcastAdminAnnouncement(
     return { ok: false, error: err.message }
   }
 }
+
+/**
+ * Get unread notification count
+ */
+export async function getUnreadCount(_prev: ActionState): Promise<ActionState> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { ok: false, error: "Not authenticated" }
+  }
+
+  try {
+    const { count } = await supabase
+      .from("notifications")
+      .select("*", { count: "exact" })
+      .eq("user_id", user.id)
+      .is("read_at", null)
+
+    return { ok: true, data: { unread_count: count || 0 } }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
+
+/**
+ * Register device for push notifications
+ */
+export async function registerPushDevice(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { ok: false, error: "Not authenticated" }
+  }
+
+  try {
+    const pushToken = formData.get("push_token") as string
+    const deviceType = formData.get("device_type") as string
+
+    if (!pushToken) {
+      return { ok: false, error: "Push token required" }
+    }
+
+    const { error } = await supabase
+      .from("user_devices")
+      .upsert(
+        {
+          user_id: user.id,
+          push_token: pushToken,
+          device_type: deviceType || "web",
+          is_active: true,
+          last_seen_at: new Date().toISOString(),
+        },
+        { onConflict: "user_id,push_token" }
+      )
+
+    if (error) throw error
+    return { ok: true }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
+
+/**
+ * Get notification preferences
+ */
+export async function getNotificationPrefs(_prev: ActionState): Promise<ActionState> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { ok: false, error: "Not authenticated" }
+  }
+
+  try {
+    const { data: prefs, error } = await supabase
+      .from("notification_preferences")
+      .select("*")
+      .eq("user_id", user.id)
+      .single()
+
+    if (error && error.code !== "PGRST116") throw error
+
+    return { ok: true, data: prefs || {} }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
+
+/**
+ * Get notification history for analytics
+ */
+export async function getNotificationStats(_prev: ActionState): Promise<ActionState> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { ok: false, error: "Not authenticated" }
+  }
+
+  try {
+    const { count: total } = await supabase
+      .from("notifications")
+      .select("*", { count: "exact" })
+      .eq("user_id", user.id)
+
+    const { count: unread } = await supabase
+      .from("notifications")
+      .select("*", { count: "exact" })
+      .eq("user_id", user.id)
+      .is("read_at", null)
+
+    // Get notifications by category
+    const { data: byCategory } = await supabase
+      .from("notifications")
+      .select("category")
+      .eq("user_id", user.id)
+
+    const categoryStats: Record<string, number> = {}
+    byCategory?.forEach((n) => {
+      categoryStats[n.category] = (categoryStats[n.category] || 0) + 1
+    })
+
+    return {
+      ok: true,
+      data: {
+        total_notifications: total || 0,
+        unread_count: unread || 0,
+        by_category: categoryStats,
+      },
+    }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
+
+/**
+ * Send test notification
+ */
+export async function sendTestNotification(_prev: ActionState): Promise<ActionState> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { ok: false, error: "Not authenticated" }
+  }
+
+  try {
+    const { error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: user.id,
+        title: "Test Notification",
+        body: "This is a test notification from SmartFarmin to verify your notification settings.",
+        category: "test",
+        channel: "in-app",
+        priority: "normal",
+        status: "delivered",
+      })
+
+    if (error) throw error
+    return { ok: true, data: { message: "Test notification sent" } }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
