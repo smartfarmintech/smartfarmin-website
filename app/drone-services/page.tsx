@@ -44,9 +44,42 @@ const outcomes = [
 ]
 
 const steps = [
-  { step: "01", title: "Book a slot", desc: "Choose your field, crop and service in the app and pick a convenient time." },
+  { step: "01", title: "Book a slot", desc: "Choose your field, crop and service in the app with AI recommendations." },
   { step: "02", title: "Certified pilot arrives", desc: "A trained pilot and calibrated drone reach your field on schedule." },
-  { step: "03", title: "Get your report", desc: "Receive a digital coverage and health report right after the operation." },
+  { step: "03", title: "Get AI report", desc: "Receive detailed analysis: crop stress, NDVI mapping, spray schedule, and flight data." },
+]
+
+const aiFeatures = [
+  {
+    title: "Crop Stress Detection",
+    description: "AI analyzes uploaded images to detect crop stress, diseases, and nutrient deficiencies with 87%+ accuracy.",
+    icon: "🔬",
+  },
+  {
+    title: "Smart Spray Scheduling",
+    description: "Get optimal spray dates based on weather forecasts and crop growth stage to maximize effectiveness.",
+    icon: "📅",
+  },
+  {
+    title: "Pesticide Calculation",
+    description: "AI calculates exact pesticide quantities, concentration, and costs based on crop type and affected area.",
+    icon: "📊",
+  },
+  {
+    title: "Automated Flight Plans",
+    description: "Generate optimized waypoint-based flight plans with altitude, speed, and safety zones.",
+    icon: "🗺️",
+  },
+  {
+    title: "NDVI Vegetation Analysis",
+    description: "Multispectral analysis reveals crop health zones for targeted treatment of stressed areas.",
+    icon: "🌿",
+  },
+  {
+    title: "Coverage Estimation",
+    description: "Predict spray coverage, battery usage, and flight time based on field conditions and weather.",
+    icon: "⚡",
+  },
 ]
 
 export default function DroneServicesPage() {
@@ -56,12 +89,14 @@ export default function DroneServicesPage() {
       <main className="flex-1">
         <PageHero
           eyebrow="Drone Services"
-          title="Precision from the sky, on demand"
-          description="Book certified drone pilots for spraying and field mapping that slashes input costs, saves time and keeps farmers safe from harmful chemicals."
+          title="Precision from the sky, powered by AI"
+          description="Book certified drone pilots with AI-powered crop analysis, smart scheduling, and automated flight planning that slashes input costs, saves time and keeps farmers safe."
         >
-          <Button size="lg">Book a drone</Button>
-          <Button size="lg" variant="outline">
-            Become a pilot partner
+          <Button size="lg" asChild>
+            <a href="/farmer/drone-booking">Book a drone</a>
+          </Button>
+          <Button size="lg" variant="outline" asChild>
+            <a href="/drone-operator/register">Become a pilot partner</a>
           </Button>
         </PageHero>
 
@@ -104,7 +139,7 @@ export default function DroneServicesPage() {
           </div>
         </section>
 
-        <section className="bg-secondary/50 py-16 lg:py-24">
+        <section className="py-16 lg:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
               <h2 className="text-balance font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
@@ -134,6 +169,35 @@ export default function DroneServicesPage() {
                   </div>
                 )
               })}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-secondary/50 py-16 lg:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl">
+              <h2 className="text-balance font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                AI-Powered Insights
+              </h2>
+              <p className="mt-4 text-pretty text-lg leading-relaxed text-muted-foreground">
+                Advanced machine learning analyzes your field to deliver actionable recommendations.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {aiFeatures.map((feature) => (
+                <div
+                  key={feature.title}
+                  className="rounded-2xl border border-border bg-card p-6"
+                >
+                  <span className="text-4xl">{feature.icon}</span>
+                  <h3 className="mt-4 font-serif text-lg font-semibold text-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
