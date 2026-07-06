@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter, Fraunces } from 'next/font/google'
+import { SWRProvider } from '@/components/swr-provider'
 import './globals.css'
 
 const inter = Inter({
@@ -56,7 +57,9 @@ export default function RootLayout({
       className={`${inter.variable} ${fraunces.variable} bg-background`}
     >
       <body className="font-sans antialiased">
-        {children}
+        <SWRProvider>
+          {children}
+        </SWRProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
