@@ -51,28 +51,45 @@ export default function MarketplacePage() {
           </Button>
         </PageHero>
 
-        <section className="border-b border-border bg-card py-12">
-          <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-            {benefits.map((b) => {
-              const Icon = b.icon
-              return (
-                <div key={b.title} className="flex gap-4">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <Icon className="size-5" />
-                  </span>
-                  <div>
-                    <h3 className="font-semibold text-foreground">{b.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      {b.desc}
-                    </p>
-                  </div>
-                </div>
-              )
-            })}
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <div>
+            <h2 className="text-2xl font-semibold mb-8">Featured Products</h2>
+            <Suspense fallback={<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[...Array(8)].map((_, i) => <div key={i} className="animate-pulse rounded-lg bg-muted h-64" />)}</div>}>
+              <FeaturedProducts />
+            </Suspense>
           </div>
         </section>
 
-        <MarketplaceListings />
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <div>
+            <h2 className="text-2xl font-semibold mb-8">Browse All Products</h2>
+            <Suspense fallback={<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[...Array(12)].map((_, i) => <div key={i} className="animate-pulse rounded-lg bg-muted h-64" />)}</div>}>
+              <AllProducts />
+            </Suspense>
+          </div>
+        </section>
+
+        <section className="bg-primary/5 py-16">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl font-semibold mb-12">Why trust SmartFarmin?</h2>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {benefits.map((benefit) => {
+                const Icon = benefit.icon
+                return (
+                  <div key={benefit.title} className="text-center">
+                    <div className="mb-4 flex justify-center">
+                      <div className="rounded-full bg-primary/10 p-3">
+                        <Icon className="size-6 text-primary" />
+                      </div>
+                    </div>
+                    <h3 className="font-semibold mb-2">{benefit.title}</h3>
+                    <p className="text-sm text-muted-foreground">{benefit.desc}</p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </div>
