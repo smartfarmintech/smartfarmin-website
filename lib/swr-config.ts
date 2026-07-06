@@ -33,7 +33,7 @@ function createLocalStorageProvider() {
         try {
           localStorage.setItem("swr-cache", JSON.stringify(data))
         } catch {
-          console.warn("[v0] localStorage quota exceeded")
+          // localStorage quota exceeded - continue with in-memory cache
         }
       }
     },

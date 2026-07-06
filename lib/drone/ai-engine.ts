@@ -410,7 +410,6 @@ export async function recordFlight(
   })
 
   if (error) {
-    console.error('Error recording flight:', error)
     throw error
   }
 }

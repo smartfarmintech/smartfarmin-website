@@ -6,7 +6,15 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Guard/refresh sessions on the Supabase-backed farmer and operator modules.
-  // The existing demo app under /app is intentionally left untouched.
-  matcher: ["/farmer/:path*", "/operator/:path*"],
+  // Guard/refresh sessions on all private routes
+  matcher: [
+    "/farmer/:path*",
+    "/operator/:path*",
+    "/admin/:path*",
+    "/founder/:path*",
+    "/field-agent/:path*",
+    "/telecaller/:path*",
+    "/dealer/:path*",
+    "/app/:path*",
+  ],
 }
