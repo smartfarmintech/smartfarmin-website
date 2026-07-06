@@ -1,10 +1,20 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
+import Link from "next/link"
 import { HandCoins, Truck, ShieldCheck, Users } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { PageHero } from "@/components/page-hero"
-import { MarketplaceListings } from "@/components/marketplace-listings"
 import { Button } from "@/components/ui/button"
+import { ProductGrid } from "@/components/marketplace/product-grid"
+
+const CATEGORIES = [
+  { id: "seeds", name: "Seeds", icon: "🌱" },
+  { id: "fertilizers", name: "Fertilizers", icon: "🧪" },
+  { id: "pesticides", name: "Pesticides", icon: "🦠" },
+  { id: "organic", name: "Organic Products", icon: "🌿" },
+  { id: "equipment", name: "Equipment", icon: "⚙️" },
+]
 
 export const metadata: Metadata = {
   title: "Marketplace — Buy & Sell Farm Produce | SmartFarmin",
@@ -51,28 +61,92 @@ export default function MarketplacePage() {
           </Button>
         </PageHero>
 
-        <section className="border-b border-border bg-card py-12">
-          <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-            {benefits.map((b) => {
-              const Icon = b.icon
-              return (
-                <div key={b.title} className="flex gap-4">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <Icon className="size-5" />
-                  </span>
-                  <div>
-                    <h3 className="font-semibold text-foreground">{b.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      {b.desc}
-                    </p>
-                  </div>
-                </div>
-              )
-            })}
+        {/* Browse by Category */}
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <h2 className="text-2xl font-semibold mb-8">Shop by Category</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {CATEGORIES.map((category) => (
+              <Link
+                key={category.id}
+                href={`/marketplace/category/${category.id}`}
+                className="group p-6 rounded-lg border border-border hover:border-primary hover:shadow-lg transition-all bg-card"
+              >
+                <div className="text-4xl mb-3">{category.icon}</div>
+                <h3 className="font-semibold group-hover:text-primary transition-colors">{category.name}</h3>
+                <p className="text-xs text-muted-foreground mt-1">Browse products</p>
+              </Link>
+            ))}
           </div>
         </section>
 
-        <MarketplaceListings />
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <div>
+            <h2 className="text-2xl font-semibold mb-8">Featured Products</h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="rounded-lg border bg-card p-3 hover:shadow-md transition-shadow">
+                  <div className="aspect-square rounded-lg bg-muted mb-3 flex items-center justify-center text-muted-foreground">
+                    Image
+                  </div>
+                  <h3 className="font-semibold line-clamp-2">Featured Product {i + 1}</h3>
+                  <p className="text-xs text-muted-foreground mt-1">₹850</p>
+                  <div className="flex gap-1 mt-2">
+                    <span className="text-xs">★★★★★</span>
+                    <span className="text-xs text-muted-foreground">(24)</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mx-auto px-4 py-16">
+          <div>
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl font-semibold">All Products</h2>
+              <Link href="/marketplace/category/all">
+                <Button variant="outline">View All</Button>
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[...Array(12)].map((_, i) => (
+                <div key={i} className="rounded-lg border bg-card p-3 hover:shadow-md transition-shadow">
+                  <div className="aspect-square rounded-lg bg-muted mb-3 flex items-center justify-center text-muted-foreground">
+                    Image
+                  </div>
+                  <h3 className="font-semibold line-clamp-2">Product {i + 1}</h3>
+                  <p className="text-xs text-muted-foreground mt-1">₹1,200</p>
+                  <div className="flex gap-1 mt-2">
+                    <span className="text-xs">★★★★☆</span>
+                    <span className="text-xs text-muted-foreground">(48)</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-primary/5 py-16">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl font-semibold mb-12">Why trust SmartFarmin?</h2>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {benefits.map((benefit) => {
+                const Icon = benefit.icon
+                return (
+                  <div key={benefit.title} className="text-center">
+                    <div className="mb-4 flex justify-center">
+                      <div className="rounded-full bg-primary/10 p-3">
+                        <Icon className="size-6 text-primary" />
+                      </div>
+                    </div>
+                    <h3 className="font-semibold mb-2">{benefit.title}</h3>
+                    <p className="text-sm text-muted-foreground">{benefit.desc}</p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </div>

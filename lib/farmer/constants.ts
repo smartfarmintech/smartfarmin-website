@@ -118,3 +118,85 @@ export const AREA_UNIT_TO_ACRE: Record<AreaUnit, number> = {
 export function toAcres(value: number, unit: AreaUnit): number {
   return value * (AREA_UNIT_TO_ACRE[unit] ?? 1)
 }
+
+// Machinery & Booking Constants (aligned with DB enums booking_state, payment_status, pricing_unit)
+export const BOOKING_STATES = [
+  "requested",
+  "confirmed",
+  "operator_assigned",
+  "in_progress",
+  "completed",
+  "cancelled",
+  "rejected",
+  "no_show",
+] as const
+
+export const PAYMENT_STATUSES = [
+  "unpaid",
+  "advance_paid",
+  "pending",
+  "paid",
+  "partially_refunded",
+  "refunded",
+  "failed",
+] as const
+export const PRICING_UNITS = ["per_hour", "per_day", "per_acre", "per_km", "flat"] as const
+export const PAYMENT_METHODS = ["cash", "online", "check", "bank_transfer"] as const
+
+export type BookingState = (typeof BOOKING_STATES)[number]
+export type PaymentStatus = (typeof PAYMENT_STATUSES)[number]
+export type PricingUnit = (typeof PRICING_UNITS)[number]
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number]
+
+// Booking state machine: which states can transition to which
+export const BOOKING_TRANSITIONS: Record<BookingState, BookingState[]> = {
+  requested: ["confirmed", "rejected", "cancelled"],
+  confirmed: ["operator_assigned", "cancelled"],
+  operator_assigned: ["in_progress", "cancelled"],
+  in_progress: ["completed", "no_show", "cancelled"],
+  completed: ["cancelled"],
+  rejected: [],
+  no_show: [],
+  cancelled: [],
+}
+
+// State labels and styling
+export const BOOKING_STATE_LABEL: Record<BookingState, string> = {
+  requested: "Requested",
+  confirmed: "Accepted",
+  operator_assigned: "Operator Assigned",
+  in_progress: "In Progress",
+  completed: "Completed",
+  rejected: "Rejected",
+  no_show: "No Show",
+  cancelled: "Cancelled",
+}
+
+export const BOOKING_STATE_COLOR: Record<BookingState, string> = {
+  requested: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  confirmed: "bg-blue-50 text-blue-700 border-blue-200",
+  operator_assigned: "bg-cyan-50 text-cyan-700 border-cyan-200",
+  in_progress: "bg-green-50 text-green-700 border-green-200",
+  completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  rejected: "bg-red-50 text-red-700 border-red-200",
+  no_show: "bg-gray-50 text-gray-700 border-gray-200",
+  cancelled: "bg-slate-50 text-slate-700 border-slate-200",
+}
+
+export const PAYMENT_STATUS_LABEL: Record<PaymentStatus, string> = {
+  unpaid: "Awaiting Payment",
+  advance_paid: "Advance Paid",
+  pending: "Payment Pending",
+  paid: "Paid",
+  partially_refunded: "Partially Refunded",
+  refunded: "Refunded",
+  failed: "Payment Failed",
+}
+
+export const PRICING_UNIT_LABEL: Record<PricingUnit, string> = {
+  per_hour: "Per Hour",
+  per_day: "Per Day",
+  per_acre: "Per Acre",
+  per_km: "Per Km",
+  flat: "Flat Rate",
+}

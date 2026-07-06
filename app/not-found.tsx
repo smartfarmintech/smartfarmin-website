@@ -30,21 +30,16 @@ export default function NotFound() {
           </p>
 
           <div className="mt-7 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
-            <Button
-              className="w-full rounded-full sm:w-auto"
-              render={<Link href="/app/dashboard" />}
-              nativeButton={false}
-            >
-              <LayoutDashboard className="size-4" /> Go to dashboard
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full rounded-full sm:w-auto"
-              render={<Link href="/" />}
-              nativeButton={false}
-            >
-              <Home className="size-4" /> Back to homepage
-            </Button>
+            <Link href="/app/dashboard">
+              <Button className="w-full rounded-full sm:w-auto">
+                <LayoutDashboard className="size-4" /> Go to dashboard
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button variant="outline" className="w-full rounded-full sm:w-auto">
+                <Home className="size-4" /> Back to homepage
+              </Button>
+            </Link>
           </div>
         </div>
       </main>

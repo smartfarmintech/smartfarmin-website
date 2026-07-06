@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect } from "react"
 import Link from "next/link"
 import { AlertTriangle, Home, RotateCcw } from "lucide-react"
 import { BrandMark } from "@/components/rythu360/status-screens"
@@ -13,9 +12,6 @@ export default function RootError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  useEffect(() => {
-    console.log("[v0] Root error:", error.message)
-  }, [error])
 
   return (
     <div className="flex min-h-svh flex-col bg-background">
@@ -48,14 +44,11 @@ export default function RootError({
             <Button onClick={reset} className="w-full rounded-full sm:w-auto">
               <RotateCcw className="size-4" /> Try again
             </Button>
-            <Button
-              variant="outline"
-              className="w-full rounded-full sm:w-auto"
-              render={<Link href="/" />}
-              nativeButton={false}
-            >
-              <Home className="size-4" /> Go home
-            </Button>
+            <Link href="/">
+              <Button variant="outline" className="w-full rounded-full sm:w-auto">
+                <Home className="size-4" /> Go home
+              </Button>
+            </Link>
           </div>
         </div>
       </main>

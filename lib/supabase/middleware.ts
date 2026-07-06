@@ -27,20 +27,31 @@ export async function updateSession(request: NextRequest) {
   const user = data?.claims
 
   const path = request.nextUrl.pathname
-  const isProtected = path.startsWith("/farmer") && path !== "/farmer/login"
 
-  if (isProtected && !user) {
-    const url = request.nextUrl.clone()
-    url.pathname = "/farmer/login"
-    url.searchParams.set("redirectTo", path)
-    return NextResponse.redirect(url)
-  }
+  // Each module has its own auth surface (login/register) and home.
+  const modules = [
+    { base: "/farmer", login: "/farmer/login", register: "/farmer/register" },
+    { base: "/operator", login: "/operator/login", register: "/operator/register" },
+  ]
+  const active = modules.find((m) => path.startsWith(m.base))
 
-  if (path === "/farmer/login" && user) {
-    const url = request.nextUrl.clone()
-    url.pathname = "/farmer"
-    url.search = ""
-    return NextResponse.redirect(url)
+  if (active) {
+    const isPublic = path === active.login || path === active.register
+    const isProtected = !isPublic
+
+    if (isProtected && !user) {
+      const url = request.nextUrl.clone()
+      url.pathname = active.login
+      url.searchParams.set("redirectTo", path)
+      return NextResponse.redirect(url)
+    }
+
+    if (isPublic && user) {
+      const url = request.nextUrl.clone()
+      url.pathname = active.base
+      url.search = ""
+      return NextResponse.redirect(url)
+    }
   }
 
   return supabaseResponse
