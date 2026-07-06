@@ -302,12 +302,14 @@ export async function upsertCropData(input: unknown, id?: string): Promise<Actio
 }
 
 export async function saveWeatherPreferences(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const isOn = (v: FormDataEntryValue | null) => v === "on" || v === "true"
   const parsed = weatherPrefsSchema.safeParse({
-    alertsEnabled: formData.get("alertsEnabled") === "on" || formData.get("alertsEnabled") === "true",
-    rainfallAlerts: formData.get("rainfallAlerts") === "on" || formData.get("rainfallAlerts") === "true",
-    temperatureAlerts: formData.get("temperatureAlerts") === "on" || formData.get("temperatureAlerts") === "true",
-    windAlerts: formData.get("windAlerts") === "on" || formData.get("windAlerts") === "true",
-    temperatureUnit: formData.get("temperatureUnit"),
+    alertsEnabled: isOn(formData.get("alerts_enabled")),
+    rainfallAlerts: isOn(formData.get("rainfall_alerts")),
+    temperatureAlerts: isOn(formData.get("temperature_alerts")),
+    windAlerts: isOn(formData.get("wind_alerts")),
+    temperatureUnit: formData.get("temperature_unit"),
+    preferredTime: formData.get("preferred_time"),
     latitude: formData.get("latitude"),
     longitude: formData.get("longitude"),
   })
@@ -324,6 +326,7 @@ export async function saveWeatherPreferences(_prev: ActionState, formData: FormD
       temperature_alerts: parsed.data.temperatureAlerts,
       wind_alerts: parsed.data.windAlerts,
       temperature_unit: parsed.data.temperatureUnit,
+      preferred_time: parsed.data.preferredTime,
       latitude: parsed.data.latitude,
       longitude: parsed.data.longitude,
     })

@@ -102,6 +102,7 @@ export const weatherPrefsSchema = z.object({
   temperatureAlerts: z.coerce.boolean(),
   windAlerts: z.coerce.boolean(),
   temperatureUnit: z.enum(TEMPERATURE_UNITS),
+  preferredTime: optionalString,
   latitude: optionalNumber,
   longitude: optionalNumber,
 })
