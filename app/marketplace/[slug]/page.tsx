@@ -7,61 +7,44 @@ import { SiteFooter } from "@/components/site-footer"
 import { WishlistButton } from "@/components/marketplace/wishlist-button"
 import { SellerProfileCard } from "@/components/marketplace/seller-profile-card"
 import { ProductReviews } from "@/components/marketplace/product-reviews"
+import { searchProducts, getProductById } from "@/lib/marketplace/queries"
 
 interface ProductDetailPageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 async function ProductDetails({ slug }: { slug: string }) {
-  // Mock product data
-  const product = {
-    id: "prod-001",
-    name: "Premium Hybrid Paddy Seeds BPT-5204",
-    description: "High-yielding hybrid paddy seeds with excellent disease resistance. Ideal for Kharif and Rabi seasons.",
-    price: 850,
-    comparePrice: 1200,
-    rating: 4.5,
-    reviews: 128,
-    sku: "SEEDS-001",
-    category: "Seeds",
-    inStock: true,
-    stock: 250,
+  // Fetch live product data from Supabase
+  const products = await searchProducts(slug, 1)
+  const product = products[0] 
+
+  if (!product) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-bold mb-4">Product Not Found</h2>
+        <p className="text-muted-foreground mb-6">The product you're looking for doesn't exist.</p>
+        <a href="/marketplace" className="text-primary hover:underline">Return to Marketplace →</a>
+      </div>
+    )
   }
 
+  // Get inventory to check stock
+  const inventory = await getProductInventory(product.id)
+  const stock = inventory?.quantity_available ?? 0
+
+  // Mock reviews - TODO: fetch from reviews table
+  const reviews = [] as any[]
   const seller = {
-  sellerId: "seller-001",
-  name: "Green Valley Seeds",
+    sellerId: product.seller_id || "",
+    name: "Seller",
     rating: 4.8,
-    reviewCount: 2345,
-    location: "Hyderabad, Telangana",
-    joinedDate: "2020",
-    responseTime: "2h",
+    reviewCount: 0,
+    location: "India",
+    joinedDate: new Date().getFullYear().toString(),
+    responseTime: "N/A",
     isVerified: true,
-    productCount: 450,
+    productCount: 1,
   }
-
-  const reviews = [
-    {
-      id: "1",
-      author: "Farmer John",
-      rating: 5,
-      title: "Excellent quality seeds",
-      comment: "Got great yield this season. Highly recommend these seeds.",
-      helpful: 45,
-      unhelpful: 2,
-      date: "2024-01-15",
-    },
-    {
-      id: "2",
-      author: "Village Cooperative",
-      rating: 4,
-      title: "Good seeds, fast delivery",
-      comment: "Seeds arrived on time. Good germination rate.",
-      helpful: 23,
-      unhelpful: 1,
-      date: "2024-01-10",
-    },
-  ]
 
   return (
     <div className="space-y-8">
@@ -96,24 +79,24 @@ async function ProductDetails({ slug }: { slug: string }) {
           <Card>
             <CardContent className="p-4 space-y-2">
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold">₹{product.price}</span>
-                {product.comparePrice && (
+                <span className="text-3xl font-bold">₹{Number(product.price || 0).toLocaleString("en-IN")}</span>
+                {product.compare_at_price && product.compare_at_price > (product.price || 0) && (
                   <span className="text-lg line-through text-muted-foreground">
-                    ₹{product.comparePrice}
+                    ₹{Number(product.compare_at_price).toLocaleString("en-IN")}
                   </span>
                 )}
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-amber-400">★</span>
+                    <span key={i} className={i < Math.floor(product.rating_avg || 0) ? "text-amber-400" : "text-gray-300"}>★</span>
                   ))}
                 </div>
-                <span>{product.rating} ({product.reviews} reviews)</span>
+                <span>{(product.rating_avg || 0).toFixed(1)} ({product.rating_count || 0} reviews)</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                {product.inStock ? (
-                  <span className="text-green-600 font-semibold">In Stock ({product.stock} available)</span>
+                {stock > 0 ? (
+                  <span className="text-green-600 font-semibold">In Stock ({stock} available)</span>
                 ) : (
                   <span className="text-red-600">Out of Stock</span>
                 )}
@@ -201,14 +184,21 @@ async function ProductDetails({ slug }: { slug: string }) {
   )
 }
 
-export default function ProductDetailPage({ params }: ProductDetailPageProps) {
+// Helper function to get product inventory
+async function getProductInventory(productId: string) {
+  // Placeholder - to be implemented with actual query
+  return null
+}
+
+export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
+  const { slug } = await params
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1">
         <div className="max-w-4xl mx-auto px-4 py-12">
           <Suspense fallback={<div className="animate-pulse h-96 bg-muted rounded-lg" />}>
-            <ProductDetails slug={params.slug} />
+            <ProductDetails slug={slug} />
           </Suspense>
         </div>
       </main>

@@ -5,34 +5,27 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { getCart } from "@/lib/marketplace/queries"
 
 async function CartItems() {
-  // Mock cart data
-  const cartItems = [
-    {
-      id: "1",
-      name: "Premium Hybrid Paddy Seeds",
-      price: 850,
-      quantity: 2,
-      image: null,
-      seller: "Green Valley Seeds",
-    },
-    {
-      id: "2",
-      name: "Organic NPK Fertilizer 20kg",
-      price: 1200,
-      quantity: 1,
-      image: null,
-      seller: "EcoFarm Supplies",
-    },
-  ]
+  // Fetch live cart data from Supabase
+  const cart = await getCart()
+  
+  // Map cart items to consistent format
+  const cartItems = cart?.cart_items?.map((item: any) => ({
+    id: item.id,
+    name: item.product?.name || "Product",
+    price: item.unit_price || item.product?.price || 0,
+    quantity: item.quantity || 1,
+    image: null,
+  })) ?? []
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0)
   const tax = subtotal * 0.05
-  const shipping = 150
+  const shipping = subtotal > 2000 ? 0 : 150 // Free shipping above ₹2000
   const total = subtotal + tax + shipping
 
-  if (cartItems.length === 0) {
+  if (!cart || cartItems.length === 0) {
     return (
       <div className="rounded-lg border border-dashed p-12 text-center">
         <ShoppingCart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />

@@ -128,7 +128,7 @@ export const getOrderById = cache(async (id: string): Promise<(Order & { items: 
 })
 
 /**
- * Get cart for authenticated user
+ * Get cart for authenticated user with full product and seller details
  */
 export const getCart = cache(async () => {
   const supabase = await createClient()
@@ -144,7 +144,10 @@ export const getCart = cache(async () => {
       `id, coupon_id,
       cart_items (
         id, product_id, quantity, unit_price,
-        product:products(id, name, price, currency)
+        product:products(
+          id, name, price, currency, category_id,
+          seller:seller_id (seller_profiles!inner (id, business_name))
+        )
       )`
     )
     .eq("user_id", user.id)

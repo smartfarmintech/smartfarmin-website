@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { cn } from "@/lib/utils"
+import { getUserOrders } from "@/lib/marketplace/queries"
+import type { Order as OrderType } from "@/lib/marketplace/types"
 
 const STATUS_CONFIG = {
   pending: { color: "bg-yellow-100 text-yellow-800", icon: AlertCircle, label: "Pending" },
@@ -15,55 +17,9 @@ const STATUS_CONFIG = {
   cancelled: { color: "bg-red-100 text-red-800", icon: AlertCircle, label: "Cancelled" },
 }
 
-interface Order {
-  id: string
-  orderNumber: string
-  date: string
-  status: keyof typeof STATUS_CONFIG
-  total: number
-  items: Array<{
-    id: string
-    name: string
-    quantity: number
-    price: number
-  }>
-}
-
 async function OrdersList() {
-  // Mock orders data
-  const orders: Order[] = [
-    {
-      id: "1",
-      orderNumber: "ORD-2024-001",
-      date: "2024-01-20",
-      status: "delivered",
-      total: 2850,
-      items: [
-        { id: "1", name: "Premium Hybrid Paddy Seeds", quantity: 2, price: 850 },
-        { id: "2", name: "Organic NPK Fertilizer", quantity: 1, price: 1200 },
-      ],
-    },
-    {
-      id: "2",
-      orderNumber: "ORD-2024-002",
-      date: "2024-01-22",
-      status: "shipped",
-      total: 4500,
-      items: [
-        { id: "3", name: "Pesticide Spray - 5L", quantity: 1, price: 4500 },
-      ],
-    },
-    {
-      id: "3",
-      orderNumber: "ORD-2024-003",
-      date: "2024-01-25",
-      status: "confirmed",
-      total: 6200,
-      items: [
-        { id: "4", name: "Farm Equipment Kit", quantity: 1, price: 6200 },
-      ],
-    },
-  ]
+  // Fetch live orders from Supabase
+  const orders = await getUserOrders()
 
   if (orders.length === 0) {
     return (
@@ -78,16 +34,17 @@ async function OrdersList() {
   return (
     <div className="space-y-4">
       {orders.map((order) => {
-        const statusConfig = STATUS_CONFIG[order.status]
+        const statusKey = (order.order_status?.toLowerCase() || "pending") as keyof typeof STATUS_CONFIG
+        const statusConfig = STATUS_CONFIG[statusKey] || STATUS_CONFIG.pending
         const Icon = statusConfig.icon
         return (
           <Card key={order.id}>
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div>
-                  <CardTitle className="text-base">{order.orderNumber}</CardTitle>
+                  <CardTitle className="text-base">{order.order_number || "Order"}</CardTitle>
                   <CardDescription>
-                    Placed on {new Date(order.date).toLocaleDateString("en-IN")}
+                    Placed on {order.placed_at ? new Date(order.placed_at).toLocaleDateString("en-IN") : "N/A"}
                   </CardDescription>
                 </div>
                 <Badge className={statusConfig.color} variant="secondary">
@@ -97,34 +54,42 @@ async function OrdersList() {
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Items */}
-              <div className="space-y-2">
-                {order.items.map((item) => (
-                  <div key={item.id} className="flex justify-between text-sm">
-                    <span>{item.name} (x{item.quantity})</span>
-                    <span className="font-medium">₹{(item.price * item.quantity).toLocaleString("en-IN")}</span>
-                  </div>
-                ))}
+              {/* Summary */}
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Subtotal</span>
+                  <span>₹{(order.subtotal || 0).toLocaleString("en-IN")}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Tax</span>
+                  <span>₹{(order.tax_amount || 0).toLocaleString("en-IN")}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Shipping</span>
+                  <span>₹{(order.shipping_amount || 0).toLocaleString("en-IN")}</span>
+                </div>
               </div>
 
               {/* Total */}
               <div className="border-t pt-3 flex justify-between font-semibold">
                 <span>Total</span>
-                <span>₹{order.total.toLocaleString("en-IN")}</span>
+                <span>₹{(order.total_amount || 0).toLocaleString("en-IN")}</span>
               </div>
 
               {/* Actions */}
               <div className="flex gap-2 pt-2">
-                <Button size="sm" variant="outline" className="gap-2">
-                  <Eye className="h-4 w-4" />
-                  View Details
+                <Button size="sm" variant="outline" className="gap-2" asChild>
+                  <a href={`/marketplace/orders/${order.id}`}>
+                    <Eye className="h-4 w-4" />
+                    View Details
+                  </a>
                 </Button>
-                {order.status === "delivered" && (
+                {statusKey === "delivered" && (
                   <Button size="sm" variant="outline">
                     Leave Review
                   </Button>
                 )}
-                {order.status !== "delivered" && order.status !== "cancelled" && (
+                {statusKey !== "delivered" && statusKey !== "cancelled" && (
                   <Button size="sm" variant="outline">
                     Track Order
                   </Button>

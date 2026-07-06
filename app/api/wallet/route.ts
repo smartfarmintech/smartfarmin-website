@@ -42,55 +42,8 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * GET /api/wallet/transactions
- * Get wallet transaction history
- */
-export async function GET_TRANSACTIONS(request: NextRequest) {
-  try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const page = parseInt(searchParams.get("page") || "1")
-    const limit = parseInt(searchParams.get("limit") || "20")
-
-    const from = (page - 1) * limit
-
-    const { data: transactions, error, count } = await supabase
-      .from("wallet_transactions")
-      .select("*", { count: "exact" })
-      .eq("user_id", user.id)
-      .range(from, from + limit - 1)
-      .order("created_at", { ascending: false })
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
-
-    return NextResponse.json({
-      data: transactions,
-      pagination: {
-        page,
-        limit,
-        total: count || 0,
-        pages: Math.ceil((count || 0) / limit),
-      },
-    })
-  } catch (error) {
-    console.error("[v0] Get transactions error:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
-  }
-}
-
-/**
- * POST /api/wallet/topup
- * Top up wallet (create credit transaction)
+ * POST /api/wallet/transaction
+ * Create wallet transaction (credit or debit)
  */
 export async function POST(request: NextRequest) {
   try {
