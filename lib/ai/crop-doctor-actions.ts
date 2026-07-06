@@ -168,16 +168,13 @@ export async function analyzeCropDisease(
           })
         ),
       }),
+      system:
+        "You are an expert agricultural plant pathologist for Indian farming conditions. " +
+        "Analyze the crop leaf/plant image and identify any diseases. Provide practical, " +
+        "India-appropriate treatments with products available to smallholder farmers, dosages, " +
+        "timing, precautions, and realistic INR cost estimates. If the plant is healthy, return " +
+        "an empty diseases array and healthy=true. Only report diseases you can actually observe.",
       messages: [
-        {
-          role: "system",
-          content:
-            "You are an expert agricultural plant pathologist for Indian farming conditions. " +
-            "Analyze the crop leaf/plant image and identify any diseases. Provide practical, " +
-            "India-appropriate treatments with products available to smallholder farmers, dosages, " +
-            "timing, precautions, and realistic INR cost estimates. If the plant is healthy, return " +
-            "an empty diseases array and healthy=true. Only report diseases you can actually observe.",
-        },
         {
           role: "user",
           content: [
@@ -245,20 +242,12 @@ export async function analyzeNutrientDeficiency(
           })
         ),
       }),
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are an expert soil and plant-nutrition agronomist for Indian farming. Given a crop " +
-            "and its growth stage, identify the most likely nutrient deficiencies at that stage, with " +
-            "typical visible symptoms, root causes, and a corrective fertilization plan using products " +
-            "available in India with realistic INR costs. Rank by likelihood; return at most 3.",
-        },
-        {
-          role: "user",
-          content: `Crop: ${cropType}. Growth stage: ${cropStage}. What nutrient deficiencies are most likely and how should they be corrected?`,
-        },
-      ],
+      system:
+        "You are an expert soil and plant-nutrition agronomist for Indian farming. Given a crop " +
+        "and its growth stage, identify the most likely nutrient deficiencies at that stage, with " +
+        "typical visible symptoms, root causes, and a corrective fertilization plan using products " +
+        "available in India with realistic INR costs. Rank by likelihood; return at most 3.",
+      prompt: `Crop: ${cropType}. Growth stage: ${cropStage}. What nutrient deficiencies are most likely and how should they be corrected?`,
     })
 
     return { ok: true, data: object.deficiencies as DeficiencyAnalysis[] }
@@ -302,20 +291,12 @@ export async function analyzePestInfestation(
           })
         ),
       }),
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are an integrated pest management (IPM) specialist for Indian agriculture. For the " +
-            "given crop, list the pests that pose the highest risk this season with cultural, biological, " +
-            "and chemical control options. Prefer IPM/organic first; include India-available chemical " +
-            "products with dosage, frequency, safety period (days), and INR cost. Return at most 3 pests.",
-        },
-        {
-          role: "user",
-          content: `Crop: ${cropType}. What are the highest-risk pests and how should the farmer manage them?`,
-        },
-      ],
+      system:
+        "You are an integrated pest management (IPM) specialist for Indian agriculture. For the " +
+        "given crop, list the pests that pose the highest risk this season with cultural, biological, " +
+        "and chemical control options. Prefer IPM/organic first; include India-available chemical " +
+        "products with dosage, frequency, safety period (days), and INR cost. Return at most 3 pests.",
+      prompt: `Crop: ${cropType}. What are the highest-risk pests and how should the farmer manage them?`,
     })
 
     return { ok: true, data: object.pests as PestAnalysis[] }
