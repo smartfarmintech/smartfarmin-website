@@ -93,7 +93,7 @@ export async function getCropCycles(farmerId: string): Promise<CropCycle[]> {
     )
     .eq("farmer_id", farmerId)
     .order("created_at", { ascending: false })
-  return (data as CropCycle[]) ?? []
+  return (data as unknown as CropCycle[]) ?? []
 }
 
 export async function getWeatherPreferences(farmerId: string): Promise<WeatherPreferences | null> {
