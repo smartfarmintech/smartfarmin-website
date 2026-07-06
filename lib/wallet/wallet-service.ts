@@ -133,7 +133,7 @@ export async function addWalletTransaction(
       })
       .eq("id", wallet.id)
 
-    revalidateTag("wallet")
+    revalidateTag("wallet", "max")
     return { ok: true, transaction }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to add transaction" }
@@ -175,7 +175,7 @@ export async function rechargeWallet(data: z.infer<typeof WalletRechargeSchema>)
 
     if (paymentError) throw paymentError
 
-    revalidateTag("wallet")
+    revalidateTag("wallet", "max")
     return { ok: true, paymentRequest }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to recharge wallet" }
@@ -242,7 +242,7 @@ export async function requestWithdrawal(
       })
       .eq("id", wallet.id)
 
-    revalidateTag("wallet")
+    revalidateTag("wallet", "max")
     return { ok: true, withdrawal }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to request withdrawal" }
