@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { AnimatePresence, motion } from "motion/react"
-import { Bell, Leaf, LogOut, Menu, Search, Sprout, X } from "lucide-react"
+import { Bell, Leaf, LogOut, Menu, Search, Settings, Sprout, X } from "lucide-react"
 import { getRole } from "@/lib/rythu360/roles"
 import { useSession } from "@/components/rythu360/session-provider"
 import { ThemeToggle } from "@/components/rythu360/theme-toggle"
@@ -141,6 +141,16 @@ export function AppShell() {
                 <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />
               </Button>
               <ThemeToggle />
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Settings"
+                className="rounded-full"
+                render={<Link href="/app/settings" />}
+                nativeButton={false}
+              >
+                <Settings className="size-4" />
+              </Button>
               <Link
                 href="/app/profile"
                 aria-label="Open profile"
