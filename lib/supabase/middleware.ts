@@ -27,7 +27,9 @@ export async function updateSession(request: NextRequest) {
   const user = data?.claims
 
   const path = request.nextUrl.pathname
-  const isProtected = path.startsWith("/farmer") && path !== "/farmer/login"
+  const publicPaths = ["/farmer/login", "/farmer/register"]
+  const isPublic = publicPaths.includes(path)
+  const isProtected = path.startsWith("/farmer") && !isPublic
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone()
@@ -36,7 +38,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  if (path === "/farmer/login" && user) {
+  if (isPublic && user) {
     const url = request.nextUrl.clone()
     url.pathname = "/farmer"
     url.search = ""

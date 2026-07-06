@@ -1,0 +1,411 @@
+"use server"
+
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
+import { createClient } from "@/lib/supabase/server"
+import {
+  cropCycleSchema,
+  documentSchema,
+  landSchema,
+  loginSchema,
+  profileSchema,
+  registerSchema,
+  topupSchema,
+  weatherPrefsSchema,
+} from "./schemas"
+
+export type ActionState = { ok: boolean; error?: string; fieldErrors?: Record<string, string> } | null
+
+function flattenFieldErrors(error: { flatten: () => { fieldErrors: Record<string, string[] | undefined> } }) {
+  const fe = error.flatten().fieldErrors
+  const out: Record<string, string> = {}
+  for (const [k, v] of Object.entries(fe)) if (v && v[0]) out[k] = v[0]
+  return out
+}
+
+/**
+ * Idempotently creates the rows a farmer needs: user_profile, farmer, wallet,
+ * and weather preferences. Safe to call on every authenticated page load.
+ */
+export async function ensureFarmerBootstrap(): Promise<void> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return
+
+  const meta = (user.user_metadata ?? {}) as Record<string, unknown>
+
+  // user_profiles (PK = auth uid)
+  await supabase
+    .from("user_profiles")
+    .upsert(
+      {
+        id: user.id,
+        email: user.email ?? null,
+        full_name: (meta.full_name as string) ?? null,
+        phone: (meta.phone as string) ?? null,
+      },
+      { onConflict: "id", ignoreDuplicates: true },
+    )
+
+  // farmers (one per user)
+  const { data: farmer } = await supabase.from("farmers").select("id").eq("user_id", user.id).maybeSingle()
+  let farmerId = farmer?.id as string | undefined
+  if (!farmerId) {
+    const { data: inserted } = await supabase
+      .from("farmers")
+      .insert({
+        user_id: user.id,
+        farmer_type: (meta.farmer_type as string) ?? "owner",
+        experience_years: Number(meta.experience_years ?? 0),
+      })
+      .select("id")
+      .single()
+    farmerId = inserted?.id as string | undefined
+  }
+
+  // wallet (one per user)
+  const { data: wallet } = await supabase.from("wallets").select("id").eq("user_id", user.id).maybeSingle()
+  if (!wallet) {
+    await supabase.from("wallets").insert({ user_id: user.id })
+  }
+
+  // weather preferences (one per farmer)
+  if (farmerId) {
+    const { data: prefs } = await supabase
+      .from("weather_preferences")
+      .select("id")
+      .eq("farmer_id", farmerId)
+      .maybeSingle()
+    if (!prefs) {
+      await supabase.from("weather_preferences").insert({ farmer_id: farmerId })
+    }
+  }
+}
+
+export async function registerFarmer(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = registerSchema.safeParse({
+    fullName: formData.get("fullName"),
+    email: formData.get("email"),
+    phone: formData.get("phone"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+    farmerType: formData.get("farmerType"),
+    experienceYears: formData.get("experienceYears"),
+  })
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.signUp({
+    email: parsed.data.email,
+    password: parsed.data.password,
+    options: {
+      data: {
+        full_name: parsed.data.fullName,
+        phone: parsed.data.phone,
+        farmer_type: parsed.data.farmerType,
+        experience_years: parsed.data.experienceYears,
+      },
+    },
+  })
+  if (error) return { ok: false, error: error.message }
+
+  // If email confirmation is disabled, a session exists now.
+  if (!data.session) {
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: parsed.data.email,
+      password: parsed.data.password,
+    })
+    if (signInError) {
+      return { ok: false, error: "Account created. Please check your email to confirm, then log in." }
+    }
+  }
+
+  await ensureFarmerBootstrap()
+  redirect("/farmer")
+}
+
+export async function loginFarmer(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = loginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  })
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.signInWithPassword({
+    email: parsed.data.email,
+    password: parsed.data.password,
+  })
+  if (error) return { ok: false, error: "Invalid email or password." }
+
+  await ensureFarmerBootstrap()
+  redirect("/farmer")
+}
+
+export async function logoutFarmer(): Promise<void> {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect("/farmer/login")
+}
+
+async function currentFarmerId(): Promise<string | null> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return null
+  const { data } = await supabase.from("farmers").select("id").eq("user_id", user.id).maybeSingle()
+  return (data?.id as string) ?? null
+}
+
+export async function updateProfile(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = profileSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return { ok: false, error: "Not authenticated" }
+
+  const { error } = await supabase
+    .from("user_profiles")
+    .update({
+      full_name: parsed.data.fullName,
+      phone: parsed.data.phone,
+      bio: parsed.data.bio,
+      pincode: parsed.data.pincode,
+      address_line1: parsed.data.addressLine1,
+      preferred_language: parsed.data.preferredLanguage,
+    })
+    .eq("id", user.id)
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/profile")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
+
+export async function createLand(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = landSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+  const farmerId = await currentFarmerId()
+  if (!farmerId) return { ok: false, error: "No farmer profile found" }
+
+  const supabase = await createClient()
+  const { error } = await supabase.from("lands").insert({
+    farmer_id: farmerId,
+    land_name: parsed.data.landName,
+    survey_number: parsed.data.surveyNumber,
+    area_value: parsed.data.areaValue,
+    area_unit: parsed.data.areaUnit,
+    ownership_type: parsed.data.ownershipType,
+    land_type: parsed.data.landType,
+    soil_type: parsed.data.soilType ?? null,
+    water_source: parsed.data.waterSource ?? null,
+    latitude: parsed.data.latitude,
+    longitude: parsed.data.longitude,
+  })
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/crops")
+  revalidatePath("/farmer/lands")
+  return { ok: true }
+}
+
+export async function saveCropCycle(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = cropCycleSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+  const farmerId = await currentFarmerId()
+  if (!farmerId) return { ok: false, error: "No farmer profile found" }
+
+  const supabase = await createClient()
+  const id = formData.get("id") as string | null
+  const payload = {
+    farmer_id: farmerId,
+    land_id: parsed.data.landId,
+    crop_name: parsed.data.cropName,
+    variety: parsed.data.variety,
+    season: parsed.data.season,
+    status: parsed.data.status,
+    sowing_date: parsed.data.sowingDate,
+    expected_harvest_date: parsed.data.expectedHarvestDate,
+    actual_harvest_date: parsed.data.actualHarvestDate,
+    area_value: parsed.data.areaValue,
+    area_unit: parsed.data.areaUnit,
+    expected_yield: parsed.data.expectedYield,
+    actual_yield: parsed.data.actualYield,
+    yield_unit: parsed.data.yieldUnit,
+    seed_source: parsed.data.seedSource,
+  }
+
+  const { error } = id
+    ? await supabase.from("crop_cycles").update(payload).eq("id", id).eq("farmer_id", farmerId)
+    : await supabase.from("crop_cycles").insert(payload)
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/crops")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
+
+export async function deleteCropCycle(id: string): Promise<ActionState> {
+  const farmerId = await currentFarmerId()
+  if (!farmerId) return { ok: false, error: "No farmer profile found" }
+  const supabase = await createClient()
+  const { error } = await supabase.from("crop_cycles").delete().eq("id", id).eq("farmer_id", farmerId)
+  if (error) return { ok: false, error: error.message }
+  revalidatePath("/farmer/crops")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
+
+/**
+ * Object-based crop upsert used by the client manager for optimistic writes and
+ * offline queue replay. `id` present => update, otherwise insert.
+ */
+export async function upsertCropData(input: unknown, id?: string): Promise<ActionState> {
+  const parsed = cropCycleSchema.safeParse(input)
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+  const farmerId = await currentFarmerId()
+  if (!farmerId) return { ok: false, error: "No farmer profile found" }
+
+  const supabase = await createClient()
+  const payload = {
+    farmer_id: farmerId,
+    land_id: parsed.data.landId,
+    crop_name: parsed.data.cropName,
+    variety: parsed.data.variety,
+    season: parsed.data.season,
+    status: parsed.data.status,
+    sowing_date: parsed.data.sowingDate,
+    expected_harvest_date: parsed.data.expectedHarvestDate,
+    actual_harvest_date: parsed.data.actualHarvestDate,
+    area_value: parsed.data.areaValue,
+    area_unit: parsed.data.areaUnit,
+    expected_yield: parsed.data.expectedYield,
+    actual_yield: parsed.data.actualYield,
+    yield_unit: parsed.data.yieldUnit,
+    seed_source: parsed.data.seedSource,
+  }
+
+  const { error } = id
+    ? await supabase.from("crop_cycles").update(payload).eq("id", id).eq("farmer_id", farmerId)
+    : await supabase.from("crop_cycles").insert(payload)
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/crops")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
+
+export async function saveWeatherPreferences(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = weatherPrefsSchema.safeParse({
+    alertsEnabled: formData.get("alertsEnabled") === "on" || formData.get("alertsEnabled") === "true",
+    rainfallAlerts: formData.get("rainfallAlerts") === "on" || formData.get("rainfallAlerts") === "true",
+    temperatureAlerts: formData.get("temperatureAlerts") === "on" || formData.get("temperatureAlerts") === "true",
+    windAlerts: formData.get("windAlerts") === "on" || formData.get("windAlerts") === "true",
+    temperatureUnit: formData.get("temperatureUnit"),
+    latitude: formData.get("latitude"),
+    longitude: formData.get("longitude"),
+  })
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+  const farmerId = await currentFarmerId()
+  if (!farmerId) return { ok: false, error: "No farmer profile found" }
+
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from("weather_preferences")
+    .update({
+      alerts_enabled: parsed.data.alertsEnabled,
+      rainfall_alerts: parsed.data.rainfallAlerts,
+      temperature_alerts: parsed.data.temperatureAlerts,
+      wind_alerts: parsed.data.windAlerts,
+      temperature_unit: parsed.data.temperatureUnit,
+      latitude: parsed.data.latitude,
+      longitude: parsed.data.longitude,
+    })
+    .eq("farmer_id", farmerId)
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/weather")
+  return { ok: true }
+}
+
+export async function topUpWallet(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = topupSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return { ok: false, error: "Not authenticated" }
+
+  const { data: wallet } = await supabase.from("wallets").select("id, balance").eq("user_id", user.id).maybeSingle()
+  if (!wallet) return { ok: false, error: "Wallet not found" }
+
+  const { error } = await supabase.from("wallet_transactions").insert({
+    wallet_id: wallet.id,
+    user_id: user.id,
+    txn_type: "credit",
+    category: "topup",
+    txn_status: "completed",
+    amount: parsed.data.amount,
+    description: parsed.data.description ?? "Wallet top-up",
+  })
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/finance")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
+
+export async function addDocument(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = documentSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return { ok: false, fieldErrors: flattenFieldErrors(parsed.error) }
+  const farmerId = await currentFarmerId()
+  if (!farmerId) return { ok: false, error: "No farmer profile found" }
+
+  const supabase = await createClient()
+  const { error } = await supabase.from("farm_documents").insert({
+    farmer_id: farmerId,
+    land_id: parsed.data.landId,
+    document_type: parsed.data.documentType,
+    title: parsed.data.title,
+    file_url: parsed.data.fileUrl,
+    issued_by: parsed.data.issuedBy,
+    issue_date: parsed.data.issueDate,
+    expiry_date: parsed.data.expiryDate,
+  })
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/documents")
+  return { ok: true }
+}
+
+export async function markNotificationRead(id: string): Promise<ActionState> {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from("notifications")
+    .update({ status: "read", read_at: new Date().toISOString() })
+    .eq("id", id)
+  if (error) return { ok: false, error: error.message }
+  revalidatePath("/farmer/notifications")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
+
+export async function markAllNotificationsRead(): Promise<ActionState> {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from("notifications")
+    .update({ status: "read", read_at: new Date().toISOString() })
+    .eq("status", "unread")
+  if (error) return { ok: false, error: error.message }
+  revalidatePath("/farmer/notifications")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
