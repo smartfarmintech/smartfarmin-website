@@ -67,7 +67,7 @@ export const profileSchema = z.object({
 })
 
 export const landSchema = z.object({
-  landName: optionalString,
+  landName: z.string().trim().min(1, "Land name is required"),
   surveyNumber: optionalString,
   areaValue: z.coerce.number().positive("Area must be greater than 0"),
   areaUnit: z.enum(AREA_UNITS),

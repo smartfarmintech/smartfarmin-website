@@ -1,11 +1,12 @@
-import { requireFarmer, getUserProfile } from "@/lib/farmer/queries"
+import { requireFarmer, getUserProfile, getLands } from "@/lib/farmer/queries"
 import { ProfileForm } from "@/components/farmer/profile-form"
+import { LandsManager } from "@/components/farmer/lands-manager"
 
 export const dynamic = "force-dynamic"
 
 export default async function ProfilePage() {
   const { farmer } = await requireFarmer()
-  const profile = await getUserProfile()
+  const [profile, lands] = await Promise.all([getUserProfile(), getLands(farmer.id)])
 
   return (
     <div className="space-y-6">
@@ -14,6 +15,7 @@ export default async function ProfilePage() {
         <p className="text-sm text-muted-foreground">Manage your personal information and account details.</p>
       </header>
       <ProfileForm profile={profile} farmer={farmer} />
+      <LandsManager lands={lands} />
     </div>
   )
 }

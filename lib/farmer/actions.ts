@@ -211,7 +211,20 @@ export async function createLand(_prev: ActionState, formData: FormData): Promis
   if (error) return { ok: false, error: error.message }
 
   revalidatePath("/farmer/crops")
-  revalidatePath("/farmer/lands")
+  revalidatePath("/farmer/profile")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
+
+export async function deleteLand(id: string): Promise<ActionState> {
+  const farmerId = await currentFarmerId()
+  if (!farmerId) return { ok: false, error: "No farmer profile found" }
+  const supabase = await createClient()
+  const { error } = await supabase.from("lands").delete().eq("id", id).eq("farmer_id", farmerId)
+  if (error) return { ok: false, error: error.message }
+  revalidatePath("/farmer/crops")
+  revalidatePath("/farmer/profile")
+  revalidatePath("/farmer")
   return { ok: true }
 }
 
