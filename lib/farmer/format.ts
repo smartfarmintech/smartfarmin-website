@@ -31,3 +31,26 @@ export function relativeTime(value: string | null | undefined): string {
   if (abs < 86400000) return rtf.format(hours, "hour")
   return rtf.format(days, "day")
 }
+
+// Machinery & Booking Formatters
+
+export function formatMachineRate(rate: number, unit: string, currency = "₹"): string {
+  return `${currency}${rate.toFixed(0)} ${unit}`
+}
+
+export function formatBookingAmount(amount: number, currency = "₹"): string {
+  return `${currency}${amount.toFixed(2)}`
+}
+
+export function formatBookingDuration(startsAt: string, endsAt: string): string {
+  const start = new Date(startsAt)
+  const end = new Date(endsAt)
+  const diffMs = end.getTime() - start.getTime()
+  const days = Math.floor(diffMs / 86400000)
+  const hours = Math.floor((diffMs % 86400000) / 3600000)
+
+  if (days > 0) {
+    return `${days}d ${hours}h`
+  }
+  return `${hours}h`
+}

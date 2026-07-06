@@ -2,10 +2,14 @@ import { cache } from "react"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import type {
+  Booking,
+  BookingWithMachine,
   CropCycle,
   Farmer,
   FarmDocument,
   Land,
+  MachineCatalogItem,
+  MachineDetail,
   NotificationItem,
   UserProfile,
   Wallet,
@@ -156,4 +160,118 @@ export async function getDocuments(farmerId: string): Promise<FarmDocument[]> {
     .eq("farmer_id", farmerId)
     .order("created_at", { ascending: false })
   return (data as FarmDocument[]) ?? []
+}
+
+// Machinery & Booking Queries
+
+/** Get list of available machines from the catalog view */
+export async function getMachineryCatalog(): Promise<MachineCatalogItem[]> {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from("v_machine_catalog")
+    .select(
+      "id, name, category, owner_id, owner_name, operating_area, warranty, hourly_rate, daily_rate, weekly_rate, currency, image_url, description, avg_rating, total_reviews",
+    )
+    .order("name", { ascending: true })
+  return (data as MachineCatalogItem[]) ?? []
+}
+
+/** Get detailed machine info including reviews and pricing */
+export async function getMachineDetail(machineId: string): Promise<MachineDetail | null> {
+  const supabase = await createClient()
+  const { data: machineData } = await supabase
+    .from("v_machine_catalog")
+    .select(
+      "id, name, category, owner_id, owner_name, operating_area, warranty, hourly_rate, daily_rate, weekly_rate, currency, image_url, description, avg_rating, total_reviews",
+    )
+    .eq("id", machineId)
+    .maybeSingle()
+
+  if (!machineData) return null
+
+  // Get full machine details including status
+  const { data: fullMachine } = await supabase
+    .from("machines")
+    .select("id, machine_status, status, description, features, certifications, warranty_details")
+    .eq("id", machineId)
+    .maybeSingle()
+
+  // Get reviews
+  const { data: reviews } = await supabase
+    .from("machine_reviews")
+    .select("id, machine_id, reviewer_name, rating, comment, created_at")
+    .eq("machine_id", machineId)
+    .eq("publication_status", "published")
+    .order("created_at", { ascending: false })
+
+  // Get pricing rules
+  const { data: pricing } = await supabase
+    .from("pricing_rules")
+    .select("id, machine_id, unit, rate, currency, min_duration, is_active")
+    .eq("machine_id", machineId)
+    .eq("is_active", true)
+
+  return {
+    ...machineData,
+    machine_status: fullMachine?.machine_status ?? "active",
+    status: fullMachine?.status ?? "active",
+    description: fullMachine?.description ?? machineData.description,
+    features: fullMachine?.features ?? null,
+    certifications: fullMachine?.certifications ?? null,
+    warranty_details: fullMachine?.warranty_details ?? null,
+    reviews: (reviews as any[]) ?? [],
+    pricing_rules: (pricing as any[]) ?? [],
+  } as MachineDetail
+}
+
+/** Get farmer's bookings */
+export async function getFarmerBookings(): Promise<BookingWithMachine[]> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return []
+
+  const { data } = await supabase
+    .from("bookings")
+    .select(
+      `id, booking_number, renter_id, machine_id, owner_id, operator_id, starts_at, ends_at, booking_state, payment_status, 
+       payment_method, total_amount, hourly_rate, daily_rate, unit_type, tax_amount, service_address, metadata, notes, created_at, updated_at,
+       machine:machines(id, name, category, owner_name, image_url)`,
+    )
+    .eq("renter_id", user.id)
+    .order("created_at", { ascending: false })
+
+  return (data as unknown as BookingWithMachine[]) ?? []
+}
+
+/** Get a specific booking by ID */
+export async function getBooking(bookingId: string): Promise<BookingWithMachine | null> {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from("bookings")
+    .select(
+      `id, booking_number, renter_id, machine_id, owner_id, operator_id, starts_at, ends_at, booking_state, payment_status, 
+       payment_method, total_amount, hourly_rate, daily_rate, unit_type, tax_amount, service_address, metadata, notes, created_at, updated_at,
+       machine:machines(id, name, category, owner_name, image_url)`,
+    )
+    .eq("id", bookingId)
+    .maybeSingle()
+
+  return (data as unknown as BookingWithMachine | null) ?? null
+}
+
+/** Check if a machine is available for the given time range */
+export async function checkMachineAvailability(
+  machineId: string,
+  startsAt: string,
+  endsAt: string,
+): Promise<boolean> {
+  const supabase = await createClient()
+  const { data } = await supabase.rpc("mach_is_machine_available", {
+    p_machine_id: machineId,
+    p_starts_at: startsAt,
+    p_ends_at: endsAt,
+  })
+  return data ?? false
 }

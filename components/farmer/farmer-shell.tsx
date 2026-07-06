@@ -11,6 +11,8 @@ import {
   Wallet,
   CloudSun,
   User,
+  Wrench,
+  Calendar,
 } from "lucide-react"
 import { logoutFarmer } from "@/lib/farmer/actions"
 import { cn } from "@/lib/utils"
@@ -20,6 +22,8 @@ import { OfflineIndicator } from "./offline-indicator"
 const NAV = [
   { href: "/farmer", label: "Overview", icon: LayoutDashboard },
   { href: "/farmer/crops", label: "My Crops", icon: Sprout },
+  { href: "/farmer/machinery", label: "Machinery", icon: Wrench },
+  { href: "/farmer/bookings", label: "My Bookings", icon: Calendar },
   { href: "/farmer/weather", label: "Weather", icon: CloudSun },
   { href: "/farmer/finance", label: "Finance", icon: Wallet },
   { href: "/farmer/documents", label: "Documents", icon: FileText },
@@ -28,7 +32,10 @@ const NAV = [
 ]
 
 // Mobile bottom-nav shows the 5 most-used destinations.
-const MOBILE_NAV = NAV.filter((n) => n.href !== "/farmer/documents" && n.href !== "/farmer/profile")
+const MOBILE_NAV = NAV.filter(
+  (n) =>
+    !["/farmer/documents", "/farmer/profile", "/farmer/weather"].includes(n.href),
+).slice(0, 5)
 
 function isActive(pathname: string, href: string) {
   if (href === "/farmer") return pathname === "/farmer"

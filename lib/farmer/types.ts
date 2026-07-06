@@ -179,3 +179,120 @@ export interface WeatherResult {
   now: WeatherNow
   daily: WeatherDaily[]
 }
+
+// Machinery & Booking Types
+export interface MachineCatalogItem {
+  id: string
+  name: string
+  category: string
+  owner_id: string
+  owner_name: string | null
+  operating_area: number | null
+  warranty: string | null
+  hourly_rate: number
+  daily_rate: number | null
+  weekly_rate: number | null
+  currency: string
+  image_url: string | null
+  description: string | null
+  avg_rating: number | null
+  total_reviews: number
+}
+
+export interface MachineDetail extends MachineCatalogItem {
+  machine_status: string
+  status: string
+  description: string | null
+  features: string[] | null
+  certifications: string[] | null
+  warranty_details: string | null
+  reviews: MachineReview[]
+  pricing_rules: PricingRule[]
+}
+
+export interface MachineReview {
+  id: string
+  machine_id: string
+  reviewer_name: string
+  rating: number
+  comment: string | null
+  created_at: string
+}
+
+export interface PricingRule {
+  id: string
+  machine_id: string
+  unit: string // 'hourly' | 'daily' | 'weekly'
+  rate: number
+  currency: string
+  min_duration: number | null
+  is_active: boolean
+}
+
+export type BookingState =
+  | "pending"
+  | "confirmed"
+  | "operator_assigned"
+  | "in_progress"
+  | "completed"
+  | "rejected"
+  | "no_show"
+  | "cancelled"
+
+export type PaymentStatus =
+  | "pending"
+  | "advance_paid"
+  | "partial_paid"
+  | "paid"
+  | "cancelled"
+
+export interface Booking {
+  id: string
+  booking_number: string
+  renter_id: string
+  machine_id: string
+  owner_id: string
+  operator_id: string | null
+  starts_at: string
+  ends_at: string
+  booking_state: BookingState
+  payment_status: PaymentStatus
+  payment_method: string | null
+  total_amount: number
+  hourly_rate: number | null
+  daily_rate: number | null
+  unit_type: string | null
+  tax_amount: number | null
+  service_address: string | null
+  metadata: Record<string, unknown> | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface BookingWithMachine extends Booking {
+  machine?: Pick<
+    MachineDetail,
+    | "id"
+    | "name"
+    | "category"
+    | "owner_name"
+    | "image_url"
+  > | null
+  operator?: Pick<
+    any,
+    "id" | "full_name" | "phone" | "avatar_url"
+  > | null
+}
+
+export interface BookingDraft {
+  machineId: string
+  startsAt: string
+  endsAt: string
+  hourlyRate?: number
+  dailyRate?: number
+  unitType: string
+  totalAmount: number
+  serviceAddress?: string
+  notes?: string
+}

@@ -425,3 +425,101 @@ export async function markAllNotificationsRead(): Promise<ActionState> {
   revalidatePath("/farmer")
   return { ok: true }
 }
+
+// Booking Actions
+
+/**
+ * Create a new machinery booking. Validates availability and creates a booking request.
+ */
+export async function createBooking(input: {
+  machineId: string
+  startsAt: string
+  endsAt: string
+  hourlyRate?: number
+  dailyRate?: number
+  unitType: string
+  totalAmount: number
+  serviceAddress?: string
+  notes?: string
+}): Promise<ActionState & { bookingId?: string }> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return { ok: false, error: "Not authenticated" }
+
+  // Check availability using the DB function
+  const { data: available } = await supabase.rpc("mach_is_machine_available", {
+    p_machine_id: input.machineId,
+    p_starts_at: input.startsAt,
+    p_ends_at: input.endsAt,
+  })
+
+  if (!available) {
+    return { ok: false, error: "This machine is not available for the selected time period" }
+  }
+
+  // Get machine owner
+  const { data: machine } = await supabase
+    .from("machines")
+    .select("id, owner_id")
+    .eq("id", input.machineId)
+    .maybeSingle()
+
+  if (!machine) {
+    return { ok: false, error: "Machine not found" }
+  }
+
+  // Create booking with initial pending state
+  const { data: booking, error } = await supabase
+    .from("bookings")
+    .insert({
+      renter_id: user.id,
+      machine_id: input.machineId,
+      owner_id: machine.owner_id,
+      starts_at: input.startsAt,
+      ends_at: input.endsAt,
+      booking_state: "pending",
+      payment_status: "pending",
+      hourly_rate: input.hourlyRate ?? null,
+      daily_rate: input.dailyRate ?? null,
+      unit_type: input.unitType,
+      total_amount: input.totalAmount,
+      tax_amount: 0,
+      service_address: input.serviceAddress ?? null,
+      notes: input.notes ?? null,
+    })
+    .select("id")
+    .single()
+
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/machinery")
+  revalidatePath("/farmer/bookings")
+  revalidatePath("/farmer")
+
+  return { ok: true, bookingId: booking.id }
+}
+
+/**
+ * Cancel a pending booking
+ */
+export async function cancelBooking(bookingId: string): Promise<ActionState> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return { ok: false, error: "Not authenticated" }
+
+  const { error } = await supabase
+    .from("bookings")
+    .update({ booking_state: "cancelled" })
+    .eq("id", bookingId)
+    .eq("renter_id", user.id)
+
+  if (error) return { ok: false, error: error.message }
+
+  revalidatePath("/farmer/bookings")
+  revalidatePath("/farmer")
+  return { ok: true }
+}
