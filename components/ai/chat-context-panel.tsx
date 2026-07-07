@@ -34,7 +34,7 @@ export function ChatContextPanel({
   }, {} as Record<string, ContextItem[]>)
 
   return (
-    <Card className="border border-border/70 bg-card/70 backdrop-blur-xl">
+    <Card className="border border-border/70 bg-card">
       <CardHeader className="pb-3">
         <button
           onClick={() => setIsExpanded(!isExpanded)}

@@ -10,7 +10,7 @@ export function FinalCtaSection() {
       </div>
 
       <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-white/40 bg-white/60 px-8 py-16 text-center backdrop-blur-xl dark:border-white/10 dark:bg-black/40 sm:px-12 sm:py-24 lg:px-16">
+        <div className="rounded-3xl border border-border/70 bg-card px-8 py-16 text-center sm:px-12 sm:py-24 lg:px-16">
           <h2 className="mx-auto max-w-3xl text-balance font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Join the Agricultural Revolution Today
           </h2>

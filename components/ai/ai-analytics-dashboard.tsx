@@ -63,7 +63,7 @@ export function AIAnalyticsDashboard({ data }: { data: AnalyticsData }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
             >
-              <Card className="border border-border/70 bg-card/70 backdrop-blur-xl">
+              <Card className="border border-border/70 bg-card">
                 <CardContent className="pt-6">
                   <div className="space-y-2">
                     <div className="flex items-start justify-between">
@@ -88,7 +88,7 @@ export function AIAnalyticsDashboard({ data }: { data: AnalyticsData }) {
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Top Modules */}
-        <Card className="border border-border/70 bg-card/70 backdrop-blur-xl">
+        <Card className="border border-border/70 bg-card">
           <CardHeader>
             <CardTitle className="text-base">Top Module</CardTitle>
           </CardHeader>
@@ -112,7 +112,7 @@ export function AIAnalyticsDashboard({ data }: { data: AnalyticsData }) {
         </Card>
 
         {/* Response Performance */}
-        <Card className="border border-border/70 bg-card/70 backdrop-blur-xl">
+        <Card className="border border-border/70 bg-card">
           <CardHeader>
             <CardTitle className="text-base">Response Performance</CardTitle>
           </CardHeader>
@@ -142,7 +142,7 @@ export function AIAnalyticsDashboard({ data }: { data: AnalyticsData }) {
       </div>
 
       {/* Insights */}
-      <Card className="border border-border/70 bg-card/70 backdrop-blur-xl">
+      <Card className="border border-border/70 bg-card">
         <CardHeader>
           <CardTitle className="text-base flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />

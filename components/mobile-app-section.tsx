@@ -24,7 +24,7 @@ export function MobileAppSection() {
           {/* Left Content */}
           <div className="space-y-8">
             <div className="inline-flex w-fit">
-              <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-white/50 px-4 py-2 backdrop-blur-xl dark:bg-black/30">
+              <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-card px-4 py-2">
                 <Smartphone className="size-4 text-primary" />
                 <span className="text-sm font-medium text-foreground">Mobile App</span>
               </div>

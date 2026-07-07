@@ -85,7 +85,7 @@ export function TrustedBySection() {
           {metrics.map((metric, idx) => (
             <div
               key={idx}
-              className="group relative rounded-2xl border border-white/40 bg-white/50 p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/60 hover:bg-white/70 dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20 dark:hover:bg-black/50"
+              className="group relative rounded-2xl border border-white/40 bg-card dark:hover:border-white/20 dark:hover:bg-black/50"
             >
               {/* Hover glow */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/0 to-accent/0 opacity-0 transition-opacity duration-300 group-hover:from-primary/10 group-hover:to-accent/10 group-hover:opacity-100" />
@@ -115,7 +115,7 @@ export function TrustedBySection() {
             {testimonials.map((testimonial, idx) => (
               <div
                 key={idx}
-                className="group relative rounded-2xl border border-white/40 bg-white/50 p-8 backdrop-blur-xl transition-all duration-300 hover:border-white/60 hover:bg-white/70 dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20 dark:hover:bg-black/50 hover:-translate-y-1"
+                className="group relative rounded-2xl border border-white/40 bg-card dark:hover:border-white/20 dark:hover:bg-black/50 hover:-translate-y-1"
               >
                 {/* Corner accent */}
                 <div className="absolute -right-1 -top-1 h-20 w-20 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 blur-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

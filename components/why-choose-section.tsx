@@ -66,7 +66,7 @@ export function WhyChooseSection() {
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="group relative rounded-2xl border border-white/40 bg-white/50 p-8 backdrop-blur-xl transition-all duration-300 hover:border-white/60 hover:bg-white/70 hover:-translate-y-1 dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20 dark:hover:bg-black/50"
+              className="group relative rounded-2xl border border-white/40 bg-card dark:hover:border-white/20 dark:hover:bg-black/50"
             >
               {/* Gradient accent */}
               <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

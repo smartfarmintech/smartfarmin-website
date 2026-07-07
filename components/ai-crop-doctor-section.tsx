@@ -48,13 +48,13 @@ export function AiCropDoctorSection() {
             
             <div className="relative w-full h-96 flex items-center justify-center">
               {/* AI visualization cards */}
-              <div className="absolute top-8 left-4 w-32 p-4 rounded-2xl bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-xl transform -rotate-6 hover:rotate-0 transition-transform duration-300">
+              <div className="absolute top-8 left-4 w-32 p-4 rounded-2xl bg-card border border-border/70 shadow-xl transform -rotate-6 hover:rotate-0 transition-transform duration-300">
                 <div className="text-2xl mb-2">🌱</div>
                 <div className="text-xs font-semibold text-foreground">Soil Health</div>
                 <div className="text-[10px] text-muted-foreground mt-1">pH: 7.2</div>
               </div>
 
-              <div className="absolute bottom-8 right-4 w-32 p-4 rounded-2xl bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-xl transform rotate-6 hover:rotate-0 transition-transform duration-300">
+              <div className="absolute bottom-8 right-4 w-32 p-4 rounded-2xl bg-card border border-border/70 shadow-xl transform rotate-6 hover:rotate-0 transition-transform duration-300">
                 <div className="text-2xl mb-2">💧</div>
                 <div className="text-xs font-semibold text-foreground">Irrigation</div>
                 <div className="text-[10px] text-muted-foreground mt-1">2L/sqm</div>
@@ -68,7 +68,7 @@ export function AiCropDoctorSection() {
           <div className="space-y-8">
             {/* Badge */}
             <div className="inline-flex w-fit">
-              <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-white/50 px-4 py-2 backdrop-blur-xl dark:bg-black/30">
+              <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-card px-4 py-2">
                 <Sparkles className="size-4 text-primary" />
                 <span className="text-sm font-medium text-foreground">Akanksha AI</span>
               </div>
@@ -87,7 +87,7 @@ export function AiCropDoctorSection() {
             {/* Features Grid */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {features.map((feature, idx) => (
-                <div key={idx} className="group rounded-2xl border border-white/40 bg-white/50 p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/60 hover:bg-white/70 dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20 dark:hover:bg-black/50">
+                <div key={idx} className="group rounded-2xl border border-border/70 bg-card p-6 transition-all duration-300">
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 p-2.5 text-primary transition-all duration-300 group-hover:scale-110">
                       {feature.icon}

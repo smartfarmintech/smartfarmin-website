@@ -16,7 +16,7 @@ export function HeroSection() {
           <div className="flex flex-col justify-center space-y-8">
             {/* Announcement badge */}
             <div className="inline-flex w-fit">
-              <div className="group flex items-center gap-2 rounded-full border border-primary/20 bg-white/50 px-4 py-2 backdrop-blur-xl transition-all hover:bg-white/70 dark:bg-black/30 dark:hover:bg-black/50">
+              <div className="group flex items-center gap-2 rounded-full border border-primary/20 bg-card px-4 py-2 dark:hover:bg-black/50">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/80 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
@@ -72,7 +72,7 @@ export function HeroSection() {
                   <span className="font-semibold text-foreground">250K+</span> farmers active
                 </span>
               </div>
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/50 dark:bg-black/30 backdrop-blur-xl border border-primary/10">
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-card border border-primary/10">
                 <Zap className="size-4 text-primary" />
                 <span className="text-sm font-medium text-foreground">30% avg yield increase</span>
               </div>
@@ -86,7 +86,7 @@ export function HeroSection() {
             {/* Floating cards illustration */}
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Card 1 - Top Left */}
-              <div className="absolute top-12 left-8 w-48 p-6 rounded-2xl bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-xl transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+              <div className="absolute top-12 left-8 w-48 p-6 rounded-2xl bg-card border border-border/70 shadow-xl transform -rotate-3 hover:rotate-0 transition-transform duration-300">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-10 w-10 rounded-lg bg-green-500/20 flex items-center justify-center">
                     <Sprout className="size-5 text-green-600" />
@@ -97,7 +97,7 @@ export function HeroSection() {
               </div>
 
               {/* Card 2 - Bottom Right */}
-              <div className="absolute bottom-12 right-8 w-48 p-6 rounded-2xl bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
+              <div className="absolute bottom-12 right-8 w-48 p-6 rounded-2xl bg-card border border-border/70 shadow-xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-10 w-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
                     <TrendingUp className="size-5 text-blue-600" />
