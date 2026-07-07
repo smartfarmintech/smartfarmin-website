@@ -77,10 +77,10 @@ export async function POST(request: NextRequest) {
 ${analysis.description}
 
 **Recommended Treatment:**
-${Array.isArray(analysis.treatment) ? analysis.treatment[0]?.name || 'N/A' : analysis.treatment?.name || 'N/A'}
-- Duration: ${Array.isArray(analysis.treatment) ? analysis.treatment[0]?.duration || 'N/A' : analysis.treatment?.duration || 'N/A'}
-- Cost: ₹${Array.isArray(analysis.treatment) ? analysis.treatment[0]?.cost || 'TBD' : analysis.treatment?.cost || 'TBD'}
-- Effectiveness: ${Array.isArray(analysis.treatment) ? analysis.treatment[0]?.effectiveness : analysis.treatment?.effectiveness}%
+${Array.isArray(analysis.treatment) ? (analysis.treatment[0] as any)?.name || 'N/A' : (analysis.treatment as any)?.name || 'N/A'}
+- Duration: ${Array.isArray(analysis.treatment) ? (analysis.treatment[0] as any)?.duration || 'N/A' : (analysis.treatment as any)?.duration || 'N/A'}
+- Cost: ₹${Array.isArray(analysis.treatment) ? (analysis.treatment[0] as any)?.cost || 'TBD' : (analysis.treatment as any)?.cost || 'TBD'}
+- Effectiveness: ${Array.isArray(analysis.treatment) ? (analysis.treatment[0] as any)?.effectiveness : (analysis.treatment as any)?.effectiveness}%
 
 ${analysis.alternatives && analysis.alternatives.length > 0 ? 
 `**Alternative Treatments:**

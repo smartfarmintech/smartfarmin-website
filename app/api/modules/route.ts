@@ -325,7 +325,7 @@ export async function POST(request: NextRequest, { params }: { params: { action:
 
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Validation error', details: error.errors as any }, { status: 400 })
+      return NextResponse.json({ error: 'Validation error', details: (error as any).errors || [] }, { status: 400 })
     }
     return NextResponse.json({ error: error?.message || 'Internal server error' }, { status: 500 })
   }

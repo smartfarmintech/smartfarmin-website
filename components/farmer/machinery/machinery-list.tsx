@@ -169,15 +169,13 @@ export default function MachineryList() {
 
               <Dialog open={bookingOpen && selectedMachine?.id === machine.id} onOpenChange={setBookingOpen}>
                 <DialogTrigger asChild>
-                  <div>
-                    <Button
+                  <Button
                       onClick={() => setSelectedMachine(machine)}
                       className="w-full"
                     >
                       <Calendar className="w-4 h-4 mr-2" />
                       Book Now
                     </Button>
-                  </div>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>

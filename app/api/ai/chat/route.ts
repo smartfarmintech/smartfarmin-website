@@ -72,8 +72,7 @@ export async function POST(request: NextRequest) {
       system: SYSTEM_PROMPT_EN,
       messages: conversationHistory,
       temperature: 0.7,
-      maxTokens: 2048 as any
-    })
+    } as any)
 
     // Return the stream as a response
     return result.toTextStreamResponse()

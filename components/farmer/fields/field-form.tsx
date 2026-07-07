@@ -20,8 +20,8 @@ const fieldSchema = z.object({
   water_source: z.string().optional(),
   area_value: z.coerce.number().positive('Area must be positive'),
   area_unit: z.string().default('acres'),
-  latitude: z.coerce.number().optional(),
-  longitude: z.coerce.number().optional(),
+  latitude: z.coerce.number().optional().default(0),
+  longitude: z.coerce.number().optional().default(0),
 })
 
 type FieldFormData = z.infer<typeof fieldSchema>
@@ -55,8 +55,8 @@ export function FieldForm({ farmerId, villages, mode, initialData }: FieldFormPr
   const router = useRouter()
   const supabase = createClient()
 
-  const form = useForm<FieldFormData>({
-    resolver: zodResolver(fieldSchema),
+  const form = useForm({
+    resolver: zodResolver(fieldSchema) as any,
     defaultValues: initialData || {
       land_name: '',
       survey_number: '',
@@ -68,7 +68,7 @@ export function FieldForm({ farmerId, villages, mode, initialData }: FieldFormPr
       latitude: 0,
       longitude: 0,
     }
-  })
+  }) as any
 
   const onSubmit = async (data: FieldFormData) => {
     setIsSubmitting(true)

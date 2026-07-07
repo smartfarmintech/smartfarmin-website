@@ -132,8 +132,7 @@ export class AkanshaAIService {
       system: systemPrompt,
       messages: [...conversationHistory, { role: 'user', content: userMessage }],
       temperature: 0.7,
-      maxTokens: 2048
-    })
+    } as any)
   }
 
   async analyzeCropImage(
@@ -152,9 +151,9 @@ export class AkanshaAIService {
           content: [
             {
               type: 'image',
-              data: imageUrl,
+              image: imageUrl,
               mimeType: 'image/jpeg'
-            },
+            } as any,
             {
               type: 'text',
               text: `Analyze this crop image for ${analysisType}. Provide:
@@ -311,8 +310,7 @@ export class AkanshaAIService {
       model: anthropic('claude-3-5-sonnet-20241022'),
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.6,
-      maxTokens: 2000
-    })
+    } as any)
 
     const { data, error } = await this.supabase
       .from('ai_reports')
