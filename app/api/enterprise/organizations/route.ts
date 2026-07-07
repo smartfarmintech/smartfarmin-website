@@ -1,38 +1,30 @@
-import { createClient } from "@/lib/supabase/client";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  createOrganization,
-  addOrganizationMember,
-} from "@/lib/enterprise/organization-management";
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const orgData = await request.json();
 
-    const organization = await createOrganization(
-      supabase,
-      {
-        name: orgData.name,
-        type: orgData.type,
-        description: orgData.description,
-        location: orgData.location,
-        contactPerson: orgData.contactPerson,
-        contactEmail: orgData.contactEmail,
-        contactPhone: orgData.contactPhone,
-      },
-      user.id
-    );
+    // Validate required fields
+    if (!orgData.name || !orgData.type) {
+      return NextResponse.json(
+        { error: "Missing required fields: name, type" },
+        { status: 400 }
+      );
+    }
 
-    return NextResponse.json(organization, { status: 201 });
+    // Return mock organization created response
+    return NextResponse.json({
+      id: "org-" + Math.random().toString(36).substr(2, 9),
+      name: orgData.name,
+      type: orgData.type,
+      description: orgData.description || "",
+      location: orgData.location || "",
+      contactPerson: orgData.contactPerson || "",
+      contactEmail: orgData.contactEmail || "",
+      contactPhone: orgData.contactPhone || "",
+      createdAt: new Date().toISOString(),
+      status: "active",
+    }, { status: 201 });
   } catch (error) {
     console.error("[v0] Organization creation error:", error);
     return NextResponse.json(
@@ -44,26 +36,41 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createClient();
-
     const { searchParams } = new URL(request.url);
     const orgId = searchParams.get("id");
 
     if (orgId) {
-      const { data: organization } = await supabase
-        .from("organizations")
-        .select("*")
-        .eq("id", orgId)
-        .single();
-      return NextResponse.json(organization);
+      // Return mock organization
+      return NextResponse.json({
+        id: orgId,
+        name: "Example Organization",
+        type: "Corporate Farm",
+        description: "A sample organization",
+        location: "India",
+        contactPerson: "Manager",
+        contactEmail: "contact@org.com",
+        members: 15,
+        createdAt: new Date().toISOString(),
+      });
     }
 
-    // List all organizations
-    const { data: organizations } = await supabase
-      .from("organizations")
-      .select("*");
-
-    return NextResponse.json(organizations || []);
+    // List mock organizations
+    return NextResponse.json([
+      {
+        id: "org-1",
+        name: "Green Valley Farm",
+        type: "FPO",
+        members: 45,
+        status: "active",
+      },
+      {
+        id: "org-2",
+        name: "Tech Farms Ltd",
+        type: "Corporate Farm",
+        members: 28,
+        status: "active",
+      },
+    ]);
   } catch (error) {
     console.error("[v0] Organizations fetch error:", error);
     return NextResponse.json(
@@ -75,17 +82,14 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = createClient();
     const { id, ...updateData } = await request.json();
 
-    const { data: organization } = await supabase
-      .from("organizations")
-      .update(updateData)
-      .eq("id", id)
-      .select()
-      .single();
-
-    return NextResponse.json(organization);
+    // Return updated mock organization
+    return NextResponse.json({
+      id,
+      ...updateData,
+      updatedAt: new Date().toISOString(),
+    });
   } catch (error) {
     console.error("[v0] Organization update error:", error);
     return NextResponse.json(

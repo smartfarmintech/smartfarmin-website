@@ -25,6 +25,429 @@ export interface FleetAsset {
 }
 
 /**
+ * Enhanced Fleet Machine with GPS tracking
+ */
+export interface FleetMachine {
+  id: string
+  name: string
+  type: "tractor" | "harvester" | "thrower" | "sprayer" | "drill" | "pump" | "other"
+  brand: string
+  model: string
+  registrationNumber: string
+  yearOfManufacture: number
+  ownerName: string
+  ownerPhone: string
+  ownerEmail: string
+  operatingStatus: "active" | "maintenance" | "inactive"
+  lastServiceDate?: string
+  nextServiceDate?: string
+  kmHoursWorked: number
+  purchaseCost: number
+  currentValue: number
+  fuelType: "diesel" | "petrol" | "electric"
+  specifications: {
+    power: number // HP
+    wheelDrive: string
+    transmission: string
+    features: string[]
+  }
+  location: {
+    latitude: number
+    longitude: number
+    address: string
+  }
+  totalBookings: number
+  averageRating: number
+  gpsEnabled: boolean
+  gpsLastUpdate?: string
+}
+
+/**
+ * Maintenance Record
+ */
+export interface MaintenanceRecord {
+  id: string
+  machineId: string
+  maintenanceType: "routine" | "preventive" | "repair"
+  serviceDate: string
+  completionDate?: string
+  cost: number
+  serviceProvider: string
+  description: string
+  status: "pending" | "in-progress" | "completed"
+  mileageKmHours: number
+  nextScheduledDate?: string
+}
+
+/**
+ * Machine Location GPS
+ */
+export interface MachineLocation {
+  id: string
+  machineId: string
+  timestamp: string
+  latitude: number
+  longitude: number
+  speed: number // km/h
+  heading: number // degrees
+  accuracy: number // meters
+  altitude?: number
+}
+
+/**
+ * Fleet Utilization Metrics
+ */
+export interface FleetUtilization {
+  machineId: string
+  utilizationPercentage: number
+  totalHoursAvailable: number
+  totalHoursBooked: number
+  totalBookings: number
+  averageBookingDuration: number
+  revenue: number
+  costOfOperation: number
+  profitMargin: number
+  peakUsageHours: string
+}
+
+/**
+ * Machinery Alert
+ */
+export interface MachineryAlert {
+  id: string
+  machineId: string
+  alertType: "maintenance" | "location" | "utilization" | "performance" | "document"
+  severity: "low" | "medium" | "high" | "critical"
+  title: string
+  description: string
+  timestamp: string
+  resolved: boolean
+}
+
+/**
+ * Get all machines in fleet
+ */
+export async function getFleetMachines(organizationId?: string) {
+  const supabase = await createClient()
+
+  const query = supabase.from("machines").select("*")
+
+  if (organizationId) {
+    query.eq("owner_id", organizationId)
+  }
+
+  const { data, error } = await query.order("created_at", { ascending: false })
+
+  if (error) {
+    console.error("[v0] Error fetching fleet:", error)
+    return []
+  }
+
+  return (data || []) as FleetMachine[]
+}
+
+/**
+ * Get machine details with full history
+ */
+export async function getMachineDetails(machineId: string) {
+  const supabase = await createClient()
+
+  // Get machine
+  const { data: machine } = await supabase.from("machines").select("*").eq("id", machineId).single()
+
+  // Get maintenance history
+  const { data: maintenance } = await supabase
+    .from("maintenance")
+    .select("*")
+    .eq("machine_id", machineId)
+    .order("scheduled_at", { ascending: false })
+    .limit(10)
+
+  // Get GPS locations (recent)
+  const { data: locations } = await supabase
+    .from("gps_locations")
+    .select("*")
+    .eq("machine_id", machineId)
+    .order("recorded_at", { ascending: false })
+    .limit(100)
+
+  // Get bookings
+  const { data: bookings } = await supabase
+    .from("bookings")
+    .select("*")
+    .eq("machine_id", machineId)
+    .order("starts_at", { ascending: false })
+    .limit(10)
+
+  return {
+    machine,
+    maintenanceHistory: maintenance || [],
+    gpsTrack: locations || [],
+    recentBookings: bookings || [],
+  }
+}
+
+/**
+ * Schedule maintenance
+ */
+export async function scheduleMaintenance(
+  _prev: ActionState,
+  formData: {
+    machineId: string
+    maintenanceType: "routine" | "preventive" | "repair"
+    scheduledDate: string
+    description: string
+    estimatedCost?: number
+    serviceProvider?: string
+  }
+): Promise<ActionState> {
+  const supabase = await createClient()
+
+  try {
+    const { error } = await supabase
+      .from("maintenance")
+      .insert({
+        machine_id: formData.machineId,
+        maint_type: formData.maintenanceType,
+        scheduled_at: formData.scheduledDate,
+        description: formData.description,
+        cost: formData.estimatedCost || 0,
+        service_provider: formData.serviceProvider,
+        status: "pending",
+        maint_status: "pending",
+        title: `${formData.maintenanceType} Maintenance`,
+      })
+
+    if (error) throw error
+    revalidatePath("/enterprise/fleet")
+    return { ok: true }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
+
+/**
+ * Update maintenance status
+ */
+export async function updateMaintenanceStatus(
+  _prev: ActionState,
+  maintenanceId: string,
+  status: "pending" | "in-progress" | "completed",
+  completionDate?: string,
+  actualCost?: number
+): Promise<ActionState> {
+  const supabase = await createClient()
+
+  try {
+    const { error } = await supabase
+      .from("maintenance")
+      .update({
+        maint_status: status,
+        status,
+        completed_at: completionDate,
+        cost: actualCost,
+      })
+      .eq("id", maintenanceId)
+
+    if (error) throw error
+    revalidatePath("/enterprise/fleet")
+    return { ok: true }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
+
+/**
+ * Log machine location via GPS
+ */
+export async function logMachineLocation(
+  _prev: ActionState,
+  machineId: string,
+  latitude: number,
+  longitude: number,
+  speed: number = 0,
+  heading: number = 0,
+  accuracy: number = 5,
+  bookingId?: string
+): Promise<ActionState> {
+  const supabase = await createClient()
+
+  try {
+    const { error } = await supabase
+      .from("gps_locations")
+      .insert({
+        machine_id: machineId,
+        booking_id: bookingId,
+        latitude,
+        longitude,
+        speed_kmph: speed,
+        heading,
+        accuracy_m: accuracy,
+        recorded_at: new Date().toISOString(),
+      })
+
+    if (error) throw error
+    return { ok: true }
+  } catch (err: any) {
+    return { ok: false, error: err.message }
+  }
+}
+
+/**
+ * Get machine location history for map display
+ */
+export async function getMachineLocationHistory(machineId: string, hours: number = 24) {
+  const supabase = await createClient()
+
+  const cutoffTime = new Date(Date.now() - hours * 60 * 60 * 1000).toISOString()
+
+  const { data, error } = await supabase
+    .from("gps_locations")
+    .select("*")
+    .eq("machine_id", machineId)
+    .gte("recorded_at", cutoffTime)
+    .order("recorded_at", { ascending: true })
+
+  if (error) {
+    console.error("[v0] Error fetching GPS history:", error)
+    return []
+  }
+
+  return (data || []) as MachineLocation[]
+}
+
+/**
+ * Calculate fleet utilization metrics
+ */
+export async function calculateFleetUtilization(machineId: string, period: "week" | "month" | "year" = "month") {
+  const supabase = await createClient()
+
+  // Get machine
+  const { data: machine } = await supabase.from("machines").select("*").eq("id", machineId).single()
+
+  // Get bookings in period
+  const periodDays = period === "week" ? 7 : period === "month" ? 30 : 365
+  const cutoffDate = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000).toISOString()
+
+  const { data: bookings } = await supabase
+    .from("bookings")
+    .select("*")
+    .eq("machine_id", machineId)
+    .gte("starts_at", cutoffDate)
+
+  // Get maintenance downtime
+  const { data: maintenance } = await supabase
+    .from("maintenance")
+    .select("*")
+    .eq("machine_id", machineId)
+    .eq("status", "completed")
+    .gte("scheduled_at", cutoffDate)
+
+  // Calculate metrics
+  const totalHoursAvailable = periodDays * 24
+  const totalHoursBooked = (bookings || []).reduce((sum, b) => {
+    const start = new Date(b.starts_at).getTime()
+    const end = new Date(b.ends_at).getTime()
+    return sum + (end - start) / (1000 * 60 * 60)
+  }, 0)
+
+  const maintenanceDowntime = (maintenance || []).length * 4 // assume 4 hours per maintenance
+  const utilizationPercentage = ((totalHoursBooked / (totalHoursAvailable - maintenanceDowntime)) * 100).toFixed(2)
+
+  const totalRevenue = (bookings || []).reduce((sum, b) => sum + (b.total_amount || 0), 0)
+  const operatingCost = totalHoursBooked * 50 // assume 50/hour operating cost
+  const profitMargin = totalRevenue - operatingCost
+
+  return {
+    machineId,
+    utilizationPercentage: parseFloat(utilizationPercentage as string),
+    totalHoursAvailable,
+    totalHoursBooked,
+    totalBookings: bookings?.length || 0,
+    averageBookingDuration: totalHoursBooked / (bookings?.length || 1),
+    revenue: totalRevenue,
+    costOfOperation: operatingCost,
+    profitMargin,
+    peakUsageHours: "10 AM - 2 PM",
+  } as FleetUtilization
+}
+
+/**
+ * Generate fleet alerts
+ */
+export async function generateFleetAlerts(machineId: string): Promise<MachineryAlert[]> {
+  const supabase = await createClient()
+
+  const alerts: MachineryAlert[] = []
+
+  // Get machine details
+  const { data: machine } = await supabase.from("machines").select("*").eq("id", machineId).single()
+
+  // Check maintenance alert
+  if (machine?.status === "maintenance" || machine?.machine_status === "maintenance") {
+    alerts.push({
+      id: `alert-${machineId}-1`,
+      machineId,
+      alertType: "maintenance",
+      severity: "high",
+      title: "Maintenance In Progress",
+      description: "Machine is currently under maintenance",
+      timestamp: new Date().toISOString(),
+      resolved: false,
+    })
+  }
+
+  // Check utilization
+  const utilization = await calculateFleetUtilization(machineId, "week")
+  if (utilization.utilizationPercentage < 20) {
+    alerts.push({
+      id: `alert-${machineId}-2`,
+      machineId,
+      alertType: "utilization",
+      severity: "low",
+      title: "Low Machine Utilization",
+      description: `Machine utilization is only ${utilization.utilizationPercentage}% this week`,
+      timestamp: new Date().toISOString(),
+      resolved: false,
+    })
+  }
+
+  return alerts
+}
+
+/**
+ * Get fleet overview dashboard
+ */
+export async function getFleetOverview(organizationId?: string) {
+  const supabase = await createClient()
+
+  const machines = await getFleetMachines(organizationId)
+
+  const totalMachines = machines.length
+  const activeMachines = machines.filter((m) => m.operatingStatus === "active").length
+  const maintenanceMachines = machines.filter((m) => m.operatingStatus === "maintenance").length
+
+  // Get total revenue this month
+  const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+  const { data: monthlyBookings } = await supabase
+    .from("bookings")
+    .select("total_amount")
+    .gte("created_at", monthAgo)
+
+  const totalRevenue = monthlyBookings?.reduce((sum: number, b: any) => sum + (b.total_amount || 0), 0) || 0
+
+  return {
+    totalMachines,
+    activeMachines,
+    maintenanceMachines,
+    inactiveMachines: totalMachines - activeMachines - maintenanceMachines,
+    totalRevenue,
+    averageUtilization: machines.length > 0 ? (activeMachines / totalMachines * 100).toFixed(2) : "0",
+    machines,
+  }
+}
+
+/**
  * Register fleet asset
  */
 export async function registerFleetAsset(
@@ -43,18 +466,16 @@ export async function registerFleetAsset(
 
   try {
     const { error } = await supabase
-      .from("fleet_assets")
+      .from("machines")
       .insert({
-        organization_id: formData.organizationId,
-        asset_type: formData.assetType,
+        owner_id: formData.organizationId,
+        category_id: formData.assetType,
         model: formData.model,
-        registration_number: formData.registrationNumber,
-        purchase_date: formData.purchaseDate,
-        cost_price: formData.costPrice,
-        current_value: formData.costPrice,
-        maintenance_schedule: formData.maintenanceSchedule,
-        status: "operational",
+        registration_no: formData.registrationNumber,
         created_at: new Date().toISOString(),
+        status: "active",
+        machine_status: "active",
+        name: `${formData.model} - ${formData.registrationNumber}`,
       })
 
     if (error) throw error

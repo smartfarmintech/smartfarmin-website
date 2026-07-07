@@ -1,134 +1,129 @@
 'use client';
 
-import { ArrowRight, Sprout, Zap, TrendingUp, Smartphone, Droplets, Gauge } from "lucide-react"
+import Image from "next/image"
+import { ArrowRight, Download, Play, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { SunriseHeroBackground } from "@/components/backgrounds/sunrise-hero"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden pt-20 sm:pt-32 pb-20">
-      {/* Sunrise over Indian farms theme */}
-      <SunriseHeroBackground />
+    <section className="relative min-h-screen overflow-hidden pt-20 sm:pt-24 pb-20 sm:pb-32">
+      {/* Background gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950" />
       
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl" />
+      </div>
+
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-16 lg:grid-cols-2 lg:gap-12 items-center">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
           {/* Left content */}
-          <div className="flex flex-col justify-center space-y-8 page-transition">
-            {/* Premium announcement badge */}
-            <div className="inline-flex w-fit">
-              <div className="group glass-glow-green">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-                </span>
-                <span className="text-sm font-medium text-white">
-                  Trusted by 10,000+ farmers across 500+ villages
-                </span>
-              </div>
+          <div className="flex flex-col justify-center space-y-8 z-10">
+            {/* Trust badge */}
+            <div className="inline-flex w-fit items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 transition-all">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-emerald-500 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+              <span className="text-xs sm:text-sm font-medium text-white">
+                Trusted by 50,000+ farmers
+              </span>
             </div>
 
-            {/* Premium headline with Sunrise theme */}
+            {/* Premium headline */}
             <div className="space-y-6">
-              <h1 className="text-balance font-serif text-5xl font-bold leading-[1.15] tracking-tight text-white sm:text-6xl lg:text-7xl">
-                Empowering Every Farmer{" "}
-                <span className="text-gradient-primary">
-                  with Technology
+              <h1 className="text-balance font-sans text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white">
+                India's AI-Powered{' '}
+                <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+                  Agriculture Super Platform
                 </span>
               </h1>
 
-              <p className="text-lg leading-relaxed text-slate-300 sm:text-xl max-w-2xl">
-                AI-powered crop advisory, machinery booking, drone spraying, marketplace, weather intelligence and digital agriculture—all in one intelligent platform. Built for the future of farming.
+              <p className="text-base sm:text-lg leading-relaxed text-slate-300 max-w-xl">
+                Smart crop advisory, machinery on-demand, drone services, direct marketplace, and weather-driven farming intelligence. Everything a farmer needs to increase yields and income.
               </p>
             </div>
 
-            {/* Premium CTA Buttons with new colors */}
-            <div className="flex flex-col gap-4 sm:flex-row pt-2">
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Button 
                 size="lg" 
-                className="btn-primary gap-2 px-8 py-6 text-base font-semibold"
+                className="btn-primary gap-2 px-6 sm:px-8 py-6 text-base font-semibold rounded-xl"
               >
                 Book Machinery
                 <ArrowRight className="size-5" />
               </Button>
               <Button 
+                variant="outline"
                 size="lg" 
-                className="btn-secondary gap-2 px-8 py-6 text-base font-semibold"
+                className="btn-secondary gap-2 px-6 sm:px-8 py-6 text-base font-semibold rounded-xl border border-white/20"
               >
-                <TrendingUp className="size-5" />
+                <Play className="size-4 fill-white" />
                 Watch Demo
               </Button>
             </div>
 
-            {/* Premium statistics row with glassmorphism */}
-            <div className="grid grid-cols-2 gap-6 pt-8 max-w-md">
-              <div className="glass-subtle p-4 rounded-xl">
-                <div className="text-3xl font-bold text-white">10,000+</div>
-                <div className="text-xs text-slate-400 mt-1">Farmers Registered</div>
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 gap-4 pt-8">
+              <div className="group p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="text-2xl sm:text-3xl font-bold text-emerald-400">50K+</div>
+                <div className="text-xs sm:text-sm text-slate-400 mt-1">Farmers Active</div>
               </div>
-              <div className="glass-subtle p-4 rounded-xl">
-                <div className="text-3xl font-bold text-emerald-400">500+</div>
-                <div className="text-xs text-slate-400 mt-1">Villages Connected</div>
+              <div className="group p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="text-2xl sm:text-3xl font-bold text-cyan-400">₹500Cr</div>
+                <div className="text-xs sm:text-sm text-slate-400 mt-1">Value Transacted</div>
               </div>
-              <div className="glass-subtle p-4 rounded-xl">
-                <div className="text-3xl font-bold text-white">250+</div>
-                <div className="text-xs text-slate-400 mt-1">Machines Available</div>
+              <div className="group p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="text-2xl sm:text-3xl font-bold text-amber-400">1000+</div>
+                <div className="text-xs sm:text-sm text-slate-400 mt-1">Machines Available</div>
               </div>
-              <div className="glass-subtle p-4 rounded-xl">
-                <div className="text-3xl font-bold text-amber-400">100+</div>
-                <div className="text-xs text-slate-400 mt-1">Drone Operators</div>
+              <div className="group p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="text-2xl sm:text-3xl font-bold text-teal-400">200+</div>
+                <div className="text-xs sm:text-sm text-slate-400 mt-1">Drone Operators</div>
               </div>
             </div>
           </div>
 
-          {/* Right side - Floating dashboard cards with Sunrise theme */}
-          <div className="relative h-96 sm:h-[500px] lg:h-[600px] hidden lg:flex items-center justify-center">
-            {/* Floating card 1 - Crop Advisory (top) */}
-            <div className="absolute top-0 left-4 w-56 card-hover-lift transform -rotate-2 hover:rotate-0 float-animation slide-in-left">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-emerald-500/30 to-emerald-600/20 flex items-center justify-center">
-                  <Sprout className="size-6 text-emerald-400" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-white">Crop Advisory</div>
-                  <div className="text-xs text-emerald-400">AI Powered</div>
-                </div>
-              </div>
-              <p className="text-xs text-slate-400">Real-time insights for crop health monitoring</p>
+          {/* Right side - Image showcase */}
+          <div className="relative h-96 sm:h-[500px] lg:h-[600px] hidden lg:block">
+            {/* Main drone image */}
+            <div className="absolute inset-0 rounded-3xl overflow-hidden group">
+              <Image
+                src="/images/hero-drone-spray.png"
+                alt="Drone spraying agricultural field"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/60 via-transparent to-transparent" />
             </div>
 
-            {/* Floating card 2 - Machinery Booking (middle right) */}
-            <div className="absolute top-1/3 right-4 w-56 card-hover-lift transform rotate-2 hover:rotate-0 float-animation-delayed slide-in-right">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-cyan-500/30 to-cyan-600/20 flex items-center justify-center">
-                  <Gauge className="size-6 text-cyan-400" />
+            {/* Floating feature cards */}
+            <div className="absolute bottom-6 left-6 right-6 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-4 transform hover:scale-105 transition-transform">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                  <Zap className="size-6 text-white" />
                 </div>
-                <div>
-                  <div className="text-sm font-semibold text-white">Machinery Booking</div>
-                  <div className="text-xs text-cyan-400">Instant Access</div>
-                </div>
-              </div>
-              <p className="text-xs text-slate-400">Book tractors and equipment within minutes</p>
-            </div>
-
-            {/* Floating card 3 - Weather & Drone (bottom) */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-56 card-hover-lift float-animation slide-in-up">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-amber-500/30 to-orange-600/20 flex items-center justify-center">
-                  <Droplets className="size-6 text-amber-400" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-white">Drone Spraying</div>
-                  <div className="text-xs text-amber-400">Real-time Tracking</div>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-white">Real-time AI Crop Doctor</div>
+                  <div className="text-xs text-slate-400">Disease detection & treatment</div>
                 </div>
               </div>
-              <p className="text-xs text-slate-400">Automated drone services for crop protection</p>
-            </div>
-
-            {/* Center glowing orb - Sunrise theme */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-48 h-48 rounded-full bg-gradient-to-br from-emerald-600/20 to-amber-500/10 blur-3xl glow-animation" />
             </div>
           </div>
+        </div>
+
+        {/* Mobile image */}
+        <div className="relative h-96 sm:h-[450px] lg:hidden rounded-2xl overflow-hidden mt-12 group">
+          <Image
+            src="/images/hero-drone-spray.png"
+            alt="Drone spraying agricultural field"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/60 via-transparent to-transparent" />
         </div>
       </div>
     </section>
