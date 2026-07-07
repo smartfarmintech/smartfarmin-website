@@ -119,6 +119,12 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           <SubmitButton className="mt-1 w-full" pendingText={mode === "login" ? "Signing in…" : "Creating account…"}>
             {mode === "login" ? "Sign in" : "Create account"}
           </SubmitButton>
+
+          {mode === "login" && (
+            <Link href="/farmer/forgot-password" className="mt-3 block text-center text-sm text-primary hover:underline">
+              Forgot your password?
+            </Link>
+          )}
         </form>
 
         <p className="mt-5 text-center text-sm text-muted-foreground">
