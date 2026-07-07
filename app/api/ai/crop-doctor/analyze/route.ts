@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/client";
 import { NextRequest, NextResponse } from "next/server";
 import { analyzeCropHealth, getRecommendations } from "@/lib/ai/akanksha-crop-doctor";
 
