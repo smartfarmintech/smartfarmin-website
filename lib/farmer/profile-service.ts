@@ -94,7 +94,7 @@ export async function updateFarmerProfile(data: z.infer<typeof FarmerProfileSche
       updated_at: new Date().toISOString(),
     }).eq("user_id", user.id)
 
-    revalidateTag("farmer-profile")
+    revalidateTag("farmer-profile", "max")
     return { ok: true, profile }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to update profile" }
@@ -147,7 +147,7 @@ export async function uploadFarmDocument(
 
     if (error) throw error
 
-    revalidateTag("farmer-documents")
+    revalidateTag("farmer-documents", "max")
     return { ok: true, document }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to upload document" }
@@ -204,7 +204,7 @@ export async function createLand(landData: {
 
     if (error) throw error
 
-    revalidateTag("farmer-lands")
+    revalidateTag("farmer-lands", "max")
     return { ok: true, land }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to create land" }
@@ -259,7 +259,7 @@ export async function createCropCycle(cropData: {
 
     if (error) throw error
 
-    revalidateTag("farmer-crops")
+    revalidateTag("farmer-crops", "max")
     return { ok: true, cropCycle }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to create crop cycle" }

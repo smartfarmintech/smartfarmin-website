@@ -50,7 +50,7 @@ async function CartItems() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-xs text-muted-foreground">By {item.seller}</p>
+                  <p className="text-xs text-muted-foreground">By Seller</p>
                   <div className="mt-2 flex items-center justify-between">
                     <span className="text-lg font-bold">₹{item.price}</span>
                     <div className="flex items-center gap-2">
