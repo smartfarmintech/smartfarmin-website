@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react';
 import { FileUpload, MessageCircle, AlertCircle, CheckCircle2, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
