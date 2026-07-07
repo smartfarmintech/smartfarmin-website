@@ -17,7 +17,7 @@ import {
   BarChart3,
   Settings,
 } from "lucide-react"
-import { getOrgDashboardSummary } from "@/lib/enterprise/organization-management"
+// Mock dashboard data (previously from organization-management.ts)
 
 export default function EnterpriseDashboardPage() {
   const router = useRouter()
@@ -26,18 +26,18 @@ export default function EnterpriseDashboardPage() {
   const [orgId] = useState("demo-org-001") // In real app, get from session/params
 
   useEffect(() => {
-    async function loadSummary() {
-      try {
-        const data = await getOrgDashboardSummary(orgId)
-        setSummary(data)
-      } catch (err) {
-        console.error("Failed to load dashboard:", err)
-      } finally {
-        setLoading(false)
-      }
+    // Mock dashboard data
+    const mockData = {
+      organization: { name: "Demo Farm Organization", id: orgId },
+      members: 12,
+      machines: 8,
+      inventory: 156,
+      pendingMaintenance: 3,
+      totalValue: 2500000,
+      utilizationRate: 78,
     }
-
-    loadSummary()
+    setSummary(mockData)
+    setLoading(false)
   }, [orgId])
 
   if (loading) {
