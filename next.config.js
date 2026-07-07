@@ -14,7 +14,6 @@ const nextConfig = {
 
   // Compression and performance
   compress: true,
-  swcMinify: true,
 
   // React compilation optimizations
   // Disabled - requires babel-plugin-react-compiler which is optional
@@ -24,8 +23,6 @@ const nextConfig = {
   experimental: {
     // Cache optimization
     staticGenerationRetryCount: 3,
-    // Incremental Static Generation
-    isrMemoryCacheSize: 50 * 1024 * 1024, // 50MB ISR cache
     // Turbopack is default in Next.js 16, so no need to enable
   },
 
@@ -151,11 +148,6 @@ const nextConfig = {
     tsconfigPath: './tsconfig.json',
   },
 
-  // ESLint during build
-  eslint: {
-    dirs: ['app', 'components', 'lib', 'middleware'],
-  },
-
   // Trailing slashes for consistency
   trailingSlash: false,
 
@@ -164,14 +156,6 @@ const nextConfig = {
 
   // Production source maps optimization
   productionBrowserSourceMaps: false,
-
-  // Optimize package imports for tree shaking
-  optimizePackageImports: [
-    'recharts',
-    'lucide-react',
-    '@radix-ui/react-*',
-    'date-fns',
-  ],
 }
 
 module.exports = nextConfig
