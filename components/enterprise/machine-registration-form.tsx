@@ -22,7 +22,7 @@ const MACHINE_TYPES = [
 const FUEL_TYPES = ["diesel", "petrol", "electric"]
 
 export function MachineRegistrationForm() {
-  const [state, formAction, isPending] = useActionState(async () => {
+  const [state, formAction, isPending] = useActionState(async (): Promise<{ ok: boolean; error?: string }> => {
     // Placeholder form action - in real app, this would register the machine
     return { ok: true }
   }, null)
@@ -268,7 +268,7 @@ export function MachineRegistrationForm() {
                 <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium text-red-900">Error registering machine</p>
-                  <p className="text-sm text-red-800 mt-1">{state.error}</p>
+                  <p className="text-sm text-red-800 mt-1">{state.error || "Unknown error"}</p>
                 </div>
               </div>
             )}

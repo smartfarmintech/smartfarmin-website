@@ -154,7 +154,6 @@ export async function getFertilizerSchedule(
       "You are an expert agricultural nutritionist for Indian crops. Provide precise, science-based fertilizer schedules with exact quantities and costs.",
     prompt,
     temperature: 0.7,
-    maxTokens: 2000,
   })
 
   // Parse response
@@ -242,7 +241,6 @@ export async function getPesticideRecommendations(
       "You are an expert in integrated pest management for Indian crops. Prioritize organic/sustainable solutions. Provide exact dosages and costs.",
     prompt,
     temperature: 0.7,
-    maxTokens: 1500,
   })
 
   // Parse response

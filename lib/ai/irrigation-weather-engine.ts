@@ -127,7 +127,6 @@ export async function getIrrigationSchedule(
       "You are an expert in agricultural water management and crop irrigation. Provide precise, cost-effective irrigation recommendations for Indian farming conditions.",
     prompt,
     temperature: 0.7,
-    maxTokens: 1500,
   })
 
   let scheduleData
@@ -206,7 +205,6 @@ export async function getWeatherFarmingAdvice(
       "You are an expert agricultural meteorologist. Provide actionable weather-based farming advice for Indian crops with specific impact on yield and disease management.",
     prompt,
     temperature: 0.7,
-    maxTokens: 1500,
   })
 
   let adviceData
@@ -292,7 +290,6 @@ export async function getCropWaterRequirement(
       "You are an expert in crop water management and agricultural hydrology. Provide accurate water requirement calculations for Indian crops.",
     prompt,
     temperature: 0.7,
-    maxTokens: 1200,
   })
 
   let waterData

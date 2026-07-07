@@ -18,7 +18,17 @@ interface MaintenanceSchedulerProps {
 const MAINTENANCE_TYPES = ["routine", "preventive", "repair"] as const
 
 export function MaintenanceScheduler({ machineId, machineName }: MaintenanceSchedulerProps) {
-  const [state, formAction, isPending] = useActionState(scheduleMaintenance, null)
+  const [state, formAction, isPending] = useActionState(async (prev: any, formData: FormData) => {
+    // Extract FormData values and call scheduleMaintenance
+    return scheduleMaintenance(prev, {
+      machineId,
+      maintenanceType: (formData.get("maintenanceType") as any) || "routine",
+      scheduledDate: formData.get("scheduledDate") as string,
+      description: formData.get("description") as string,
+      estimatedCost: formData.get("estimatedCost") ? parseInt(formData.get("estimatedCost") as string) : undefined,
+      serviceProvider: (formData.get("serviceProvider") as string) || undefined,
+    })
+  }, null)
 
   return (
     <Card>
