@@ -156,7 +156,7 @@ export default function GovernmentPage() {
               ].map((cert) => (
                 <div key={cert.category} className="space-y-4">
                   <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <Certificate className="w-5 h-5 text-emerald-400" />
+                    <Award className="w-5 h-5 text-emerald-400" />
                     {cert.category}
                   </h3>
                   <div className="space-y-2">

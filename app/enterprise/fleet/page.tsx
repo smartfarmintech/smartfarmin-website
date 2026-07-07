@@ -258,7 +258,7 @@ export default function FleetManagementPage() {
                 <p className="text-slate-400">
                   2 assets require maintenance in the next 30 days. Schedule maintenance now to avoid downtime.
                 </p>
-                <Button className="mt-4" size="sm" className="btn-secondary">
+                <Button className="mt-4 btn-secondary" size="sm">
                   View Maintenance Schedule
                 </Button>
               </div>
