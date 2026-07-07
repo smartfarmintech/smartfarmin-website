@@ -42,7 +42,7 @@ export interface PestAnalysis {
   riskLevel: "low" | "medium" | "high" | "critical"
   populationEstimate: number
   lifecycle: string
-  damage potentialPercent: number
+  damagePotentialPercent: number
   organicControl: string[]
   chemicalControl: Array<{ product: string; dosage: string; safetyPeriod: number }>
   preventionStrategies: string[]
