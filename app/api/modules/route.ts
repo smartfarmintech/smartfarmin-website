@@ -97,7 +97,7 @@ const AnalyzeImageSchema = z.object({
  * Generic API handler with authentication
  */
 
-export async function POST(request: NextRequest, { params }: { params: { action: string } }) {
+export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest, { params }: { params: { action:
     }
 
     const body = await request.json()
-    const action = params.action
+    const action = body.action || ''
 
     // WALLET & PAYMENTS
     if (action === 'wallet/add-money') {

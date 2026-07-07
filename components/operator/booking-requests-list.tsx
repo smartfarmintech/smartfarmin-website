@@ -149,20 +149,21 @@ export default function BookingRequestsList() {
                     </div>
                   </div>
 
-                  <Dialog open={dialogOpen && selectedRequest?.id === request.id} onOpenChange={setDialogOpen}>
-                    <DialogTrigger asChild>
-                      <div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full"
-                          onClick={() => setSelectedRequest(request)}
-                        >
-                          View Details
-                        </Button>
-                      </div>
-                    </DialogTrigger>
-                    <DialogContent>
+                  <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                      onClick={() => {
+                        setSelectedRequest(request)
+                        setDialogOpen(true)
+                      }}
+                    >
+                      View Details
+                    </Button>
+                    {dialogOpen && selectedRequest?.id === request.id && (
+                      <Dialog open={true} onOpenChange={setDialogOpen}>
+                        <DialogContent>
                       <DialogHeader>
                         <DialogTitle>Booking Request Details</DialogTitle>
                       </DialogHeader>
@@ -180,8 +181,10 @@ export default function BookingRequestsList() {
                           </div>
                         </div>
                       )}
-                    </DialogContent>
-                  </Dialog>
+                        </DialogContent>
+                      </Dialog>
+                    )}
+                  </>
                 </div>
 
                 {/* Amount & Actions */}

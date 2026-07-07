@@ -23,8 +23,7 @@ interface Machine {
   operator?: {
     id: string
     full_name: string
-    rating_avg: number
-    rating_count: number
+    phone: string
   }
   pricing_rules?: Array<{
     id: string
@@ -58,8 +57,7 @@ export default function MachineryList() {
       operator: {
         id: 'op1',
         full_name: 'Rajesh Kumar',
-        rating_avg: 4.7,
-        rating_count: 98,
+        phone: '+91-9876543210',
       },
       pricing_rules: [
         { id: 'p1', price: 1500, unit: 'day' },
@@ -85,8 +83,7 @@ export default function MachineryList() {
       operator: {
         id: 'op2',
         full_name: 'Mohan Singh',
-        rating_avg: 4.5,
-        rating_count: 76,
+        phone: '+91-8765432109',
       },
       pricing_rules: [
         { id: 'p3', price: 1200, unit: 'day' },
@@ -167,28 +164,33 @@ export default function MachineryList() {
                 </div>
               )}
 
-              <Dialog open={bookingOpen && selectedMachine?.id === machine.id} onOpenChange={setBookingOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                      onClick={() => setSelectedMachine(machine)}
-                      className="w-full"
-                    >
-                      <Calendar className="w-4 h-4 mr-2" />
-                      Book Now
-                    </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl">
-                  <DialogHeader>
-                    <DialogTitle>Book {machine.name}</DialogTitle>
-                  </DialogHeader>
-                  {selectedMachine && (
-                    <MachineryBookingDialog
-                      machine={selectedMachine}
-                      onClose={() => setBookingOpen(false)}
-                    />
-                  )}
-                </DialogContent>
-              </Dialog>
+              <>
+                <Button
+                  onClick={() => {
+                    setSelectedMachine(machine)
+                    setBookingOpen(true)
+                  }}
+                  className="w-full"
+                >
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Book Now
+                </Button>
+                {bookingOpen && selectedMachine?.id === machine.id && (
+                  <Dialog open={bookingOpen && selectedMachine?.id === machine.id} onOpenChange={setBookingOpen}>
+                    <DialogContent className="max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle>Book {machine.name}</DialogTitle>
+                      </DialogHeader>
+                      {selectedMachine && (
+                        <MachineryBookingDialog
+                          machine={selectedMachine}
+                          onClose={() => setBookingOpen(false)}
+                        />
+                      )}
+                    </DialogContent>
+                  </Dialog>
+                )}
+              </>
 
               <Button variant="outline" className="w-full">
                 <AlertCircle className="w-4 h-4 mr-2" />
