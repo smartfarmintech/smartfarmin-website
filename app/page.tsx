@@ -16,6 +16,7 @@ import { MachineryBookingSection } from "@/components/machinery-booking-section"
 import { AiCropDoctorSection } from "@/components/ai-crop-doctor-section"
 import { MarketplaceSection } from "@/components/marketplace-section"
 import { EnterpriseSolutionsSection } from "@/components/enterprise-solutions-section"
+import { EnterpriseDashboardShowcase } from "@/components/enterprise-dashboard-showcase"
 import { MobileAppSection } from "@/components/mobile-app-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { PartnersSection } from "@/components/partners-section"
@@ -45,6 +46,7 @@ export default function HomePage() {
         <AiCropDoctorSection />
         <MarketplaceSection />
         <EnterpriseSolutionsSection />
+        <EnterpriseDashboardShowcase />
         <MobileAppSection />
         <TestimonialsSection />
         <PartnersSection />
