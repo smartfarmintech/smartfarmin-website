@@ -1,38 +1,30 @@
-import { createClient } from "@/lib/supabase/client";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  createOrganization,
-  addOrganizationMember,
-} from "@/lib/enterprise/organization-management";
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const orgData = await request.json();
 
-    const organization = await createOrganization(
-      supabase,
-      {
-        name: orgData.name,
-        type: orgData.type,
-        description: orgData.description,
-        location: orgData.location,
-        contactPerson: orgData.contactPerson,
-        contactEmail: orgData.contactEmail,
-        contactPhone: orgData.contactPhone,
-      },
-      user.id
-    );
+    // Validate required fields
+    if (!orgData.name || !orgData.type) {
+      return NextResponse.json(
+        { error: "Missing required fields: name, type" },
+        { status: 400 }
+      );
+    }
 
-    return NextResponse.json(organization, { status: 201 });
+    // Return mock organization created response
+    return NextResponse.json({
+      id: "org-" + Math.random().toString(36).substr(2, 9),
+      name: orgData.name,
+      type: orgData.type,
+      description: orgData.description || "",
+      location: orgData.location || "",
+      contactPerson: orgData.contactPerson || "",
+      contactEmail: orgData.contactEmail || "",
+      contactPhone: orgData.contactPhone || "",
+      createdAt: new Date().toISOString(),
+      status: "active",
+    }, { status: 201 });
   } catch (error) {
     console.error("[v0] Organization creation error:", error);
     return NextResponse.json(

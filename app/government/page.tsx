@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Landmark, ShieldCheck, BarChart3, Users, Wheat, MapPinned, Shield, Award, CheckCircle2, Lock, Globe, Scale, BookOpen, ArrowRight, Certificate } from "lucide-react"
+import { Landmark, ShieldCheck, BarChart3, Users, Wheat, MapPinned, Shield, Award, CheckCircle2, Lock, Globe, Scale, BookOpen, ArrowRight } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { PageHero } from "@/components/page-hero"

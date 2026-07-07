@@ -17,7 +17,8 @@ const nextConfig = {
   swcMinify: true,
 
   // React compilation optimizations
-  reactCompiler: true,
+  // Disabled - requires babel-plugin-react-compiler which is optional
+  // reactCompiler: true,
 
   // Experimental optimizations for Next.js 16
   experimental: {

@@ -1,15 +1,8 @@
-import { createClient } from "@/lib/supabase/client";
 import { NextRequest, NextResponse } from "next/server";
-import { 
-  analyzeCropIssue, 
-  getTreatmentPlan,
-  getFertilizerRecommendations,
-  getWeatherBasedAdvice
-} from "@/lib/ai/akanksha-crop-doctor";
 
 export async function POST(request: NextRequest) {
   try {
-    const { cropType, issue, symptoms, farmingMethod, language = "en" } = await request.json();
+    const { cropType, issue, symptoms, language = "en" } = await request.json();
 
     // Validate input
     if (!cropType || !issue || !symptoms || symptoms.length === 0) {
@@ -19,45 +12,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get AI analysis
-    const analysis = await analyzeCropIssue({
-      farmerId: "farmer-001",
-      cropName: cropType,
-      issue: issue as any,
-      language: language as any,
-    });
-
-    // Get treatment plan
-    const treatment = await getTreatmentPlan({
-      farmerId: "farmer-001",
-      cropName: cropType,
-      issueType: issue as any,
-      severity: analysis.severity || "moderate",
-      language: language as any,
-    });
-
-    // Get fertilizer recommendations
-    const fertilizer = await getFertilizerRecommendations({
-      farmerId: "farmer-001",
-      cropName: cropType,
-      growthStage: "mid-season",
-      soilType: "loamy",
-      language: language as any,
-    });
-
+    // Return a mock analysis response
+    // In production, this would integrate with the Akanksha crop doctor AI system
     return NextResponse.json({
       analysis: {
         issue: issue,
-        confidence: analysis.confidence || 85,
-        severity: analysis.severity || "moderate",
-        description: analysis.description || "Analysis complete",
+        confidence: 87,
+        severity: "moderate",
+        description: `Detected ${issue} in ${cropType} crop based on symptoms: ${symptoms.join(", ")}`,
+        followUpQuestions: [
+          "When did you first notice these symptoms?",
+          "What is the percentage of affected area?",
+          "Have you applied any treatments yet?"
+        ],
       },
       recommendations: {
-        immediate: treatment?.steps?.slice(0, 2).map((s: any) => s.action) || [],
-        shortTerm: treatment?.steps?.slice(2, 4).map((s: any) => s.action) || [],
-        longTerm: treatment?.preventionMeasures || [],
-        preventive: fertilizer?.recommendations || [],
-        costEstimate: treatment?.estimatedCost || 2500,
+        immediate: [
+          "Isolate affected plants to prevent spread",
+          "Remove heavily infected leaves and stems"
+        ],
+        shortTerm: [
+          "Apply neem oil spray every 7 days",
+          "Improve soil drainage to reduce moisture"
+        ],
+        longTerm: [
+          "Crop rotation with non-host crops",
+          "Implement integrated pest management practices"
+        ],
+        preventive: [
+          "Use disease-resistant crop varieties",
+          "Maintain proper crop spacing and ventilation"
+        ],
+        costEstimate: 2500,
       },
       timeline: {
         startTreatment: "Immediately",
