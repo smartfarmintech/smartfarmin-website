@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
 import { streamText } from 'ai'
+import { anthropic } from '@ai-sdk/anthropic'
 import { createClient } from '@/lib/supabase/server'
 
 const SYSTEM_PROMPT_EN = `You are Akanksha, an expert agricultural AI assistant for Indian farmers.
@@ -66,25 +67,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Stream response using Anthropic
-    const result = streamText({
-      model: 'claude-3-5-sonnet',
+    const result = await streamText({
+      model: anthropic('claude-3-5-sonnet-20241022'),
       system: SYSTEM_PROMPT_EN,
       messages: conversationHistory,
       temperature: 0.7,
       maxTokens: 2048
     })
 
-    // Convert to streaming response
-    const textStream = (await result).toAIStream()
-
-    // Save assistant response as it streams (will save after completion)
-    return new Response(textStream, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive'
-      }
-    })
+    // Return the stream as a response
+    return result.toAIStreamResponse()
   } catch (error) {
     console.error('Chat error:', error)
     return new Response(

@@ -7,7 +7,6 @@ import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { Send, Mic, MicOff, Upload, Loader } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
 
 interface Message {
   id: string
@@ -294,9 +293,9 @@ export default function ChatPage() {
                     }`}
                   >
                     <div className={msg.role === 'user' ? 'text-white' : ''}>
-                      <ReactMarkdown className="prose prose-sm max-w-none">
+                      <div className="prose prose-sm max-w-none">
                         {msg.content}
-                      </ReactMarkdown>
+                      </div>
                     </div>
                     <p
                       className={`text-xs mt-2 ${msg.role === 'user' ? 'text-blue-100' : 'text-muted-foreground'}`}

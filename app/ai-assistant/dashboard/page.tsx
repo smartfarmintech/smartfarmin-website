@@ -255,20 +255,18 @@ export default function AIAssistantDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {recentChats.length > 0 ? (
               recentChats.map((chat) => (
-                <div key={chat.id} >
-                  <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer" asChild>
-                    <Link href={`/ai-assistant/conversation/${chat.id}`}>
-                      <p className="font-semibold text-sm line-clamp-2">{chat.title || 'Untitled'}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {chat.message_count} messages • {new Date(chat.last_message_at).toLocaleDateString()}
-                      </p>
+                <Link key={chat.id} href={`/ai-assistant/conversation/${chat.id}`}>
+                  <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer h-full">
+                    <p className="font-semibold text-sm line-clamp-2">{chat.title || 'Untitled'}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {chat.message_count} messages • {new Date(chat.last_message_at).toLocaleDateString()}
+                    </p>
                       <div className="mt-3 flex items-center justify-between">
                         <Badge variant="secondary">{chat.language?.toUpperCase()}</Badge>
                         <span className="text-xs text-muted-foreground">View →</span>
                       </div>
-                    </Link>
                   </Card>
-                </div>
+                </Link>
               ))
             ) : (
               <Card className="p-6 col-span-full text-center">

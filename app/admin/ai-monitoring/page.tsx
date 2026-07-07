@@ -84,10 +84,10 @@ export default function AIMonitoringPage() {
           totalUsers: totalConversations,
           totalConversations,
           totalMessages,
-          avgMessagesPerConversation: parseFloat(avgMessagesPerConversation),
+          avgMessagesPerConversation: avgMessagesPerConversation ? parseFloat(avgMessagesPerConversation as string) : 0,
           totalImages,
-          successRate: parseFloat(successRate),
-          avgResponseTime: parseFloat(avgResponseTime)
+          successRate: successRate ? parseFloat(successRate as string) : 0,
+          avgResponseTime: avgResponseTime ? parseFloat(avgResponseTime as string) : 0
         })
 
         // Get popular questions (simulated)
@@ -280,7 +280,7 @@ export default function AIMonitoringPage() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ type, count }) => `${type}: ${count}`}
+                      label={(entry: any) => `${entry.type}: ${entry.count}`}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="count"

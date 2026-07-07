@@ -6,8 +6,6 @@ import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Download, Share2, Trash2, MessageSquare, Calendar } from 'lucide-react'
-
-import ReactMarkdown from 'react-markdown'
 import { useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
@@ -249,9 +247,9 @@ export default function ConversationPage() {
                   }`}
                 >
                   <div className={msg.role === 'user' ? 'text-white' : ''}>
-                    <ReactMarkdown className="prose prose-sm max-w-none">
+                    <div className="prose prose-sm max-w-none">
                       {msg.content}
-                    </ReactMarkdown>
+                    </div>
                   </div>
                   <p
                     className={`text-xs mt-2 ${
