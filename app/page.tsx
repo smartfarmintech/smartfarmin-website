@@ -6,6 +6,8 @@ import { BenefitsSection } from "@/components/benefits-section"
 import { MarketplacePremium } from "@/components/marketplace/marketplace-premium"
 import { MachineryBooking } from "@/components/machinery/machinery-booking"
 import { DroneBookingWizard } from "@/components/drone/drone-booking-wizard"
+import { AiDashboard } from "@/components/dashboard/ai-dashboard"
+import { PremiumTestimonials } from "@/components/testimonials/premium-testimonials"
 import { TrustedBySection } from "@/components/trusted-by-section"
 import { StatsSection } from "@/components/stats-section"
 import { SolutionsSection } from "@/components/solutions-section"
@@ -33,6 +35,8 @@ export default function HomePage() {
         <MarketplacePremium />
         <MachineryBooking />
         <DroneBookingWizard />
+        <AiDashboard />
+        <PremiumTestimonials />
         <TrustedBySection />
         <StatsSection />
         <SolutionsSection />
