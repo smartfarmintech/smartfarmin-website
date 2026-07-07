@@ -71,7 +71,7 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-2 lg:flex">
           <Button
-            render={<Link href="/contact" />}
+            render={<Link href="/roles" />}
             nativeButton={false}
             variant="ghost"
             size="sm"
@@ -110,7 +110,7 @@ export function SiteHeader() {
             ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-border pt-3">
               <Button
-                render={<Link href="/contact" onClick={() => setOpen(false)} />}
+                render={<Link href="/roles" onClick={() => setOpen(false)} />}
                 nativeButton={false}
                 variant="outline"
                 size="sm"

@@ -77,7 +77,7 @@ export async function updateOperatorProfile(data: z.infer<typeof OperatorProfile
       updated_at: new Date().toISOString(),
     }).eq("user_id", user.id)
 
-    revalidateTag("operator-profile")
+    revalidateTag("operator-profile", "max")
     return { ok: true, operator }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to update profile" }
@@ -124,7 +124,7 @@ export async function addOperatorDocument(data: z.infer<typeof OperatorDocumentS
 
     if (error) throw error
 
-    revalidateTag("operator-documents")
+    revalidateTag("operator-documents", "max")
     return { ok: true, document }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to add document" }
@@ -168,7 +168,7 @@ export async function acceptBooking(bookingId: string) {
 
     if (error) throw error
 
-    revalidateTag("operator-bookings")
+    revalidateTag("operator-bookings", "max")
     return { ok: true, booking }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to accept booking" }
@@ -212,7 +212,7 @@ export async function completeBooking(bookingId: string, notes?: string) {
       note: notes || "Booking completed",
     })
 
-    revalidateTag("operator-bookings")
+    revalidateTag("operator-bookings", "max")
     return { ok: true, booking }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to complete booking" }

@@ -227,7 +227,7 @@ export function InvestorDemoModal({ open = false, onOpenChange }: InvestorDemoMo
             </Button>
             <Button
               onClick={() => {
-                router.push("/login?demo=true")
+                router.push("/app/login?demo=true")
                 onOpenChange?.(false)
               }}
               className="flex-1"
