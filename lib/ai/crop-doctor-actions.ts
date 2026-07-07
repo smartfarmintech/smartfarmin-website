@@ -2,11 +2,32 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
-import { generateObject } from "ai"
+import { generateObject, generateText } from "ai"
 import { z } from "zod"
 
-// Multimodal model routed through the Vercel AI Gateway (zero-config for Google in v0).
+// Multimodal model for image analysis - supports disease, pest, deficiency detection
 const VISION_MODEL = "google/gemini-2.5-flash"
+
+// Text model for detailed recommendations and agriculture knowledge
+const TEXT_MODEL = "google/gemini-2.0-flash"
+
+/**
+ * AI Crop Doctor - Complete Agricultural Intelligence System
+ * Features:
+ * - Disease detection from images
+ * - Nutrient deficiency analysis
+ * - Pest identification and lifecycle tracking
+ * - Treatment plan generation
+ * - Fertilizer & pesticide recommendations
+ * - Irrigation scheduling
+ * - Weather-based alerts
+ * - Yield predictions
+ * - Multilingual support (EN, HI, TE)
+ * - Confidence scoring for all predictions
+ * - Image history with EXIF metadata
+ * - Treatment timeline tracking
+ * - PDF report generation
+ */
 
 export interface DiseaseAnalysis {
   diseaseId: string
@@ -118,19 +139,101 @@ export interface AIReport {
 }
 
 /**
- * Analyze crop image for diseases
+ * AI-Powered Disease Detection from Crop Images
+ * Analyzes crop images using AI vision models with Supabase integration
+ * Returns structured disease predictions with severity and treatment recommendations
  */
-export async function analyzeCropDisease(
-  userId: string,
-  cropId: string,
+export async function analyzeCropHealth(
   imageUrl: string,
-  cropType: string
-): Promise<{ ok: boolean; data?: DiseaseAnalysis[]; error?: string }> {
-  const supabase = await createClient()
+  cropType: string,
+  conversationId: string,
+  farmerId: string,
+  language: "en" | "hi" | "te" = "en",
+): Promise<DiseaseAnalysis> {
+  try {
+    const client = await createClient()
 
-  if (!imageUrl) {
-    return { ok: false, error: "A crop image is required for disease analysis." }
+    // Use AI vision model for disease detection
+    const schema = z.object({
+      diseaseId: z.string(),
+      name: z.string(),
+      confidence: z.number().min(0).max(1),
+      severity: z.enum(["low", "medium", "high", "critical"]),
+      symptoms: z.array(z.string()),
+      riskFactors: z.array(z.string()),
+      timelineToSpread: z.string(),
+      treatment: z.object({
+        steps: z.array(z.object({
+          day: z.number(),
+          action: z.string(),
+          products: z.array(z.string()),
+          dosage: z.string(),
+          timing: z.string(),
+          precautions: z.array(z.string()),
+        })),
+        duration: z.number(),
+        successRate: z.number(),
+        costEstimate: z.number(),
+      }),
+    })
+
+    const analysis = await generateObject({
+      model: VISION_MODEL,
+      schema,
+      prompt: `Analyze this crop image for diseases. Crop type: ${cropType}
+      Image URL: ${imageUrl}
+      
+      Provide detailed disease analysis including:
+      1. Disease identification with confidence (0-1)
+      2. Severity assessment
+      3. Visible symptoms
+      4. Risk factors and spread timeline
+      5. Treatment plan with daily steps
+      6. Success rate and cost estimate
+      
+      Language preference: ${language}
+      Be specific to Indian farming context and regional crop diseases.`,
+    })
+
+    // Save to disease_predictions table
+    const { data: predictionRecord, error: insertError } = await client
+      .from("disease_predictions")
+      .insert({
+        image_url: imageUrl,
+        predicted_disease: analysis.name,
+        confidence: analysis.confidence,
+        severity: analysis.severity,
+        farmer_id: farmerId,
+        conversation_id: conversationId,
+        crop_name: cropType,
+        model: VISION_MODEL,
+        treatment: analysis.treatment,
+        status: "analyzed",
+        metadata: {
+          language,
+          detectedSymptoms: analysis.symptoms,
+          riskFactors: analysis.riskFactors,
+        },
+      })
+      .select()
+      .single()
+
+    if (insertError) {
+      console.error("[v0] Disease prediction save error:", insertError)
+    }
+
+    // Revalidate crop health data
+    revalidatePath(`/dashboard/farmer/crop-doctor`)
+
+    return {
+      ...analysis,
+      diseaseId: predictionRecord?.id || analysis.diseaseId,
+    }
+  } catch (error) {
+    console.error("[v0] Crop health analysis error:", error)
+    throw new Error(`Failed to analyze crop health: ${error instanceof Error ? error.message : "Unknown error"}`)
   }
+}
 
   try {
     const { object } = await generateObject({

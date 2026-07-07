@@ -106,35 +106,35 @@ export default function AIAssistantDashboard() {
   }
 
   const priorityColors = {
-    high: 'bg-red-100 text-red-800',
-    medium: 'bg-yellow-100 text-yellow-800',
-    low: 'bg-green-100 text-green-800'
+    high: 'bg-red-500/20 text-red-400 border border-red-500/30',
+    medium: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
+    low: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
   }
 
   const statusColors = {
-    healthy: 'text-green-600',
-    warning: 'text-yellow-600',
-    alert: 'text-red-600'
+    healthy: 'text-emerald-400',
+    warning: 'text-amber-400',
+    alert: 'text-red-400'
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4 md:p-8">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
+        {/* Header with Sunrise theme */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Akanksha Dashboard</h1>
-            <p className="text-muted-foreground">AI-powered insights for your crops</p>
+            <h1 className="text-4xl font-bold text-white">Akanksha <span className="text-gradient-primary">AI Dashboard</span></h1>
+            <p className="text-slate-400 mt-2">Advanced crop health monitoring, disease detection, and AI-powered recommendations</p>
           </div>
-          <Button asChild>
+          <Button asChild className="btn-primary">
             <Link href="/ai-assistant/chat">New Chat</Link>
           </Button>
         </div>
 
-        {/* Crop Health Overview */}
+        {/* Crop Health Overview with glassmorphism */}
         {cropHealth && (
-          <div >
-            <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+          <div>
+            <Card className="card-glass p-6 bg-gradient-to-br from-emerald-500/10 to-transparent border-emerald-500/20">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <p className="text-sm text-muted-foreground">Overall Crop Health</p>
@@ -155,10 +155,10 @@ export default function AIAssistantDashboard() {
 
                 <div className="flex items-center">
                   <div className="text-center flex-1">
-                    <p className="text-sm text-muted-foreground mb-2">7-Day Trend</p>
+                    <p className="text-sm text-slate-400 mb-2">7-Day Trend</p>
                     <ResponsiveContainer width="100%" height={80}>
                       <LineChart data={healthTrend}>
-                        <Line type="monotone" dataKey="health" stroke="#3b82f6" strokeWidth={2} dot={false} />
+                        <Line type="monotone" dataKey="health" stroke="#10b981" strokeWidth={2} dot={false} />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
@@ -185,7 +185,7 @@ export default function AIAssistantDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Active Insights */}
           <div className="lg:col-span-2 space-y-4">
-            <h2 className="text-lg font-semibold">Active Insights</h2>
+            <h2 className="text-lg font-semibold text-white">Active Insights</h2>
             {insights.length > 0 ? (
               insights.map((insight, idx) => (
                 <div
@@ -194,26 +194,26 @@ export default function AIAssistantDashboard() {
                   
                   
                 >
-                  <Card className="p-4 hover:shadow-lg transition-shadow">
+                  <Card className="card-glass p-4 hover:shadow-lg transition-shadow">
                     <div className="flex items-start gap-3 mb-2">
-                      {insight.type === 'disease' && <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0 mt-1" />}
-                      {insight.type === 'pest' && <Leaf className="w-5 h-5 text-orange-600 flex-shrink-0 mt-1" />}
-                      {insight.type === 'irrigation' && <Zap className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />}
-                      {insight.type === 'fertilizer' && <TrendingUp className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />}
-                      {insight.type === 'weather' && <Wind className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-1" />}
+                      {insight.type === 'disease' && <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-1" />}
+                      {insight.type === 'pest' && <Leaf className="w-5 h-5 text-orange-400 flex-shrink-0 mt-1" />}
+                      {insight.type === 'irrigation' && <Zap className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1" />}
+                      {insight.type === 'fertilizer' && <TrendingUp className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-1" />}
+                      {insight.type === 'weather' && <Wind className="w-5 h-5 text-sky-400 flex-shrink-0 mt-1" />}
 
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <p className="font-semibold">{insight.title}</p>
+                          <p className="font-semibold text-white">{insight.title}</p>
                           <Badge className={priorityColors[insight.priority]}>
                             {insight.priority}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">{insight.description}</p>
+                        <p className="text-sm text-slate-400">{insight.description}</p>
                       </div>
                     </div>
-                    <Button size="sm" variant="ghost" asChild>
-                      <Link href="/ai-assistant/chat">Get Advice</Link>
+                    <Button size="sm" variant="ghost" asChild className="text-emerald-400 hover:text-emerald-300">
+                      <Link href="/ai-assistant/chat">Get Advice →</Link>
                     </Button>
                   </Card>
                 </div>
@@ -227,22 +227,22 @@ export default function AIAssistantDashboard() {
 
           {/* Statistics */}
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold">Statistics</h2>
-            <Card className="p-4">
+            <h2 className="text-lg font-semibold text-white">Statistics</h2>
+            <Card className="card-glass p-4">
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Conversations</p>
-                  <p className="text-2xl font-bold">{recentChats.length}</p>
+                  <p className="text-sm text-slate-400">Total Conversations</p>
+                  <p className="text-2xl font-bold text-white">{recentChats.length}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Analyses Performed</p>
-                  <p className="text-2xl font-bold">
+                  <p className="text-sm text-slate-400">Analyses Performed</p>
+                  <p className="text-2xl font-bold text-emerald-400">
                     {insights.length > 0 ? insights.length * 3 : 0}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Insights Generated</p>
-                  <p className="text-2xl font-bold">{insights.length}</p>
+                  <p className="text-sm text-slate-400">Insights Generated</p>
+                  <p className="text-2xl font-bold text-amber-400">{insights.length}</p>
                 </div>
               </div>
             </Card>
@@ -251,27 +251,27 @@ export default function AIAssistantDashboard() {
 
         {/* Recent Conversations */}
         <div>
-          <h2 className="text-lg font-semibold mb-4">Recent Conversations</h2>
+          <h2 className="text-lg font-semibold text-white mb-4">Recent Conversations</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {recentChats.length > 0 ? (
               recentChats.map((chat) => (
                 <Link key={chat.id} href={`/ai-assistant/conversation/${chat.id}`}>
-                  <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer h-full">
-                    <p className="font-semibold text-sm line-clamp-2">{chat.title || 'Untitled'}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
+                  <Card className="card-glass p-4 hover:shadow-lg transition-shadow cursor-pointer h-full hover:translate-y-[-2px]">
+                    <p className="font-semibold text-sm line-clamp-2 text-white">{chat.title || 'Untitled'}</p>
+                    <p className="text-xs text-slate-400 mt-1">
                       {chat.message_count} messages • {new Date(chat.last_message_at).toLocaleDateString()}
                     </p>
                       <div className="mt-3 flex items-center justify-between">
-                        <Badge variant="secondary">{chat.language?.toUpperCase()}</Badge>
-                        <span className="text-xs text-muted-foreground">View →</span>
+                        <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">{chat.language?.toUpperCase()}</Badge>
+                        <span className="text-xs text-emerald-400">View →</span>
                       </div>
                   </Card>
                 </Link>
               ))
             ) : (
-              <Card className="p-6 col-span-full text-center">
-                <p className="text-muted-foreground mb-4">No conversations yet</p>
-                <Button asChild>
+              <Card className="card-glass p-6 col-span-full text-center">
+                <p className="text-slate-400 mb-4">No conversations yet</p>
+                <Button asChild className="btn-primary">
                   <Link href="/ai-assistant/chat">Start Chatting</Link>
                 </Button>
               </Card>

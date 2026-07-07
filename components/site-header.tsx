@@ -26,10 +26,10 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl border-b border-white/5">
+    <header className="sticky top-0 z-50 bg-slate-900/50 backdrop-blur-2xl border border-white/10 border-b border-white/5">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 rounded-lg p-2 transition-all hover:shadow-lg hover:shadow-green-500/20">
-          <span className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-r from-green-600 to-green-500 text-white">
+        <Link href="/" className="flex items-center gap-2 rounded-lg p-2 transition-all hover:shadow-lg hover:shadow-emerald-500/20">
+          <span className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-500 text-white">
             <Leaf className="size-5" />
           </span>
           <span className="font-serif text-xl font-bold tracking-tight text-white">
@@ -83,7 +83,7 @@ export function SiteHeader() {
             render={<Link href="/pricing" />} 
             nativeButton={false} 
             size="sm"
-            className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white border-0 transition-all duration-300"
+            className="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white border-0 transition-all duration-300 shadow-lg shadow-emerald-600/30"
           >
             Get Started
           </Button>
@@ -127,7 +127,7 @@ export function SiteHeader() {
                 render={<Link href="/pricing" onClick={() => setOpen(false)} />}
                 nativeButton={false}
                 size="sm"
-                className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white border-0"
+                className="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white border-0 shadow-lg shadow-green-600/30"
               >
                 Get Started
               </Button>

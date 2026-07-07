@@ -23,21 +23,21 @@ const statistics: Statistic[] = [
     number: "₹25,000",
     title: "Avg Savings Per Season",
     description: "Reduce expenses through optimized resource management and smart machinery rental",
-    color: "from-amber-500/20 to-amber-500/0",
+    color: "from-amber-400/20 to-amber-400/0",
   },
   {
     icon: <Target className="size-6" />,
     number: "95%",
     title: "Fair Price Guarantee",
     description: "Direct marketplace connection ensures competitive pricing for all produce types",
-    color: "from-blue-500/20 to-blue-500/0",
+    color: "from-cyan-500/20 to-cyan-500/0",
   },
   {
     icon: <BarChart3 className="size-6" />,
     number: "₹500Cr",
     title: "Value Created",
     description: "Total value generated for farmer communities across India since inception",
-    color: "from-primary/20 to-primary/0",
+    color: "from-emerald-600/20 to-emerald-600/0",
   },
 ]
 

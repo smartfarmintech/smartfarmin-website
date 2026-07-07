@@ -7,19 +7,19 @@ import { GlassCard } from '@/components/cards/glass-card';
 
 const trustMetrics = [
   {
-    icon: <Users className="size-8 text-green-400" />,
+    icon: <Users className="size-8 text-emerald-400" />,
     value: 10000,
     suffix: '+',
     label: 'Farmers Registered',
   },
   {
-    icon: <MapPin className="size-8 text-blue-400" />,
+    icon: <MapPin className="size-8 text-cyan-400" />,
     value: 500,
     suffix: '+',
     label: 'Villages Connected',
   },
   {
-    icon: <Wrench className="size-8 text-yellow-400" />,
+    icon: <Wrench className="size-8 text-amber-400" />,
     value: 250,
     suffix: '+',
     label: 'Machinery Partners',
@@ -31,13 +31,13 @@ const trustMetrics = [
     label: 'Drone Operators',
   },
   {
-    icon: <BarChart3 className="size-8 text-green-400" />,
+    icon: <BarChart3 className="size-8 text-emerald-400" />,
     value: 15,
     suffix: '+',
     label: 'Government Programs',
   },
   {
-    icon: <ShoppingCart className="size-8 text-purple-400" />,
+    icon: <ShoppingCart className="size-8 text-pink-400" />,
     value: 500,
     suffix: '+',
     label: 'Marketplace Sellers',
@@ -47,9 +47,9 @@ const trustMetrics = [
 export function TrustSection() {
   return (
     <section className="relative py-20 sm:py-32 overflow-hidden">
-      {/* Background orbs */}
-      <div className="absolute -top-40 right-0 h-96 w-96 rounded-full bg-green-600/10 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 left-0 h-96 w-96 rounded-full bg-green-500/10 blur-3xl pointer-events-none" />
+      {/* Sunrise theme background orbs */}
+      <div className="absolute -top-40 right-0 h-96 w-96 rounded-full bg-emerald-600/10 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 left-0 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center space-y-4 fade-in">

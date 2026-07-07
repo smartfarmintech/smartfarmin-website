@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import { FarmerSidebar } from '@/components/farmer/sidebar'
 import { FarmerNav } from '@/components/farmer/nav'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Farmer Dashboard | Rythu360',
   description: 'Manage your farm, crops, and bookings'

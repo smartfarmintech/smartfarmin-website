@@ -71,23 +71,23 @@ export default function DiseaseDetectionPage() {
   }
 
   const severityColors = {
-    mild: 'bg-green-100 text-green-800',
-    moderate: 'bg-yellow-100 text-yellow-800',
-    severe: 'bg-red-100 text-red-800'
+    mild: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
+    moderate: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
+    severe: 'bg-red-500/20 text-red-400 border border-red-500/30'
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header */}
+        {/* Header with Sunrise theme */}
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold">Disease Detection</h1>
-          <p className="text-muted-foreground">Upload a crop image to get instant disease identification and treatment recommendations</p>
+          <h1 className="text-4xl font-bold text-white">Disease <span className="text-gradient-primary">Detection</span></h1>
+          <p className="text-slate-400 mt-2">Upload a crop image to get instant disease identification and personalized treatment recommendations</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Upload Section */}
-          <Card className="p-6">
+          <Card className="card-glass p-6">
             <Tabs defaultValue="upload" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="upload">Upload Image</TabsTrigger>
