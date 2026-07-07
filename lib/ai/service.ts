@@ -1,4 +1,5 @@
 import { generateText, streamText } from 'ai'
+import { anthropic } from '@ai-sdk/anthropic'
 import { createClient } from '@/lib/supabase/server'
 import type { Language, AIMessage, CropAnalysis, Recommendation } from './types'
 
@@ -127,7 +128,7 @@ export class AkanshaAIService {
     )
 
     return streamText({
-      model: 'claude-3-5-sonnet',
+      model: anthropic('claude-3-5-sonnet-20241022'),
       system: systemPrompt,
       messages: [...conversationHistory, { role: 'user', content: userMessage }],
       temperature: 0.7,
@@ -144,14 +145,15 @@ export class AkanshaAIService {
     if (!this.supabase) await this.initialize()
 
     const result = await generateText({
-      model: 'claude-3-5-sonnet',
+      model: anthropic('claude-3-5-sonnet-20241022'),
       messages: [
         {
           role: 'user',
           content: [
             {
               type: 'image',
-              source: { type: 'url', url: imageUrl }
+              data: imageUrl,
+              mimeType: 'image/jpeg'
             },
             {
               type: 'text',
@@ -170,35 +172,30 @@ export class AkanshaAIService {
       ]
     })
 
-    try {
-      const analysis = JSON.parse(result.text)
-      const { data, error } = await this.supabase
-        .from('crop_analysis')
-        .insert([
-          {
-            conversation_id: conversationId,
-            farmer_id: farmerId,
-            image_url: imageUrl,
-            analysis_type: analysisType,
-            detected: analysis.detected,
-            confidence: analysis.confidence,
-            severity: analysis.severity,
-            description: analysis.description,
-            treatment: analysis.treatment,
-            alternatives: analysis.alternatives,
-            status: 'completed',
-            created_at: new Date()
-          }
-        ])
-        .select()
-        .single()
+    const analysis = JSON.parse(result.text)
+    const { data, error } = await this.supabase
+      .from('crop_analysis')
+      .insert([
+        {
+          conversation_id: conversationId,
+          farmer_id: farmerId,
+          image_url: imageUrl,
+          analysis_type: analysisType,
+          detected: analysis.detected,
+          confidence: analysis.confidence,
+          severity: analysis.severity,
+          description: analysis.description,
+          treatment: analysis.treatment,
+          alternatives: analysis.alternatives,
+          status: 'completed',
+          created_at: new Date()
+        }
+      ])
+      .select()
+      .single()
 
-      if (error) throw error
-      return data
-    } catch (err) {
-      console.error('Crop analysis error:', err)
-      throw new Error('Failed to analyze crop image')
-    }
+    if (error) throw error
+    return data
   }
 
   async getFertilizerRecommendation(
@@ -217,7 +214,7 @@ export class AkanshaAIService {
     `
 
     const result = await generateText({
-      model: 'claude-3-5-sonnet',
+      model: anthropic('claude-3-5-sonnet-20241022'),
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.5
     })
@@ -243,7 +240,7 @@ export class AkanshaAIService {
     `
 
     const result = await generateText({
-      model: 'claude-3-5-sonnet',
+      model: anthropic('claude-3-5-sonnet-20241022'),
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.5
     })
@@ -311,7 +308,7 @@ export class AkanshaAIService {
     `
 
     const result = await generateText({
-      model: 'claude-3-5-sonnet',
+      model: anthropic('claude-3-5-sonnet-20241022'),
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.6,
       maxTokens: 2000

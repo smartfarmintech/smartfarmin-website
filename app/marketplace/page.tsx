@@ -79,7 +79,7 @@ export default async function MarketplacePage() {
               <Button size="sm" asChild className="flex-1">
                 <Link href={`/marketplace/${product.product_id}`}>View</Link>
               </Button>
-              <Button size="sm" variant="ghost" size="sm">
+              <Button size="sm" variant="ghost">
                 <Heart className="w-4 h-4" />
               </Button>
             </div>

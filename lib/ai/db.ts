@@ -4,24 +4,32 @@ export async function ensureAITables() {
   const supabase = await createClient()
 
   // Create ai_conversations table
-  await supabase.from('ai_conversations').select('id').limit(1).catch(() => {
+  try {
+    await supabase.from('ai_conversations').select('id').limit(1)
+  } catch {
     // Table likely doesn't exist, would be created by migration
-  })
+  }
 
   // Create ai_messages table
-  await supabase.from('ai_messages').select('id').limit(1).catch(() => {
+  try {
+    await supabase.from('ai_messages').select('id').limit(1)
+  } catch {
     // Table likely doesn't exist, would be created by migration
-  })
+  }
 
   // Create ai_reports table
-  await supabase.from('ai_reports').select('id').limit(1).catch(() => {
+  try {
+    await supabase.from('ai_reports').select('id').limit(1)
+  } catch {
     // Table likely doesn't exist, would be created by migration
-  })
+  }
 
   // Create crop_analysis table
-  await supabase.from('crop_analysis').select('id').limit(1).catch(() => {
+  try {
+    await supabase.from('crop_analysis').select('id').limit(1)
+  } catch {
     // Table likely doesn't exist, would be created by migration
-  })
+  }
 
   return true
 }

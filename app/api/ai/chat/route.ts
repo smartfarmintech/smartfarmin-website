@@ -72,13 +72,12 @@ export async function POST(request: NextRequest) {
       system: SYSTEM_PROMPT_EN,
       messages: conversationHistory,
       temperature: 0.7,
-      maxTokens: 2048
+      maxTokens: 2048 as any
     })
 
     // Return the stream as a response
-    return result.toAIStreamResponse()
-  } catch (error) {
-    console.error('Chat error:', error)
+    return result.toTextStreamResponse()
+  } catch {
     return new Response(
       JSON.stringify({
         error: 'Failed to process chat request'

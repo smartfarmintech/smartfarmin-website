@@ -146,7 +146,12 @@ export function MarketDashboard({ farmer }: MarketDashboardProps) {
                 { label: 'Yesterday', value: `${crop.yesterday} ${crop.unit}` },
                 { label: 'Weekly Avg', value: `${((crop.current + crop.yesterday + crop.week) / 3).toFixed(0)} ${crop.unit}` },
                 { label: 'Monthly Low', value: `${Math.min(crop.current, crop.yesterday, crop.week, crop.month)} ${crop.unit}` },
-              ]
+              ].map((stat, idx) => (
+                <div key={idx} className="bg-card rounded-lg p-4 border">
+                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                  <p className="text-lg font-semibold">{stat.value}</p>
+                </div>
+              ))
             })()}
           </div>
 

@@ -259,7 +259,7 @@ export function FieldForm({ farmerId, villages, mode, initialData }: FieldFormPr
         {/* GPS Coordinates */}
         <div className="grid grid-cols-2 gap-4">
           <FormField
-            control={form.control}
+            control={form.control as any}
             name="latitude"
             render={({ field }) => (
               <FormItem>
@@ -272,7 +272,7 @@ export function FieldForm({ farmerId, villages, mode, initialData }: FieldFormPr
             )}
           />
           <FormField
-            control={form.control}
+            control={form.control as any}
             name="longitude"
             render={({ field }) => (
               <FormItem>

@@ -149,6 +149,10 @@ export async function addToCart(userId: string, productId: string, quantity: num
     cart = newCart
   }
 
+  if (!cart) {
+    throw new Error('Failed to create or retrieve cart')
+  }
+
   const { data, error } = await supabase
     .from('cart_items')
     .upsert(

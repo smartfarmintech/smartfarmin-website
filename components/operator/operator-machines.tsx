@@ -99,10 +99,12 @@ export default function OperatorMachines() {
         </p>
         <Dialog open={formOpen} onOpenChange={setFormOpen}>
           <DialogTrigger asChild>
-            <Button onClick={handleAddMachine} className="gap-2">
-              <Plus className="w-4 h-4" />
-              Add Machine
-            </Button>
+            <div>
+              <Button onClick={handleAddMachine} className="gap-2">
+                <Plus className="w-4 h-4" />
+                Add Machine
+              </Button>
+            </div>
           </DialogTrigger>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
@@ -161,18 +163,20 @@ export default function OperatorMachines() {
               <div className="flex gap-2">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => {
-                        setEditingMachine(machine)
-                        setFormOpen(true)
-                      }}
-                    >
-                      <Edit className="w-4 h-4 mr-1" />
-                      Edit
-                    </Button>
+                    <div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1"
+                        onClick={() => {
+                          setEditingMachine(machine)
+                          setFormOpen(true)
+                        }}
+                      >
+                        <Edit className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                    </div>
                   </DialogTrigger>
                 </Dialog>
 

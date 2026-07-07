@@ -77,10 +77,10 @@ export async function POST(request: NextRequest) {
 ${analysis.description}
 
 **Recommended Treatment:**
-${analysis.treatment?.name || 'N/A'}
-- Duration: ${analysis.treatment?.duration || 'N/A'}
-- Cost: ₹${analysis.treatment?.cost || 'TBD'}
-- Effectiveness: ${analysis.treatment?.effectiveness}%
+${Array.isArray(analysis.treatment) ? analysis.treatment[0]?.name || 'N/A' : analysis.treatment?.name || 'N/A'}
+- Duration: ${Array.isArray(analysis.treatment) ? analysis.treatment[0]?.duration || 'N/A' : analysis.treatment?.duration || 'N/A'}
+- Cost: ₹${Array.isArray(analysis.treatment) ? analysis.treatment[0]?.cost || 'TBD' : analysis.treatment?.cost || 'TBD'}
+- Effectiveness: ${Array.isArray(analysis.treatment) ? analysis.treatment[0]?.effectiveness : analysis.treatment?.effectiveness}%
 
 ${analysis.alternatives && analysis.alternatives.length > 0 ? 
 `**Alternative Treatments:**

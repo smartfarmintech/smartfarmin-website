@@ -242,8 +242,8 @@ export function calculateDeficiencyProbability(soilTest: SoilTestData): Record<s
 
   return Object.fromEntries(
     Object.entries(deficiencies)
-      .filter(([_, val]) => val > 0)
-      .sort(([_, a], [_, b]) => b - a)
+      .filter(([, val]) => val > 0)
+      .sort(([, a], [, b]) => b - a)
   )
 }
 

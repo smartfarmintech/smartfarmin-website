@@ -151,14 +151,16 @@ export default function BookingRequestsList() {
 
                   <Dialog open={dialogOpen && selectedRequest?.id === request.id} onOpenChange={setDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full"
-                        onClick={() => setSelectedRequest(request)}
-                      >
-                        View Details
-                      </Button>
+                      <div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full"
+                          onClick={() => setSelectedRequest(request)}
+                        >
+                          View Details
+                        </Button>
+                      </div>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
