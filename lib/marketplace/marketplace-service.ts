@@ -8,7 +8,7 @@ const ProductCreateSchema = z.object({
   name: z.string().min(3),
   description: z.string().optional(),
   short_description: z.string().optional(),
-  sku: z.string().unique().optional(),
+  sku: z.string().optional(),
   category_id: z.string().uuid(),
   price: z.number().positive(),
   compare_at_price: z.number().optional(),
@@ -75,7 +75,7 @@ export async function createProduct(data: z.infer<typeof ProductCreateSchema>) {
 
     if (error) throw error
 
-    revalidateTag("products")
+    revalidateTag("products", "max")
     return { ok: true, product }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to create product" }
@@ -108,7 +108,7 @@ export async function updateProduct(productId: string, data: Partial<z.infer<typ
 
     if (error) throw error
 
-    revalidateTag("products")
+    revalidateTag("products", "max")
     return { ok: true, product }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to update product" }
@@ -209,8 +209,8 @@ export async function createOrder(data: z.infer<typeof OrderCreateSchema>) {
     // Clear cart
     await supabase.from("cart_items").delete().eq("cart_id", cart.id)
 
-    revalidateTag("orders")
-    revalidateTag("cart")
+    revalidateTag("orders", "max")
+    revalidateTag("cart", "max")
     return { ok: true, order }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to create order" }
@@ -247,7 +247,7 @@ export async function leaveReview(data: z.infer<typeof ReviewSchema>) {
 
     if (error) throw error
 
-    revalidateTag("reviews")
+    revalidateTag("reviews", "max")
     return { ok: true, review }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to leave review" }
@@ -279,7 +279,7 @@ export async function addToWishlist(productId: string) {
 
     if (error) throw error
 
-    revalidateTag("wishlist")
+    revalidateTag("wishlist", "max")
     return { ok: true, wishlist }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to add to wishlist" }
@@ -308,7 +308,7 @@ export async function removeFromWishlist(productId: string) {
 
     if (error) throw error
 
-    revalidateTag("wishlist")
+    revalidateTag("wishlist", "max")
     return { ok: true }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to remove from wishlist" }
@@ -349,7 +349,7 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
 
     if (error) throw error
 
-    revalidateTag("orders")
+    revalidateTag("orders", "max")
     return { ok: true, order }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to update order" }

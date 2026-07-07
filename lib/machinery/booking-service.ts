@@ -122,7 +122,7 @@ export async function createBooking(data: z.infer<typeof BookingCreateSchema>) {
       note: "Booking created",
     })
 
-    revalidateTag("machinery-bookings")
+    revalidateTag("machinery-bookings", "max")
     return { ok: true, booking }
   } catch (error) {
     console.error("[Booking Error]", error)
@@ -170,7 +170,7 @@ export async function approveBooking(data: z.infer<typeof BookingApproveSchema>)
       note: validated.operator_id ? `Assigned operator and approved` : "Booking approved",
     })
 
-    revalidateTag("machinery-bookings")
+    revalidateTag("machinery-bookings", "max")
     return { ok: true, booking }
   } catch (error) {
     console.error("[Approve Booking Error]", error)
@@ -212,7 +212,7 @@ export async function assignOperator(bookingId: string, operatorId: string) {
       note: `Operator assigned`,
     })
 
-    revalidateTag("machinery-bookings")
+    revalidateTag("machinery-bookings", "max")
     return { ok: true, booking }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to assign operator" }
@@ -279,7 +279,7 @@ export async function updateBookingStatus(
       note: note || `Status changed to ${newState}`,
     })
 
-    revalidateTag("machinery-bookings")
+    revalidateTag("machinery-bookings", "max")
     return { ok: true, booking: updatedBooking }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to update booking" }
@@ -368,7 +368,7 @@ export async function cancelBooking(bookingId: string, cancelReason: string) {
       })
     }
 
-    revalidateTag("machinery-bookings")
+    revalidateTag("machinery-bookings", "max")
     return { ok: true, booking: updatedBooking, refundAmount }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to cancel booking" }
@@ -442,7 +442,7 @@ export async function rescheduleBooking(
       note: `Rescheduled from ${booking.starts_at} to ${newStartsAt}`,
     })
 
-    revalidateTag("machinery-bookings")
+    revalidateTag("machinery-bookings", "max")
     return { ok: true, booking: updatedBooking }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to reschedule booking" }
@@ -516,7 +516,7 @@ export async function generateBookingInvoice(bookingId: string) {
 
     if (invoiceError) throw invoiceError
 
-    revalidateTag("machinery-bookings")
+    revalidateTag("machinery-bookings", "max")
     return { ok: true, invoice }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Failed to generate invoice" }
