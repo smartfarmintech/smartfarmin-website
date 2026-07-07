@@ -51,7 +51,7 @@ export function EnterpriseSolutionsSection() {
           {solutions.map((solution, idx) => (
             <div
               key={idx}
-              className="group relative rounded-2xl border border-white/40 bg-white/50 p-8 backdrop-blur-xl transition-all duration-300 hover:border-white/60 hover:bg-white/70 hover:-translate-y-1 dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20 dark:hover:bg-black/50"
+              className="group relative rounded-2xl border border-border/70 bg-card p-8 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
@@ -65,7 +65,7 @@ export function EnterpriseSolutionsSection() {
                   <p className="mt-1 text-sm text-muted-foreground">{solution.description}</p>
                 </div>
 
-                <ul className="space-y-2 border-t border-white/20 pt-4 dark:border-white/10">
+                <ul className="space-y-2 border-t border-border/50 pt-4">
                   {solution.features.map((feature, i) => (
                     <li key={i} className="flex items-center gap-2 text-xs text-foreground/80">
                       <div className="h-1.5 w-1.5 rounded-full bg-primary" />

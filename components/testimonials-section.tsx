@@ -43,7 +43,7 @@ export function TestimonialsSection() {
           {testimonials.map((testimonial, idx) => (
             <div
               key={idx}
-              className="group relative rounded-2xl border border-white/40 bg-white/50 p-8 backdrop-blur-xl transition-all duration-300 hover:border-white/60 hover:bg-white/70 hover:-translate-y-1 dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20 dark:hover:bg-black/50"
+              className="group relative rounded-2xl border border-white/40 bg-card dark:hover:border-white/20 dark:hover:bg-black/50"
             >
               <div className="absolute -right-1 -top-1 h-20 w-20 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 blur-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 

@@ -24,7 +24,7 @@ export function PartnersSection() {
           {partners.map((partner, idx) => (
             <div
               key={idx}
-              className="group relative rounded-2xl border border-white/40 bg-white/50 p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/60 hover:bg-white/70 hover:shadow-lg dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20 dark:hover:bg-black/50 flex flex-col items-center justify-center gap-3 min-h-24"
+              className="group relative rounded-2xl border border-white/40 bg-card dark:hover:border-white/20 dark:hover:bg-black/50 flex flex-col items-center justify-center gap-3 min-h-24"
             >
               <div className="text-2xl">🏢</div>
               <div className="text-center">

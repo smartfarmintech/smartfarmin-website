@@ -15,7 +15,7 @@ interface YieldPrediction {
 export function YieldPredictionCard({ prediction }: { prediction: YieldPrediction }) {
   return (
     <div className="space-y-4">
-      <Card className="border border-border/70 bg-card/70 backdrop-blur-xl">
+      <Card className="border border-border/70 bg-card">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

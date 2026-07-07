@@ -46,7 +46,7 @@ export function VoiceAssistant({
   ]
 
   return (
-    <Card className="border border-border/70 bg-card/70 backdrop-blur-xl">
+    <Card className="border border-border/70 bg-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Mic className="h-5 w-5 text-primary" />

@@ -46,7 +46,7 @@ export function MachineryBookingSection() {
           <div className="space-y-8">
             {/* Badge */}
             <div className="inline-flex w-fit">
-              <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-white/50 px-4 py-2 backdrop-blur-xl dark:bg-black/30">
+              <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-card px-4 py-2">
                 <span className="text-sm font-medium text-foreground">Machinery Booking</span>
               </div>
             </div>
@@ -64,7 +64,7 @@ export function MachineryBookingSection() {
             {/* Features */}
             <div className="space-y-4">
               {features.map((feature, idx) => (
-                <div key={idx} className="group flex gap-4 p-4 rounded-xl transition-all duration-300 hover:bg-white/40 dark:hover:bg-black/20">
+                <div key={idx} className="group flex gap-4 p-4 rounded-xl transition-all duration-300 hover:bg-muted/50">
                   <div className="flex-shrink-0 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 p-3 text-primary transition-all duration-300 group-hover:scale-110">
                     {feature.icon}
                   </div>
@@ -93,14 +93,14 @@ export function MachineryBookingSection() {
             {/* Feature cards illustration */}
             <div className="relative w-full h-96 flex items-center justify-center">
               {/* Card 1 - Tractor */}
-              <div className="absolute top-12 left-8 w-40 p-6 rounded-2xl bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-xl transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+              <div className="absolute top-12 left-8 w-40 p-6 rounded-2xl bg-card border border-white/80 dark:border-white/10 shadow-xl transform -rotate-3 hover:rotate-0 transition-transform duration-300">
                 <div className="text-4xl mb-2">🚜</div>
                 <div className="text-sm font-semibold text-foreground">Tractor</div>
                 <div className="text-xs text-muted-foreground mt-1">₹500/hour</div>
               </div>
 
               {/* Card 2 - Harvester */}
-              <div className="absolute bottom-12 right-8 w-40 p-6 rounded-2xl bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
+              <div className="absolute bottom-12 right-8 w-40 p-6 rounded-2xl bg-card border border-white/80 dark:border-white/10 shadow-xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
                 <div className="text-4xl mb-2">🌾</div>
                 <div className="text-sm font-semibold text-foreground">Harvester</div>
                 <div className="text-xs text-muted-foreground mt-1">₹2,000/day</div>

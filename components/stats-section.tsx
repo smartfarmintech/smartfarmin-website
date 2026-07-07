@@ -65,7 +65,7 @@ export function StatsSection() {
           {statistics.map((stat, idx) => (
             <div
               key={idx}
-              className="group relative overflow-hidden rounded-2xl border border-white/40 bg-white/50 p-8 backdrop-blur-xl transition-all duration-300 hover:border-white/60 hover:bg-white/70 hover:-translate-y-1 dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20 dark:hover:bg-black/50"
+              className="group relative overflow-hidden rounded-2xl border border-white/40 bg-card dark:hover:border-white/20 dark:hover:bg-black/50"
             >
               {/* Gradient background */}
               <div className={`absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-b ${stat.color} blur-3xl transition-all duration-300 group-hover:scale-110`} />

@@ -53,11 +53,11 @@ export function FaqSection() {
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="group rounded-2xl border border-white/40 bg-white/50 backdrop-blur-xl transition-all duration-300 dark:border-white/10 dark:bg-black/30"
+              className="group rounded-2xl border border-border/70 bg-card transition-all duration-300"
             >
               <button
                 onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
-                className="flex w-full items-center justify-between gap-4 p-6 text-left hover:bg-white/60 dark:hover:bg-black/50 rounded-2xl transition-colors"
+                className="flex w-full items-center justify-between gap-4 p-6 text-left hover:bg-muted/50 rounded-2xl transition-colors"
               >
                 <h3 className="font-semibold text-foreground text-lg pr-4">{faq.q}</h3>
                 <ChevronDown
@@ -68,7 +68,7 @@ export function FaqSection() {
               </button>
 
               {openIdx === idx && (
-                <div className="border-t border-white/20 px-6 py-4 dark:border-white/10">
+                <div className="border-t border-border/50 px-6 py-4">
                   <p className="text-muted-foreground leading-relaxed">{faq.a}</p>
                 </div>
               )}
