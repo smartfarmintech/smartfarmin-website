@@ -1,5 +1,8 @@
 import { SiteHeader } from "@/components/site-header"
 import { HeroSection } from "@/components/hero-section"
+import { TrustSection } from "@/components/trust-section"
+import { ServicesSection } from "@/components/services-section"
+import { BenefitsSection } from "@/components/benefits-section"
 import { TrustedBySection } from "@/components/trusted-by-section"
 import { StatsSection } from "@/components/stats-section"
 import { SolutionsSection } from "@/components/solutions-section"
@@ -21,6 +24,9 @@ export default function HomePage() {
       <SiteHeader />
       <main className="space-y-0 overflow-hidden">
         <HeroSection />
+        <TrustSection />
+        <ServicesSection />
+        <BenefitsSection />
         <TrustedBySection />
         <StatsSection />
         <SolutionsSection />
