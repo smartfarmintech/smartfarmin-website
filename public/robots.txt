@@ -1,0 +1,53 @@
+# Robots.txt for Rythu360 - SmartFarmin Agricultural Platform
+# This file tells search engines which pages they can crawl and index
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /_next/
+Disallow: /sitemap.xml
+Disallow: /.well-known/
+Allow: /manifest.webmanifest
+
+# Specific search engine rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 0.5
+
+# Disallow bad bots
+User-agent: MJ12bot
+User-agent: AhrefsBot
+User-agent: SemrushBot
+User-agent: SemrushBot-SA
+User-agent: SemrushBot-CT
+User-agent: DotBot
+User-agent: MJ12bot
+Disallow: /
+
+# Sitemap location (primary)
+Sitemap: https://rythu360.com/sitemap.xml
+Sitemap: https://smartfarmin.com/sitemap.xml
+Sitemap: https://www.rythu360.com/sitemap.xml
+Sitemap: https://www.smartfarmin.com/sitemap.xml
+
+# Crawl-delay for all other bots
+Crawl-delay: 1
+Request-rate: 1/1s
