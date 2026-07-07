@@ -2,13 +2,13 @@
 
 import { ArrowRight, Sprout, Zap, TrendingUp, Smartphone, Droplets, Gauge } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { AnimatedOrbs } from "@/components/illustrations/animated-orbs"
+import { SunriseHeroBackground } from "@/components/backgrounds/sunrise-hero"
 
 export function HeroSection() {
   return (
     <section className="relative min-h-screen overflow-hidden pt-20 sm:pt-32 pb-20">
-      {/* Premium animated background */}
-      <AnimatedOrbs />
+      {/* Sunrise over Indian farms theme */}
+      <SunriseHeroBackground />
       
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-12 items-center">
