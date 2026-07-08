@@ -220,7 +220,7 @@ export function detectVulnerablePatterns(input: string): string[] {
   }
 
   // Command injection patterns
-  if (/[\|&;`$()]/g.test(input)) {
+  if (/[|&;`$()]/g.test(input)) {
     vulnerabilities.push("Possible command injection")
   }
 
