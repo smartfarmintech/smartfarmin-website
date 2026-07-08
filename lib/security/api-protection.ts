@@ -123,7 +123,7 @@ export async function getAuthenticatedUser(request: NextRequest) {
  * Wrap API handler with permission check
  */
 export function withPermission(requiredResource: Resource, requiredAction: Action) {
-  return async (handler: Function, request: NextRequest) => {
+  return async (handler: (req: NextRequest, user: unknown) => Promise<Response>, request: NextRequest) => {
     try {
       const user = await getAuthenticatedUser(request)
       const { authorized, error } = await requirePermission(user.id, requiredResource, requiredAction)

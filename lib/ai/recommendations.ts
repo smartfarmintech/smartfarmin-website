@@ -174,7 +174,7 @@ export function getFertilizerRecommendation(crop: string, stage: string, soilTes
     return null
   }
 
-  let adjusted = { ...baseRec }
+  const adjusted = { ...baseRec }
 
   if (soilTest) {
     // Adjust based on soil test

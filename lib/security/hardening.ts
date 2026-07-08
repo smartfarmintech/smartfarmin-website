@@ -50,7 +50,7 @@ export function sanitizeInput(input: string): string {
 
   return input
     .trim()
-    .replace(/[<>\"']/g, (char) => {
+    .replace(/[<>"']/g, (char) => {
       const htmlEscapeMap: Record<string, string> = {
         "<": "&lt;",
         ">": "&gt;",
