@@ -37,6 +37,16 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  --color-forest-green: #106141;
+  --color-leaf-green: #10a55a;
+  --color-fresh-mint: #34d399;
+  --color-golden-yellow: #d97706;
+  --color-harvest-orange: #f97316;
+  --color-sky-blue: #0ea5e9;
+  --color-weather-blue: #1d4ed8;
+  --color-cream-50: #fafaf8;
+  --color-soft-mint-50: #f0fdf6;
+  --color-warm-beige: #f5f3f0;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
   --radius-sm: calc(var(--radius) * 0.6);
@@ -49,63 +59,63 @@
 }
 
 :root {
-  color-scheme: dark;
-  /* Premium Dark Background - Sunrise Over Farms Theme */
-  /* Dark navy inspired by pre-dawn sky */
-  --background: #0f172a;
-  --foreground: #ffffff;
+  color-scheme: light;
+  /* Premium Light Background - Fresh Agriculture Theme */
+  /* Cream white inspired by fresh harvest */
+  --background: #fafaf8;
+  --foreground: #1a1a1a;
   
   /* Glass morphism cards with subtle transparency */
-  --card: rgba(255, 255, 255, 0.04);
-  --card-foreground: #ffffff;
+  --card: rgba(16, 97, 65, 0.04);
+  --card-foreground: #1a1a1a;
   
   /* Popover with premium glassmorphism */
-  --popover: rgba(255, 255, 255, 0.06);
-  --popover-foreground: #ffffff;
+  --popover: rgba(16, 97, 65, 0.06);
+  --popover-foreground: #1a1a1a;
   
-  /* Primary Green (#10b981) - Vibrant crop green */
-  --primary: #10b981;
+  /* Primary Forest Green (#106141) - Deep agricultural green */
+  --primary: #106141;
   --primary-foreground: #ffffff;
   
-  /* Secondary Dark Gray - Sophisticated background */
-  --secondary: #1e293b;
-  --secondary-foreground: #ffffff;
+  /* Secondary Light Green - Sustainable background */
+  --secondary: #e0f2e9;
+  --secondary-foreground: #106141;
   
   /* Muted grays for secondary text */
-  --muted: rgba(255, 255, 255, 0.08);
-  --muted-foreground: #94a3b8;
+  --muted: rgba(26, 26, 26, 0.06);
+  --muted-foreground: #78716c;
   
-  /* Accent - Golden sunrise (#f59e0b) */
-  --accent: #f59e0b;
-  --accent-foreground: #0f172a;
+  /* Accent - Golden Harvest (#d97706) */
+  --accent: #d97706;
+  --accent-foreground: #ffffff;
   
   /* Destructive - Warm red */
-  --destructive: #ef4444;
+  --destructive: #dc2626;
   
   /* Premium borders - subtle glass effect */
-  --border: rgba(255, 255, 255, 0.06);
-  --input: rgba(255, 255, 255, 0.04);
-  --ring: #10b981;
+  --border: rgba(16, 97, 65, 0.08);
+  --input: rgba(16, 97, 65, 0.06);
+  --ring: #106141;
   
   /* Chart colors - agricultural growth gradient */
-  --chart-1: #10b981;
-  --chart-2: #34d399;
-  --chart-3: #6ee7b7;
-  --chart-4: #f59e0b;
+  --chart-1: #106141;
+  --chart-2: #10a55a;
+  --chart-3: #34d399;
+  --chart-4: #d97706;
   --chart-5: #fbbf24;
   
   /* Premium rounded corners - organic feel */
   --radius: 1rem;
   
   /* Sidebar styling */
-  --sidebar: rgba(255, 255, 255, 0.03);
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #10b981;
+  --sidebar: rgba(16, 97, 65, 0.02);
+  --sidebar-foreground: #106141;
+  --sidebar-primary: #106141;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f59e0b;
-  --sidebar-accent-foreground: #0f172a;
-  --sidebar-border: rgba(255, 255, 255, 0.06);
-  --sidebar-ring: #10b981;
+  --sidebar-accent: #d97706;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(16, 97, 65, 0.08);
+  --sidebar-ring: #106141;
 }
 
 .dark {
@@ -141,6 +151,41 @@
   --sidebar-accent-foreground: #0f172a;
   --sidebar-border: rgba(255, 255, 255, 0.06);
   --sidebar-ring: #10b981;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --background: #fafaf8;
+  --foreground: #1a1a1a;
+  --card: rgba(16, 97, 65, 0.04);
+  --card-foreground: #1a1a1a;
+  --popover: rgba(16, 97, 65, 0.06);
+  --popover-foreground: #1a1a1a;
+  --primary: #106141;
+  --primary-foreground: #ffffff;
+  --secondary: #e0f2e9;
+  --secondary-foreground: #106141;
+  --muted: rgba(26, 26, 26, 0.06);
+  --muted-foreground: #78716c;
+  --accent: #d97706;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --border: rgba(16, 97, 65, 0.08);
+  --input: rgba(16, 97, 65, 0.06);
+  --ring: #106141;
+  --chart-1: #106141;
+  --chart-2: #10a55a;
+  --chart-3: #34d399;
+  --chart-4: #d97706;
+  --chart-5: #fbbf24;
+  --sidebar: rgba(16, 97, 65, 0.02);
+  --sidebar-foreground: #106141;
+  --sidebar-primary: #106141;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #d97706;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(16, 97, 65, 0.08);
+  --sidebar-ring: #106141;
 }
 
 @media (prefers-color-scheme: dark) {
