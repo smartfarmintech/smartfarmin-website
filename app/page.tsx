@@ -1,31 +1,51 @@
 import { SiteHeader } from "@/components/site-header"
+import { AnnouncementBar } from "@/components/announcement-bar"
 import { HeroSection } from "@/components/hero-section"
+import { FarmSnapshot } from "@/components/farm-snapshot"
+import { FarmingLifecycle } from "@/components/farming-lifecycle"
 import { ProductsSection } from "@/components/products-section"
-import { SolutionsSection } from "@/components/solutions-section"
 import { SegmentsSection } from "@/components/segments-section"
-import { CtaSection } from "@/components/cta-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { ImpactSection } from "@/components/impact-section"
 import { MobileAppSection } from "@/components/mobile-app-section"
-import { FAQSection } from "@/components/faq-section"
-import { ContactSection } from "@/components/contact-section"
+import { DownloadAppSection } from "@/components/download-app-section"
 import { SiteFooter } from "@/components/site-footer"
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
+      <AnnouncementBar />
       <SiteHeader />
       <main>
+        {/* HERO EXPERIENCE */}
         <HeroSection />
-        <SolutionsSection />
+
+        {/* Today's Farm Snapshot */}
+        <FarmSnapshot />
+
+        {/* Interactive Farming Lifecycle */}
+        <FarmingLifecycle />
+
+        {/* Explore the Rythu360 Ecosystem */}
         <ProductsSection />
+
+        {/* For Every Stakeholder */}
         <SegmentsSection />
+
+        {/* Farmer Success Stories */}
         <TestimonialsSection />
+
+        {/* Impact Dashboard */}
         <ImpactSection />
+
+        {/* Mobile Experience */}
         <MobileAppSection />
-        <FAQSection />
-        <ContactSection />
-        <CtaSection />
+
+        {/* Investor Section & Careers */}
+        <SegmentsSection />
+
+        {/* Download App */}
+        <DownloadAppSection />
       </main>
       <SiteFooter />
     </div>
