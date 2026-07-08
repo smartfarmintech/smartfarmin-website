@@ -65,39 +65,39 @@ export default function EnterprisePage() {
 
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="max-w-2xl">
-            <h2 className="text-balance font-serif text-3xl font-semibold text-white">
-              From field to enterprise, <span className="text-gradient-primary">connected</span>
+            <h2 className="text-balance font-serif text-3xl font-semibold text-foreground">
+              From field to enterprise, connected
             </h2>
-            <p className="mt-4 text-pretty leading-relaxed text-slate-400">
-              Everything you need to run a modern, transparent and resilient agricultural business powered by AI and real-time intelligence.
+            <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
+              Everything you need to run a modern, transparent and resilient agricultural business.
             </p>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {capabilities.map((item) => (
-              <div key={item.title} className="card-glass p-6 hover:translate-y-[-2px] transition-all">
-                <span className="flex size-11 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <div key={item.title} className="rounded-2xl border border-border bg-card p-6">
+                <span className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <item.icon className="size-5" />
                 </span>
-                <h3 className="mt-4 font-serif text-lg font-semibold text-white">
+                <h3 className="mt-4 font-serif text-lg font-semibold text-foreground">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.desc}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="border-t border-white/10 bg-gradient-to-b from-slate-900/50 to-background">
+        <section className="border-t border-border bg-secondary/40">
           <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-14 sm:px-6 lg:flex-row lg:items-center lg:px-8">
             <div className="max-w-2xl">
-              <h2 className="text-balance font-serif text-2xl font-semibold text-white">
-                Ready to build a more <span className="text-gradient-warm">resilient supply chain</span>?
+              <h2 className="text-balance font-serif text-2xl font-semibold text-foreground">
+                Ready to build a more resilient supply chain?
               </h2>
-              <p className="mt-2 text-pretty text-slate-400">
-                Let&apos;s design a solution tailored to your crops, regions and volumes. Connect with enterprise sales today.
+              <p className="mt-2 text-pretty text-muted-foreground">
+                Let&apos;s design a solution tailored to your crops, regions and volumes.
               </p>
             </div>
-            <Button render={<Link href="/contact" />} nativeButton={false} size="lg" className="btn-primary">
+            <Button render={<Link href="/contact" />} nativeButton={false} size="lg">
               Book a demo
             </Button>
           </div>

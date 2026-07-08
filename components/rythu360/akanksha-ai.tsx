@@ -15,9 +15,6 @@ import {
   Sparkles,
   TrendingUp,
   X,
-  Brain,
-  MessageCircle,
-  BarChart3,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
@@ -25,10 +22,10 @@ import {
   type Capability,
   type ChatMessage,
   type InsightCard,
+  generateReply,
   makeMessage,
   scanResult,
 } from "@/lib/rythu360/akanksha"
-import { askAkanksha } from "@/lib/rythu360/akanksha-actions"
 
 const CAP_ICON: Record<Capability["icon"], typeof Bug> = {
   disease: Bug,
@@ -37,9 +34,6 @@ const CAP_ICON: Record<Capability["icon"], typeof Bug> = {
   schemes: Landmark,
   reco: Lightbulb,
   camera: Camera,
-  voice: Mic,
-  yield: BarChart3,
-  chat: MessageCircle,
 }
 
 // Local purple palette, scoped to this screen only.
@@ -62,15 +56,14 @@ export function AkankshaAI() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" })
   }, [messages, thinking])
 
-  async function respond(userText: string, attachment?: ChatMessage["attachment"]) {
+  function respond(userText: string, attachment?: ChatMessage["attachment"]) {
     setMessages((m) => [...m, makeMessage("user", userText, attachment ? { attachment } : undefined)])
     setThinking(true)
-    try {
-      const reply = await askAkanksha(userText)
-      setMessages((m) => [...m, makeMessage("ai", reply.text, { cards: reply.cards })])
-    } finally {
+    window.setTimeout(() => {
+      const reply = generateReply(userText)
       setThinking(false)
-    }
+      setMessages((m) => [...m, makeMessage("ai", reply.text, { cards: reply.cards })])
+    }, 1100)
   }
 
   function send() {

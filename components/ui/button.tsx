@@ -1,6 +1,5 @@
 import { Button as ButtonPrimitive } from '@base-ui/react/button'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { isValidElement, type ReactElement } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -45,26 +44,14 @@ function Button({
   className,
   variant = 'default',
   size = 'default',
-  asChild = false,
-  render,
-  children,
   ...props
-}: ButtonPrimitive.Props &
-  VariantProps<typeof buttonVariants> & { asChild?: boolean }) {
-  // Support the shadcn-style `asChild` API on top of Base UI's `render` prop:
-  // when `asChild` is set, render the single child element as the button.
-  const renderProp =
-    asChild && isValidElement(children) ? (children as ReactElement) : render
-
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
   return (
     <ButtonPrimitive
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
-      render={renderProp}
       {...props}
-    >
-      {asChild ? undefined : children}
-    </ButtonPrimitive>
+    />
   )
 }
 
