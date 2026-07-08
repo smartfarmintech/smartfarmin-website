@@ -20,21 +20,21 @@ export type Capability = {
   id: string
   label: string
   desc: string
-  icon: "disease" | "weather" | "market" | "schemes" | "reco" | "camera" | "voice" | "yield" | "chat"
+  icon: "disease" | "weather" | "market" | "schemes" | "reco" | "camera"
   prompt: string
 }
 
 export const CAPABILITIES: Capability[] = [
   {
     id: "disease",
-    label: "Crop Doctor",
-    desc: "Diagnose diseases from photos",
+    label: "Crop Disease",
+    desc: "Diagnose from a photo or symptoms",
     icon: "disease",
     prompt: "My paddy leaves have yellow-brown spots with drooping tips. What disease is this?",
   },
   {
     id: "weather",
-    label: "Weather Intel",
+    label: "Weather",
     desc: "Forecast & spraying windows",
     icon: "weather",
     prompt: "What's the weather outlook for Warangal this week and is it safe to spray?",
@@ -42,7 +42,7 @@ export const CAPABILITIES: Capability[] = [
   {
     id: "market",
     label: "Market Prices",
-    desc: "Live mandi rates & trends",
+    desc: "Live mandi rates & best time to sell",
     icon: "market",
     prompt: "What is today's paddy mandi price and should I sell now or wait?",
   },
@@ -56,30 +56,9 @@ export const CAPABILITIES: Capability[] = [
   {
     id: "reco",
     label: "Recommendations",
-    desc: "Personalised crop plans",
+    desc: "Personalised crop & input advice",
     icon: "reco",
     prompt: "Recommend the best crop plan for my 6.5 acres this Kharif season.",
-  },
-  {
-    id: "yield",
-    label: "Yield Prediction",
-    desc: "Forecast harvest & optimise",
-    icon: "yield",
-    prompt: "What yield can I expect from my paddy this season? How can I improve it?",
-  },
-  {
-    id: "voice",
-    label: "Voice Chat",
-    desc: "Hands-free farming advice",
-    icon: "voice",
-    prompt: "Ask me anything by voice - I'll respond with recommendations and real-time data.",
-  },
-  {
-    id: "chat",
-    label: "AI Chat",
-    desc: "Deep conversations & context",
-    icon: "chat",
-    prompt: "Let's have a detailed conversation. I remember context and can help with complex problems.",
   },
 ]
 
@@ -103,17 +82,6 @@ type Reply = { text: string; cards?: InsightCard[] }
 
 export function generateReply(input: string): Reply {
   const q = input.toLowerCase()
-
-  if (/(yield|expect|harvest|production|predict|forecast|improve|output|tonnage)/.test(q)) {
-    return {
-      text: "Based on your 6.5 acres of BPT-5204 paddy with moderate soil fertility and current rainfall patterns, I forecast:\n\nExpected yield: 62-68 quintals (9.5-10.5 T/ha). Previous Kharif averages 58 Q, so this is a 7-10% improvement potential.\n\nTo optimise yield:\n• Apply 20 kg/acre nitrogen in 3 splits (nursery, PI, boot stage)\n• Maintain 5cm standing water during PI and boot\n• Scout for leaf blast starting from 45 days\n• Drain field 7 days before harvest to firm soil\n\nWith these practices, targeting 68+ quintals is realistic. Want a day-by-day task calendar?",
-      cards: [
-        { title: "Expected", value: "62-68 Qt", hint: "9.5-10.5 T/ha", tone: "up" },
-        { title: "vs. avg", value: "+7-10%", hint: "Improvement", tone: "up" },
-        { title: "Risk", value: "Medium", hint: "Monitor blast", tone: "neutral" },
-      ],
-    }
-  }
 
   if (/(disease|spot|fungus|pest|leaf|blight|yellow|insect|worm)/.test(q)) {
     return {
@@ -170,30 +138,8 @@ export function generateReply(input: string): Reply {
     }
   }
 
-  if (/(voice|speak|talk|say|listen)/.test(q)) {
-    return {
-      text: "Voice chat is active! I'm listening. Speak naturally — I understand regional languages (Telugu, Kannada, Tamil, Hindi) and farming terminology. Whether it's disease symptoms, weather concerns, or market questions, just ask away. I'll respond with clear recommendations.",
-      cards: [
-        { title: "Language", value: "Multi-lingual", hint: "Regional supported", tone: "up" },
-        { title: "Response", value: "Instant", hint: "Real-time data", tone: "neutral" },
-        { title: "Context", value: "Your farm", hint: "Personalised", tone: "up" },
-      ],
-    }
-  }
-
-  if (/(chat|tell|talk|discuss|explain|help|problem|issue)/.test(q)) {
-    return {
-      text: "I'm here for deep conversations about your farm. I remember details from our chat history — your field size, crops, soil type, past yields — so I can give increasingly personalised advice over time.\n\nWe can discuss complex topics like:\n• Soil health recovery strategies\n• Organic transition planning  \n• Crop rotation sequences\n• Water management challenges\n• Market timing strategies\n\nWhat's on your mind? Let's solve it together.",
-      cards: [
-        { title: "Memory", value: "Full chat", hint: "Context aware", tone: "up" },
-        { title: "Topics", value: "Complex", hint: "Multi-step help", tone: "neutral" },
-        { title: "Learning", value: "Adaptive", hint: "Improves", tone: "up" },
-      ],
-    }
-  }
-
   return {
-    text: "I'm Akanksha, your AI farming co-pilot. I can diagnose crop diseases from photos, forecast weather, track live mandi prices, find government schemes, predict yields, and build personalised crop plans. Use voice for hands-free advice or chat for deep conversations. Tap any capability below or ask me anything.",
+    text: "I'm Akanksha, your farming co-pilot. I can diagnose crop diseases from a photo, forecast weather and spraying windows, track live mandi prices, find government schemes you qualify for, and build a personalised crop plan. Tap a suggestion below or ask me anything in your own words.",
   }
 }
 

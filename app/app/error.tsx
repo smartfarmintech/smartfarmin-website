@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import Link from "next/link"
 import { AlertTriangle, LayoutDashboard, RotateCcw } from "lucide-react"
 import { BrandMark } from "@/components/rythu360/status-screens"
@@ -12,6 +13,9 @@ export default function AppError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  useEffect(() => {
+    console.log("[v0] App route error:", error.message)
+  }, [error])
 
   return (
     <div className="flex min-h-svh flex-col bg-background">
