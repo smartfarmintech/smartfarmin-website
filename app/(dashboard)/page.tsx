@@ -11,7 +11,7 @@ export default function AppIndexPage() {
   const { roleId, ready } = useSession()
 
   useEffect(() => {
-    if (ready && roleId) router.replace("/app/dashboard")
+    if (ready && roleId) router.replace("/dashboard")
   }, [ready, roleId, router])
 
   // While restoring session, or when a role already exists (redirecting), show a loader.
