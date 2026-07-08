@@ -78,7 +78,7 @@ export default function Rythu360Page() {
           <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border">
               <Image
-                src="/images/farmer.jpg"
+                src="/images/farmer.png"
                 alt="A farmer using the Rythu360 app in the field"
                 fill
                 className="object-cover"
