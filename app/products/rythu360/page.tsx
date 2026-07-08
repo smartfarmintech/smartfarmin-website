@@ -10,7 +10,7 @@ import {
 } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { PageHero } from "@/components/page-hero"
+import { Rythu360Hero } from "@/components/rythu360-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
@@ -63,16 +63,7 @@ export default function Rythu360Page() {
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1">
-        <PageHero
-          eyebrow="Rythu360"
-          title="The farmer super-app for a smarter season"
-          description="One simple app that brings crop planning, weather, mandi prices, credit and expert advice together, all in your own language."
-        >
-          <Button size="lg">Download the app</Button>
-          <Button size="lg" variant="outline">
-            Book a demo
-          </Button>
-        </PageHero>
+        <Rythu360Hero />
 
         <section className="py-16 lg:py-24">
           <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
