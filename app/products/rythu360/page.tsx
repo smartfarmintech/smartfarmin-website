@@ -10,7 +10,13 @@ import {
 } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { PageHero } from "@/components/page-hero"
+import { Rythu360Hero } from "@/components/rythu360-hero"
+import { Rythu360Services } from "@/components/rythu360-services"
+import { Rythu360Features } from "@/components/rythu360-features"
+import { Rythu360AIPlatform } from "@/components/rythu360-ai-platform"
+import { Rythu360Marketplace } from "@/components/rythu360-marketplace"
+import { Rythu360HowItWorks } from "@/components/rythu360-how-it-works"
+import { Rythu360DesignedFor } from "@/components/rythu360-designed-for"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
@@ -63,16 +69,13 @@ export default function Rythu360Page() {
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1">
-        <PageHero
-          eyebrow="Rythu360"
-          title="The farmer super-app for a smarter season"
-          description="One simple app that brings crop planning, weather, mandi prices, credit and expert advice together, all in your own language."
-        >
-          <Button size="lg">Download the app</Button>
-          <Button size="lg" variant="outline">
-            Book a demo
-          </Button>
-        </PageHero>
+        <Rythu360Hero />
+        <Rythu360Services />
+        <Rythu360Features />
+        <Rythu360AIPlatform />
+        <Rythu360Marketplace />
+        <Rythu360HowItWorks />
+        <Rythu360DesignedFor />
 
         <section className="py-16 lg:py-24">
           <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
