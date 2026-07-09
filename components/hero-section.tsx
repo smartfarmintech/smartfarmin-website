@@ -14,9 +14,10 @@ interface FloatingCard {
   description: string
   delay: number
   position: {
-    top: string
+    top?: string
     right?: string
     left?: string
+    bottom?: string
   }
 }
 

@@ -84,7 +84,7 @@ export function Rythu360AIPlatform() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.5, ease: [0.23, 1, 0.320, 1] },
     },
   }
 
@@ -131,7 +131,7 @@ export function Rythu360AIPlatform() {
             return (
               <motion.div
                 key={idx}
-                variants={itemVariants}
+                variants={itemVariants as any}
                 whileHover={!isComingSoon ? { y: -4, transition: { duration: 0.3 } } : {}}
                 className={`group relative overflow-hidden rounded-2xl border border-border/50 bg-white/5 backdrop-blur-sm p-6 transition-all duration-300 ${
                   !isComingSoon ? "hover:shadow-lg hover:border-border hover:bg-white/10 cursor-pointer" : "opacity-70"

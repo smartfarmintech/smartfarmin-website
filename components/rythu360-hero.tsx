@@ -31,7 +31,7 @@ function AnimatedStatistics() {
 
   useEffect(() => {
     const targets = { farmers: 10000, operators: 300, services: 2500, satisfaction: 95 }
-    let animationFrameId: number
+    let animationFrameId: NodeJS.Timeout
 
     const animate = () => {
       setCounts((prev) => ({
