@@ -1,10 +1,12 @@
 import { SiteHeader } from "@/components/site-header"
 import { AnnouncementBar } from "@/components/announcement-bar"
-import { HeroSection } from "@/components/hero-section"
+import { PremiumHero } from "@/components/premium-hero"
 import { FarmSnapshot } from "@/components/farm-snapshot"
 import { FarmingLifecycle } from "@/components/farming-lifecycle"
+import { TechnologyEcosystem } from "@/components/technology-ecosystem"
 import { ProductsSection } from "@/components/products-section"
 import { SegmentsSection } from "@/components/segments-section"
+import { WhyChooseTimeline } from "@/components/why-choose-timeline"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { ImpactSection } from "@/components/impact-section"
 import { MobileAppSection } from "@/components/mobile-app-section"
@@ -18,7 +20,7 @@ export default function HomePage() {
       <SiteHeader />
       <main>
         {/* HERO EXPERIENCE */}
-        <HeroSection />
+        <PremiumHero />
 
         {/* Today's Farm Snapshot */}
         <FarmSnapshot />
@@ -26,8 +28,14 @@ export default function HomePage() {
         {/* Interactive Farming Lifecycle */}
         <FarmingLifecycle />
 
+        {/* Technology Ecosystem */}
+        <TechnologyEcosystem />
+
         {/* Explore the Rythu360 Ecosystem */}
         <ProductsSection />
+
+        {/* Why Choose Rythu360 Timeline */}
+        <WhyChooseTimeline />
 
         {/* For Every Stakeholder */}
         <SegmentsSection />
