@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Leaf, Menu, X, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { LanguageSelector } from "@/components/language-selector"
 
 const products = [
   { name: "Rythu360", desc: "Farmer super-app", href: "/products/rythu360" },
@@ -70,6 +71,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
+          <LanguageSelector />
           <Button
             render={<Link href="/contact" />}
             nativeButton={false}
@@ -109,6 +111,9 @@ export function SiteHeader() {
               </Link>
             ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-border pt-3">
+              <div className="px-3 py-2">
+                <LanguageSelector />
+              </div>
               <Button
                 render={<Link href="/contact" onClick={() => setOpen(false)} />}
                 nativeButton={false}

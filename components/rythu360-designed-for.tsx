@@ -105,7 +105,7 @@ export function Rythu360DesignedFor() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.5, ease: [0.23, 1, 0.320, 1] },
     },
   }
 
@@ -139,7 +139,7 @@ export function Rythu360DesignedFor() {
             return (
               <motion.div
                 key={idx}
-                variants={itemVariants}
+                variants={itemVariants as any}
                 whileHover={{ y: -4 }}
                 className={`group relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br ${persona.color} backdrop-blur-sm p-8 transition-all duration-300 hover:shadow-lg hover:border-border`}
               >
