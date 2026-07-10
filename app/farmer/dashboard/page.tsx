@@ -9,10 +9,14 @@ import { FarmerDashboardClient } from '@/components/dashboard/farmer-dashboard-c
 import { getFarmerDashboardData } from '@/lib/queries/farmer-dashboard'
 import { getCurrentUser } from '@/lib/supabase/auth'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Dashboard | Rythu360 Farmer',
   description: 'Your personal farming dashboard with AI Crop Doctor, machinery booking, and marketplace',
 }
+
+export const dynamic = 'force-dynamic'
 
 export default async function FarmerDashboardPage() {
   // Get current user

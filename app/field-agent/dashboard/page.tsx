@@ -7,6 +7,8 @@ import { MetricSummary } from '@/components/dashboard/metric-summary'
 import { ActionCard, ActionCardGrid } from '@/components/dashboard/action-card'
 
 export const metadata = {
+
+export const dynamic = 'force-dynamic'
   title: 'Field Agent Dashboard | Rythu360',
   description: 'Track visits, check in with GPS, and submit reports',
 }

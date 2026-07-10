@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { Cloud, Leaf, MapPin, Wallet } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
 
 interface FarmerInfoSummaryProps {
   farmerName: string

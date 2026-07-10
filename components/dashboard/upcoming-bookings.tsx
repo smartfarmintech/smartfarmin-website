@@ -3,8 +3,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Calendar, Clock, MapPin, ChevronRight } from 'lucide-react'
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 
 interface Booking {
   id: string
@@ -43,7 +41,7 @@ export function UpcomingBookings({ bookings, loading = false }: UpcomingBookings
 
   if (!bookings || bookings.length === 0) {
     return (
-      <Card className="p-6 text-center border-dashed">
+      <div className="p-6 text-center border-2 border-dashed border-gray-300 rounded-lg">
         <p className="text-gray-600 mb-3">No upcoming bookings</p>
         <Link
           href="/machinery/booking"
@@ -51,7 +49,7 @@ export function UpcomingBookings({ bookings, loading = false }: UpcomingBookings
         >
           Book machinery now <ChevronRight className="w-4 h-4" />
         </Link>
-      </Card>
+      </div>
     )
   }
 
@@ -65,7 +63,7 @@ export function UpcomingBookings({ bookings, loading = false }: UpcomingBookings
           transition={{ delay: index * 0.1 }}
         >
           <Link href={`/farmer/bookings/${booking.id}`}>
-            <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+            <div className="p-4 rounded-lg bg-white border-2 border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
               <div className="flex items-start justify-between gap-3">
                 {/* Machine Image */}
                 {booking.machine?.image_url && (
@@ -84,9 +82,9 @@ export function UpcomingBookings({ bookings, loading = false }: UpcomingBookings
                     <h3 className="font-bold text-gray-900 truncate">
                       {booking.machine?.name || 'Machinery'}
                     </h3>
-                    <Badge variant="outline" className="flex-shrink-0">
+                    <span className="px-2 py-1 rounded-md border border-gray-300 text-xs font-semibold flex-shrink-0">
                       {booking.unit_type}
-                    </Badge>
+                    </span>
                   </div>
 
                   <p className="text-sm text-gray-600 mb-2">
@@ -124,12 +122,12 @@ export function UpcomingBookings({ bookings, loading = false }: UpcomingBookings
 
                 {/* Status Badge */}
                 <div className="flex-shrink-0">
-                  <Badge className="bg-emerald-100 text-emerald-700">
-                    {booking.booking_state === 'confirmed' ? 'Confirmed' : booking.booking_state}
-                  </Badge>
+                  <span className="px-2 py-1 rounded-md bg-emerald-100 text-emerald-700 text-xs font-semibold">
+                    {booking.booking_state}
+                  </span>
                 </div>
               </div>
-            </Card>
+            </div>
           </Link>
         </motion.div>
       ))}

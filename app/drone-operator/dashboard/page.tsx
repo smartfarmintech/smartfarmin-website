@@ -7,6 +7,8 @@ import { MetricSummary } from '@/components/dashboard/metric-summary'
 import { ActionCard, ActionCardGrid } from '@/components/dashboard/action-card'
 
 export const metadata = {
+
+export const dynamic = 'force-dynamic'
   title: 'Drone Operator Dashboard | Rythu360',
   description: 'Manage drone missions, flights, and earnings',
 }

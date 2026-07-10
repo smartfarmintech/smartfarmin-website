@@ -7,6 +7,8 @@ import { MetricSummary } from '@/components/dashboard/metric-summary'
 import { ActionCard, ActionCardGrid } from '@/components/dashboard/action-card'
 
 export const metadata = {
+
+export const dynamic = 'force-dynamic'
   title: 'Machinery Owner Dashboard | Rythu360',
   description: 'Manage your machines, bookings, and revenue',
 }
