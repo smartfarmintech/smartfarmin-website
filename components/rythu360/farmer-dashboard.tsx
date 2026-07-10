@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, type FormEvent } from "react"
 import Link from "next/link"
 import { motion } from "motion/react"
 import {
@@ -11,15 +12,17 @@ import {
   ChevronRight,
   CloudRain,
   CloudSun,
-  Crown,
   Droplets,
   HeartPulse,
+  Headphones,
   Landmark,
   Leaf,
   Lightbulb,
   MapPin,
+  Mic,
+  Navigation,
+  Search,
   MapPinned,
-  Package,
   ShoppingBasket,
   Sparkles,
   Sprout,
@@ -35,10 +38,9 @@ import { GlassCard } from "@/components/rythu360/glass-card"
 import {
   CropHealthGauge,
   IncomeAreaChart,
-  MandiLineChart,
-  SoilMoistureChart,
   WeatherChart,
 } from "@/components/rythu360/charts"
+import { VideoServices } from "@/components/rythu360/video-services"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -141,256 +143,197 @@ const advisories = [
   { icon: Lightbulb, title: "Top-dress urea", note: "Paddy at tillering stage — apply nitrogen.", tone: "text-accent" },
 ]
 
-const quickActions = [
-  { label: "Ask Akanksha AI", icon: Sparkles, tint: "bg-primary/12 text-primary", href: "/app/ai" },
-  { label: "Market Prices", icon: TrendingUp, tint: "bg-accent/15 text-accent", href: "/app/market" },
-  { label: "Machinery Booking", icon: Tractor, tint: "bg-chart-3/15 text-chart-3", href: "/app/machinery" },
-  { label: "Nearby Services", icon: MapPinned, tint: "bg-chart-4/15 text-chart-4", href: "/app/nearby" },
-  { label: "Government Schemes", icon: Landmark, tint: "bg-primary/12 text-primary", href: "/app/schemes" },
-  { label: "Marketplace", icon: Store, tint: "bg-accent/15 text-accent", href: "/app/shop" },
-  { label: "Organic Store", icon: ShoppingBasket, tint: "bg-chart-3/15 text-chart-3", href: "/app/organic" },
-  { label: "Wallet", icon: Wallet, tint: "bg-chart-4/15 text-chart-4", href: "/app/wallet" },
-  { label: "Orders", icon: Package, tint: "bg-primary/12 text-primary", href: "/app/orders" },
+const liveSignals = [
+  { label: "Operators nearby", value: "18 online", icon: Navigation },
+  { label: "Machines ready", value: "11 available", icon: Tractor },
+  { label: "Today’s bookings", value: "4 confirmed", icon: CalendarDays },
+  { label: "Nellore paddy", value: "₹2,460 / qtl", icon: TrendingUp },
 ]
 
-const summaryItems = [
-  { label: "Today's income", value: "₹4,280", icon: BadgeIndianRupee },
-  { label: "Tasks due", value: "3 pending", icon: CalendarDays },
-  { label: "Active alerts", value: "2 advisories", icon: Bell },
-  { label: "Water saved", value: "1,240 L", icon: Droplets },
+const quickActions = [
+  { label: "Ask Akanksha AI", icon: Sparkles, href: "/app/ai" },
+  { label: "Market prices", icon: TrendingUp, href: "/app/market" },
+  { label: "Book machinery", icon: Tractor, href: "/app/machinery" },
+  { label: "Nearby services", icon: MapPinned, href: "/app/nearby" },
+  { label: "Schemes", icon: Landmark, href: "/app/schemes" },
+  { label: "Marketplace", icon: Store, href: "/app/shop" },
+  { label: "Organic store", icon: ShoppingBasket, href: "/app/organic" },
+  { label: "Wallet", icon: Wallet, href: "/app/wallet" },
 ]
+
+type SpeechRecognitionConstructor = new () => {
+  lang: string
+  start: () => void
+  onresult: (event: { results: ArrayLike<{ 0: { transcript: string } }> }) => void
+  onerror: () => void
+  onend: () => void
+}
 
 function Overview() {
+  const [query, setQuery] = useState("")
+  const [listening, setListening] = useState(false)
+  const [voiceStatus, setVoiceStatus] = useState("")
+
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening"
+
+  function handleSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const search = query.trim()
+    if (search) window.location.href = `/app/nearby?q=${encodeURIComponent(search)}`
+  }
+
+  function startVoiceSearch() {
+    const speechWindow = window as typeof window & {
+      SpeechRecognition?: SpeechRecognitionConstructor
+      webkitSpeechRecognition?: SpeechRecognitionConstructor
+    }
+    const Recognition = speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition
+    if (!Recognition) {
+      setVoiceStatus("Voice search is not supported in this browser. Please type your search.")
+      return
+    }
+    const recognition = new Recognition()
+    recognition.lang = "te-IN"
+    recognition.onresult = (event) => {
+      const transcript = event.results[0]?.[0]?.transcript ?? ""
+      setQuery(transcript)
+      setVoiceStatus(`Heard: ${transcript}`)
+    }
+    recognition.onerror = () => setVoiceStatus("I could not hear that. Please try again.")
+    recognition.onend = () => setListening(false)
+    setListening(true)
+    setVoiceStatus("Listening…")
+    recognition.start()
+  }
+
   return (
     <>
-      {/* ---------- Top: profile, location, weather, notifications ---------- */}
-      <motion.div {...fade}>
-        <GlassCard className="relative overflow-hidden p-5 sm:p-6">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-primary/10 blur-3xl"
-          />
-          <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-4">
-              <span className="flex size-14 shrink-0 items-center justify-center rounded-3xl bg-primary text-2xl font-semibold text-primary-foreground shadow-sm">
-                RK
-              </span>
+      <motion.section {...fade} aria-labelledby="dashboard-greeting" className="overflow-hidden rounded-3xl border border-border bg-primary text-primary-foreground shadow-sm">
+        <div className="grid lg:grid-cols-[1.35fr_0.65fr]">
+          <div className="flex flex-col gap-6 p-5 sm:p-7">
+            <header className="flex items-start justify-between gap-4">
               <div>
-                <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <CalendarDays className="size-3.5" />
+                <p className="flex items-center gap-2 text-sm text-primary-foreground/75">
+                  <CalendarDays className="size-4" />
                   {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}
                 </p>
-                <h1 className="mt-0.5 text-balance font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
-                  Namaste, Ravi Kumar
+                <h1 id="dashboard-greeting" className="mt-1 text-balance font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
+                  {greeting}, Ravi
                 </h1>
-                <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <MapPin className="size-4" /> Warangal, Telangana · 6.5 acres
+                <p className="mt-2 flex items-center gap-1.5 text-sm text-primary-foreground/75">
+                  <MapPin className="size-4" /> Nellore Rural, SPSR Nellore · 6.5 acres
                 </p>
               </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-3 rounded-2xl border border-border/70 bg-card/60 px-4 py-3">
-                <CloudSun className="size-8 text-accent" />
-                <div className="leading-tight">
-                  <p className="text-lg font-semibold tracking-tight">31°C</p>
-                  <p className="text-xs text-muted-foreground">Partly cloudy</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                aria-label="Notifications"
-                className="relative flex size-11 items-center justify-center rounded-2xl border border-border/70 bg-card/60 text-foreground transition-colors hover:bg-card"
-              >
+              <button type="button" aria-label="Open notifications, 3 unread" className="relative flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-foreground/10 transition-colors hover:bg-primary-foreground/20">
                 <Bell className="size-5" />
-                <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-accent ring-2 ring-card" />
+                <span className="absolute right-2 top-2 size-2 rounded-full bg-accent ring-2 ring-primary" />
               </button>
+            </header>
+
+            <div className="rounded-3xl bg-background p-2 text-foreground shadow-lg">
+              <form onSubmit={handleSearch} role="search" className="flex items-center gap-1">
+                <Search className="ml-3 size-5 shrink-0 text-muted-foreground" aria-hidden="true" />
+                <label htmlFor="farm-search" className="sr-only">Search services and farm information</label>
+                <input
+                  id="farm-search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search tractor, drone, mandi price…"
+                  className="h-12 min-w-0 flex-1 bg-transparent px-2 text-sm outline-none placeholder:text-muted-foreground"
+                />
+                <button type="button" onClick={startVoiceSearch} aria-label="Search by voice" aria-pressed={listening} className={cn("flex size-11 shrink-0 items-center justify-center rounded-full transition-colors", listening ? "bg-accent text-accent-foreground" : "bg-muted text-foreground hover:bg-muted/70")}>
+                  <Mic className="size-5" />
+                </button>
+                <Button type="submit" className="hidden rounded-full sm:flex">Search</Button>
+              </form>
+              <p className="sr-only" aria-live="polite">{voiceStatus}</p>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button render={<Link href="/app/ai" />} nativeButton={false} className="rounded-full bg-background text-foreground hover:bg-background/90">
+                <Sparkles data-icon="inline-start" /> Ask Akanksha AI
+              </Button>
+              <Button render={<a href="tel:18001234567" />} nativeButton={false} variant="outline" className="rounded-full border-primary-foreground/35 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                <Headphones data-icon="inline-start" /> Farmer helpline
+              </Button>
+            </div>
+          </div>
+
+          <aside aria-label="Current farm conditions" className="flex flex-col justify-between gap-5 bg-foreground/15 p-5 sm:p-7">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm text-primary-foreground/70">Current weather</p>
+                <p className="mt-1 text-5xl font-semibold tracking-tight">29°</p>
+                <p className="mt-1 text-sm">Cloudy · Feels like 31°</p>
+              </div>
+              <CloudSun className="size-12 text-accent" />
+            </div>
+            <dl className="grid grid-cols-3 gap-2 border-t border-primary-foreground/20 pt-4 text-sm">
+              <div><dt className="text-primary-foreground/65">Humidity</dt><dd className="mt-1 font-semibold">72%</dd></div>
+              <div><dt className="text-primary-foreground/65">Wind</dt><dd className="mt-1 font-semibold">9 km/h</dd></div>
+              <div><dt className="text-primary-foreground/65">Rain</dt><dd className="mt-1 font-semibold">35%</dd></div>
+            </dl>
+            <Link href="/app/wallet" className="flex items-center justify-between rounded-2xl bg-primary-foreground/10 p-3 transition-colors hover:bg-primary-foreground/15">
+              <span className="flex items-center gap-2 text-sm"><Wallet className="size-4" /> Wallet balance</span>
+              <strong>₹12,840</strong>
+            </Link>
+          </aside>
+        </div>
+      </motion.section>
+
+      <motion.div {...fade} transition={{ delay: 0.05 }} className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {liveSignals.map((signal) => {
+          const Icon = signal.icon
+          return (
+            <GlassCard key={signal.label} className="p-4">
+              <div className="flex items-center justify-between gap-3">
+                <Icon className="size-5 text-primary" />
+                <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-primary"><span className="size-1.5 rounded-full bg-primary" /> Live</span>
+              </div>
+              <p className="mt-3 text-lg font-semibold tracking-tight">{signal.value}</p>
+              <p className="text-xs text-muted-foreground">{signal.label}</p>
+            </GlassCard>
+          )
+        })}
+      </motion.div>
+
+      <motion.div {...fade} transition={{ delay: 0.08 }} className="mt-4 grid gap-3 lg:grid-cols-[1.4fr_0.6fr]">
+        <GlassCard className="border-primary/25 p-5">
+          <div className="flex items-start gap-3">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-accent/15 text-accent"><Lightbulb className="size-5" /></span>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2"><h2 className="font-semibold">Today&apos;s farm advisory</h2><span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">Updated 8 min ago</span></div>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Rain is likely after 4 PM. Complete paddy top-dressing before 2 PM and postpone pesticide spraying until tomorrow morning.</p>
             </div>
           </div>
         </GlassCard>
-      </motion.div>
-
-      {/* ---------- Today's summary ---------- */}
-      <motion.div {...fade} transition={{ delay: 0.05 }} className="mt-4">
         <GlassCard className="p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-semibold tracking-tight">Today&apos;s summary</h2>
-            <span className="text-xs text-muted-foreground">Live</span>
-          </div>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {summaryItems.map((s) => {
-              const Icon = s.icon
-              return (
-                <div
-                  key={s.label}
-                  className="flex items-center gap-3 rounded-2xl bg-muted/50 p-3.5"
-                >
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/12 text-primary">
-                    <Icon className="size-5" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="truncate text-base font-semibold tracking-tight">{s.value}</p>
-                    <p className="truncate text-xs text-muted-foreground">{s.label}</p>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Active booking</p>
+          <div className="mt-2 flex items-center justify-between gap-3"><div><p className="font-semibold">Drone spraying</p><p className="text-sm text-muted-foreground">Arrives in 18 min</p></div><span className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary"><Navigation className="size-5" /></span></div>
         </GlassCard>
       </motion.div>
 
-      {/* ---------- Quick actions ---------- */}
-      <motion.div {...fade} transition={{ delay: 0.1 }} className="mt-4">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="font-semibold tracking-tight">Quick actions</h2>
-          <button type="button" className="flex items-center gap-1 text-sm text-primary">
-            All services <ChevronRight className="size-4" />
-          </button>
-        </div>
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-9">
-          {quickActions.map((a, i) => {
-            const Icon = a.icon
-            const inner = (
-              <>
-                <span
-                  className={cn(
-                    "flex size-11 items-center justify-center rounded-2xl transition-transform group-hover:scale-105",
-                    a.tint,
-                  )}
-                >
-                  <Icon className="size-5" />
-                </span>
-                <span className="text-[11px] font-medium leading-tight text-foreground">{a.label}</span>
-              </>
-            )
-            const className =
-              "group flex flex-col items-center gap-2 rounded-3xl border border-border/70 bg-card/70 p-3 text-center backdrop-blur-xl transition-colors hover:bg-card"
-            return "href" in a && a.href ? (
-              <motion.div key={a.label} {...fade} transition={{ delay: 0.1 + i * 0.03 }}>
-                <Link href={a.href} className={cn(className, "h-full")}>
-                  {inner}
-                </Link>
-              </motion.div>
-            ) : (
-              <motion.button
-                key={a.label}
-                type="button"
-                {...fade}
-                transition={{ delay: 0.1 + i * 0.03 }}
-                className={className}
-              >
-                {inner}
-              </motion.button>
+      <VideoServices />
+
+      <motion.section {...fade} transition={{ delay: 0.12 }} aria-labelledby="quick-actions-title" className="mt-6">
+        <div className="mb-3 flex items-center justify-between"><h2 id="quick-actions-title" className="font-semibold tracking-tight">Explore Rythu360</h2><Link href="/app/nearby" className="flex items-center gap-1 text-sm font-medium text-primary">All services <ChevronRight className="size-4" /></Link></div>
+        <div className="grid grid-cols-4 gap-2 sm:grid-cols-8">
+          {quickActions.map((action) => {
+            const Icon = action.icon
+            return (
+              <Link key={action.label} href={action.href} className="group flex min-w-0 flex-col items-center gap-2 rounded-2xl border border-border bg-card p-3 text-center transition-colors hover:bg-muted">
+                <span className="flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-transform group-hover:scale-105"><Icon className="size-5" /></span>
+                <span className="text-pretty text-[11px] font-medium leading-tight">{action.label}</span>
+              </Link>
             )
           })}
         </div>
-      </motion.div>
+      </motion.section>
 
-      {/* ---------- Charts: income + crop health ---------- */}
-      <div className="mt-4 grid grid-cols-1 gap-3.5 lg:grid-cols-3">
-        <motion.div {...fade} transition={{ delay: 0.12 }} className="lg:col-span-2">
-          <GlassCard className="p-5">
-            <div className="mb-4 flex items-center justify-between">
-              <div>
-                <h2 className="font-semibold tracking-tight">Today&apos;s income</h2>
-                <p className="text-sm text-muted-foreground">Income vs expenses · 7 months</p>
-              </div>
-              <div className="flex items-center gap-3 text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="size-2.5 rounded-full bg-chart-1" /> Income
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="size-2.5 rounded-full bg-chart-2" /> Expenses
-                </span>
-              </div>
-            </div>
-            <IncomeAreaChart />
-          </GlassCard>
-        </motion.div>
-
-        <motion.div {...fade} transition={{ delay: 0.16 }}>
-          <GlassCard className="flex h-full flex-col p-5">
-            <div className="mb-1 flex items-center gap-2">
-              <HeartPulse className="size-4 text-primary" />
-              <h2 className="font-semibold tracking-tight">Crop health</h2>
-            </div>
-            <div className="relative flex-1">
-              <CropHealthGauge value={88} />
-              <div className="pointer-events-none absolute inset-x-0 bottom-6 flex flex-col items-center">
-                <p className="text-3xl font-semibold tracking-tight">88</p>
-                <p className="text-xs text-muted-foreground">Healthy</p>
-              </div>
-            </div>
-            <p className="text-center text-xs leading-relaxed text-muted-foreground">
-              4 fields monitored · 1 needs attention
-            </p>
-          </GlassCard>
-        </motion.div>
-      </div>
-
-      {/* ---------- Weather forecast + subscription ---------- */}
-      <div className="mt-4 grid grid-cols-1 gap-3.5 lg:grid-cols-3">
-        <motion.div {...fade} transition={{ delay: 0.12 }} className="lg:col-span-2">
-          <GlassCard className="p-5">
-            <div className="mb-4">
-              <h2 className="font-semibold tracking-tight">Weather forecast</h2>
-              <p className="text-sm text-muted-foreground">Temperature &amp; rainfall · Warangal</p>
-            </div>
-            <WeatherChart />
-          </GlassCard>
-        </motion.div>
-
-        <motion.div {...fade} transition={{ delay: 0.16 }}>
-          <GlassCard className="relative flex h-full flex-col overflow-hidden p-5">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-accent/15 blur-3xl"
-            />
-            <div className="relative flex items-center gap-2">
-              <span className="flex size-9 items-center justify-center rounded-2xl bg-accent/15 text-accent">
-                <Crown className="size-5" />
-              </span>
-              <div>
-                <h2 className="font-semibold tracking-tight">Rythu360 Plus</h2>
-                <p className="text-xs text-muted-foreground">Subscription status</p>
-              </div>
-            </div>
-
-            <div className="relative mt-4">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                <span className="size-1.5 rounded-full bg-primary" /> Active
-              </span>
-              <p className="mt-3 text-sm text-muted-foreground">Renews on 14 Aug 2026</p>
-              <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
-                <div className="h-full rounded-full bg-primary" style={{ width: "68%" }} />
-              </div>
-              <p className="mt-1.5 text-xs text-muted-foreground">28 of 40 days remaining</p>
-            </div>
-
-            <Button render={<Link href="/app/pricing" />} nativeButton={false} variant="outline" className="relative mt-auto w-full rounded-full">
-              Manage plan
-            </Button>
-          </GlassCard>
-        </motion.div>
-      </div>
-
-      {/* ---------- Mandi price + soil moisture ---------- */}
-      <div className="mt-4 grid grid-cols-1 gap-3.5 lg:grid-cols-2">
-        <motion.div {...fade} transition={{ delay: 0.12 }}>
-          <GlassCard className="p-5">
-            <div className="mb-4">
-              <h2 className="font-semibold tracking-tight">Paddy mandi price</h2>
-              <p className="text-sm text-muted-foreground">Warangal · ���/quintal · 8 weeks</p>
-            </div>
-            <MandiLineChart />
-          </GlassCard>
-        </motion.div>
-        <motion.div {...fade} transition={{ delay: 0.16 }}>
-          <GlassCard className="p-5">
-            <h2 className="mb-4 font-semibold tracking-tight">Soil moisture by field</h2>
-            <SoilMoistureChart />
-          </GlassCard>
-        </motion.div>
+      <div className="mt-6 grid grid-cols-1 gap-3.5 lg:grid-cols-3">
+        <GlassCard className="p-5 lg:col-span-2"><div className="mb-4"><h2 className="font-semibold">Seven-day farm outlook</h2><p className="text-sm text-muted-foreground">Temperature and rainfall · SPSR Nellore</p></div><WeatherChart /></GlassCard>
+        <GlassCard className="flex flex-col p-5"><div className="flex items-center gap-2"><HeartPulse className="size-4 text-primary" /><h2 className="font-semibold">Crop health</h2></div><div className="relative flex-1"><CropHealthGauge value={88} /><div className="pointer-events-none absolute inset-x-0 bottom-6 text-center"><p className="text-3xl font-semibold">88</p><p className="text-xs text-muted-foreground">Healthy</p></div></div><p className="text-center text-xs text-muted-foreground">4 fields monitored · 1 needs attention</p></GlassCard>
       </div>
     </>
   )
