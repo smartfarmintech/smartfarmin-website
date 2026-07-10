@@ -2,11 +2,11 @@
 
 import { useEffect } from "react"
 import Link from "next/link"
-import { AlertTriangle, Home, RotateCcw } from "lucide-react"
+import { AlertTriangle, LayoutDashboard, RotateCcw } from "lucide-react"
 import { BrandMark } from "@/components/rythu360/status-screens"
 import { Button } from "@/components/ui/button"
 
-export default function RootError({
+export default function AppError({
   error,
   reset,
 }: {
@@ -14,13 +14,13 @@ export default function RootError({
   reset: () => void
 }) {
   useEffect(() => {
-    console.log("[v0] Root error:", error.message)
+    console.log("[v0] App route error:", error.message)
   }, [error])
 
   return (
     <div className="flex min-h-svh flex-col bg-background">
       <div className="px-6 py-5">
-        <Link href="/" aria-label="Rythu360 home">
+        <Link href="/app/dashboard" aria-label="Rythu360 home">
           <BrandMark />
         </Link>
       </div>
@@ -34,8 +34,8 @@ export default function RootError({
             Something went wrong
           </h1>
           <p className="mt-2 text-pretty leading-relaxed text-muted-foreground">
-            An unexpected error occurred. Please try again — if the problem persists, return
-            to the homepage.
+            We hit an unexpected error while loading this workspace. You can retry, or head
+            back to your dashboard.
           </p>
 
           {error.digest ? (
@@ -51,10 +51,10 @@ export default function RootError({
             <Button
               variant="outline"
               className="w-full rounded-full sm:w-auto"
-              render={<Link href="/" />}
+              render={<Link href="/app/dashboard" />}
               nativeButton={false}
             >
-              <Home className="size-4" /> Go home
+              <LayoutDashboard className="size-4" /> Back to dashboard
             </Button>
           </div>
         </div>
