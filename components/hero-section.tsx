@@ -1,308 +1,244 @@
-"use client"
+'use client'
 
-import Image from "next/image"
-import { ArrowRight, Sprout, Droplets, Cloud, MapPin, Cpu, Leaf } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
-
-interface FloatingCard {
-  id: string
-  icon: React.ReactNode
-  title: string
-  value?: string
-  description: string
-  delay: number
-  position: {
-    top?: string
-    right?: string
-    left?: string
-    bottom?: string
-  }
-}
-
-function FloatingCards() {
-  const cards: FloatingCard[] = [
-    {
-      id: "crop-health",
-      icon: <Leaf className="size-5 text-primary" />,
-      title: "Crop Health",
-      value: "98%",
-      description: "Healthy",
-      delay: 0,
-      position: { top: "10%", left: "5%" },
-    },
-    {
-      id: "drone-spray",
-      icon: <Droplets className="size-5 text-blue-500" />,
-      title: "Drone Spraying",
-      description: "Available Today",
-      delay: 0.2,
-      position: { top: "20%", right: "8%" },
-    },
-    {
-      id: "weather",
-      icon: <Cloud className="size-5 text-cyan-500" />,
-      title: "Weather",
-      value: "27°C",
-      description: "Light Rain Tomorrow",
-      delay: 0.4,
-      position: { top: "65%", left: "3%" },
-    },
-    {
-      id: "gps-tracking",
-      icon: <MapPin className="size-5 text-red-500" />,
-      title: "GPS Tracking",
-      value: "Live",
-      description: "",
-      delay: 0.6,
-      position: { bottom: "15%", right: "5%" },
-    },
-    {
-      id: "ai-recommendation",
-      icon: <Cpu className="size-5 text-purple-500" />,
-      title: "AI Recommendation",
-      value: "Crop Healthy",
-      description: "Apply Fertilizer in 5 Days",
-      delay: 0.8,
-      position: { bottom: "20%", left: "8%" },
-    },
-  ]
-
-  return (
-    <>
-      {cards.map((card) => (
-        <motion.div
-          key={card.id}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: card.delay, duration: 0.6, ease: "easeOut" }}
-          className="absolute hidden lg:block"
-          style={{
-            top: card.position.top,
-            right: card.position.right,
-            left: card.position.left,
-            bottom: card.position.bottom,
-          }}
-        >
-          <motion.div
-            animate={{
-              y: [0, -20, 0],
-              rotate: [0, 2, -2, 0],
-            }}
-            transition={{
-              duration: 4 + card.delay,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="group relative"
-          >
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity blur-xl" />
-            <div className="relative w-56 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl p-4 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="flex items-start gap-3">
-                <div className="flex size-10 items-center justify-center rounded-xl bg-white/10">
-                  {card.icon}
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-medium text-white/60 uppercase tracking-wide">
-                    {card.title}
-                  </p>
-                  {card.value && (
-                    <p className="mt-1 text-lg font-bold text-white">
-                      {card.value}
-                    </p>
-                  )}
-                  {card.description && (
-                    <p className="mt-1 text-sm text-white/80">
-                      {card.description}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      ))}
-    </>
-  )
-}
-
-function AnimatedStats() {
-  const [counts, setCounts] = useState({
-    farmers: 0,
-    states: 0,
-    yield: 0,
-  })
-
-  useEffect(() => {
-    const targets = { farmers: 250000, states: 18, yield: 30 }
-    let animationFrameId: number
-
-    const animate = () => {
-      setCounts((prev) => ({
-        farmers: Math.min(prev.farmers + 5000, targets.farmers),
-        states: Math.min(prev.states + 0.5, targets.states),
-        yield: Math.min(prev.yield + 1, targets.yield),
-      }))
-
-      if (
-        counts.farmers < targets.farmers ||
-        counts.states < targets.states ||
-        counts.yield < targets.yield
-      ) {
-        animationFrameId = requestAnimationFrame(animate)
-      }
-    }
-
-    animationFrameId = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationFrameId)
-  }, [counts])
-
-  return (
-    <dl className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-6">
-      {[
-        { value: Math.floor(counts.farmers / 1000).toLocaleString(), label: "K+ Active farmers", suffix: "" },
-        { value: Math.floor(counts.states), label: "States coverage", suffix: "" },
-        { value: Math.floor(counts.yield), label: "% Avg. yield lift", suffix: "" },
-      ].map((stat) => (
-        <motion.div
-          key={stat.label}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <dt className="font-serif text-2xl font-semibold text-foreground">
-            {stat.value}{stat.suffix}
-          </dt>
-          <dd className="mt-1 text-sm text-muted-foreground">{stat.label}</dd>
-        </motion.div>
-      ))}
-    </dl>
-  )
-}
+import { motion } from 'framer-motion'
+import { ChevronRight, Zap, Leaf, TrendingUp } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export function HeroSection() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.34, 1.56, 0.64, 1],
+      },
+    },
+  }
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 1,
+        ease: 'easeOut',
+      },
+    },
+  }
+
+  const floatingVariants = {
+    animate: {
+      y: [0, -20, 0],
+      transition: {
+        duration: 6,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      },
+    },
+  }
+
   return (
-    <section className="relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 pb-12 pt-14 sm:px-6 lg:px-8 lg:pb-20 lg:pt-20">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-12">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background to-accent/5 py-20 px-4 md:px-8">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, 50, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        <motion.div
+          className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, -50, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto w-full">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="space-y-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground"
-            >
-              <Sprout className="size-3.5 text-primary" />
-              Trusted by 2,50,000+ farmers across India
-            </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="mt-6 text-balance font-serif text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
-            >
-              Smart farming for a{" "}
-              <span className="text-primary">growing India</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="mt-5 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground"
-            >
-              SmartFarmin brings AI advisory, drone services, a fair marketplace
-              and an organic store together on one platform, so every farmer can
-              grow more while spending less.
-            </motion.p>
+            {/* Tagline */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="mt-8 flex flex-wrap items-center gap-3"
+              variants={itemVariants}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 w-fit"
             >
-              <motion.div
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button size="lg" className="gap-2 shadow-lg hover:shadow-xl transition-shadow">
-                  Start growing
-                  <ArrowRight className="size-4" />
-                </Button>
-              </motion.div>
-              <motion.div
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button size="lg" variant="outline">
-                  Explore solutions
-                </Button>
-              </motion.div>
+              <Zap className="w-4 h-4 text-accent" />
+              <span className="text-sm font-medium text-accent">Digital Operating System for Indian Agriculture</span>
             </motion.div>
 
-            <AnimatedStats />
+            {/* Main Headline */}
+            <motion.h1
+              variants={itemVariants}
+              className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-balance leading-tight text-foreground"
+            >
+              Empowering Farmers with{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
+                Technology
+              </span>
+            </motion.h1>
+
+            {/* Subheading */}
+            <motion.p
+              variants={itemVariants}
+              className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl"
+            >
+              Rythu360 connects farmers, technology, and markets through AI-powered precision agriculture, intelligent machinery, real-time weather intelligence, and digital marketplaces.
+            </motion.p>
+
+            {/* Impact Metrics */}
+            <motion.div
+              variants={itemVariants}
+              className="grid grid-cols-3 gap-4 pt-4"
+            >
+              {[
+                { icon: Leaf, label: 'Farmers', value: '50K+' },
+                { icon: TrendingUp, label: 'Yield Increase', value: '35%' },
+                { icon: Zap, label: 'Cost Saved', value: '₹5B+' },
+              ].map((metric, i) => (
+                <div key={i} className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <metric.icon className="w-4 h-4 text-accent" />
+                    <p className="text-2xl md:text-3xl font-bold text-foreground">
+                      {metric.value}
+                    </p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{metric.label}</p>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap gap-4 pt-4"
+            >
+              <Link href="#ecosystem">
+                <motion.button
+                  className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:shadow-lg transition-shadow group flex items-center gap-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Launch Platform
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </motion.button>
+              </Link>
+
+              <Link href="#solutions">
+                <motion.button
+                  className="px-8 py-4 border border-border bg-card text-foreground font-semibold rounded-lg hover:bg-secondary transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Explore Solutions
+                </motion.button>
+              </Link>
+
+              <Link href="#contact">
+                <motion.button
+                  className="px-8 py-4 border border-border bg-card text-foreground font-semibold rounded-lg hover:bg-secondary transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Become a Partner
+                </motion.button>
+              </Link>
+            </motion.div>
           </motion.div>
 
+          {/* Right Image */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative"
+            variants={imageVariants}
+            initial="hidden"
+            animate="visible"
+            className="relative h-96 md:h-full md:min-h-[600px]"
           >
             <motion.div
-              animate={{
-                scale: [1, 1.02, 1],
-                y: [0, -10, 0],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border shadow-2xl"
+              variants={floatingVariants}
+              animate="animate"
+              className="relative w-full h-full"
             >
               <Image
-                src="/images/drone-hero.png"
-                alt="Modern white agricultural drone spraying crops over paddy fields in Andhra Pradesh"
+                src="/images/hero-farmland-sunrise.png"
+                alt="Indian farmland with technology integration"
                 fill
+                className="object-cover rounded-2xl shadow-2xl"
                 priority
-                className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+              
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </motion.div>
 
-            {/* Floating Cards */}
-            <FloatingCards />
-
-            {/* AI Card - Bottom Left */}
+            {/* Floating Info Cards */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1, duration: 0.6 }}
-              className="absolute -bottom-5 -left-4 hidden w-56 rounded-2xl border border-border bg-card p-4 shadow-lg sm:block"
+              variants={floatingVariants}
+              animate="animate"
+              className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md rounded-lg p-4 shadow-lg border border-white/20"
             >
-              <div className="flex items-center gap-3">
-                <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Sprout className="size-5" />
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">
-                    Akanksha AI
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Wheat: Irrigate in 2 days
-                  </p>
-                </div>
-              </div>
+              <p className="text-sm font-semibold text-foreground">Real-time Analytics</p>
+              <p className="text-xs text-muted-foreground">Live crop monitoring</p>
+            </motion.div>
+
+            <motion.div
+              variants={floatingVariants}
+              animate="animate"
+              transition={{ delay: 0.2 }}
+              className="absolute top-8 right-8 bg-white/90 backdrop-blur-md rounded-lg p-4 shadow-lg border border-white/20"
+            >
+              <p className="text-sm font-semibold text-foreground">AI Diagnostics</p>
+              <p className="text-xs text-muted-foreground">Disease detection</p>
             </motion.div>
           </motion.div>
         </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <div className="flex flex-col items-center gap-2 text-muted-foreground">
+          <span className="text-sm">Scroll to explore</span>
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </motion.div>
     </section>
   )
 }

@@ -1,6 +1,16 @@
 import { SiteHeader } from "@/components/site-header"
 import { AnnouncementBar } from "@/components/announcement-bar"
 import { HeroSection } from "@/components/hero-section"
+import { AgricultureStorySection } from "@/components/agriculture-story-section"
+import { EcosystemSection } from "@/components/ecosystem-section"
+import { AICropDoctorSection } from "@/components/platform-sections/ai-crop-doctor-section"
+import { DroneIntelligenceSection } from "@/components/platform-sections/drone-intelligence-section"
+import { MarketplaceSection } from "@/components/platform-sections/marketplace-section"
+import { WeatherIntelligenceSection } from "@/components/platform-sections/weather-intelligence-section"
+import { JourneyTimelineSection } from "@/components/journey-timeline-section"
+import { LivePlatformSection } from "@/components/live-platform-section"
+import { TechnologySection } from "@/components/technology-section"
+import { FutureRoadmapSection } from "@/components/future-roadmap-section"
 import { FarmSnapshot } from "@/components/farm-snapshot"
 import { FarmingLifecycle } from "@/components/farming-lifecycle"
 import { ProductsSection } from "@/components/products-section"
@@ -19,6 +29,36 @@ export default function HomePage() {
       <main>
         {/* HERO EXPERIENCE */}
         <HeroSection />
+
+        {/* Agriculture Story */}
+        <AgricultureStorySection />
+
+        {/* Interactive Ecosystem */}
+        <EcosystemSection />
+
+        {/* AI Crop Doctor */}
+        <AICropDoctorSection />
+
+        {/* Drone Intelligence */}
+        <DroneIntelligenceSection />
+
+        {/* Farm Marketplace */}
+        <MarketplaceSection />
+
+        {/* Weather Intelligence */}
+        <WeatherIntelligenceSection />
+
+        {/* Farmer Journey Timeline */}
+        <JourneyTimelineSection />
+
+        {/* Live Platform Dashboards */}
+        <LivePlatformSection />
+
+        {/* Technology Stack */}
+        <TechnologySection />
+
+        {/* Future Roadmap */}
+        <FutureRoadmapSection />
 
         {/* Today's Farm Snapshot */}
         <FarmSnapshot />
