@@ -37,15 +37,28 @@ export function HeroSection() {
         </motion.div>
 
         {/* Gradient SVG Landscape */}
-        <div className="absolute inset-0 w-full h-full">
-          <Image
-            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Cdefs%3E%3ClinearGradient id='sunrise' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:rgb(254,215,0);stop-opacity:0.6' /%3E%3Cstop offset='30%25' style='stop-color:rgb(255,140,0);stop-opacity:0.4' /%3E%3Cstop offset='60%25' style='stop-color:rgb(34,197,94);stop-opacity:0.15' /%3E%3Cstop offset='100%25' style='stop-color:rgb(248,250,252);stop-opacity:0.8' /%3E%3C/linearGradient%3E%3ClinearGradient id='field' x1='0%25' y1='50%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:rgb(27,143,58);stop-opacity:0.1' /%3E%3Cstop offset='100%25' style='stop-color:rgb(27,143,58);stop-opacity:0.3' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1920' height='1080' fill='url(%23sunrise)'/%3E%3Cpath d='M0,550 Q480,450 960,500 T1920,550 L1920,1080 L0,1080 Z' fill='url(%23field)'/%3E%3Cpath d='M0,680 Q480,600 960,650 T1920,680 L1920,1080 L0,1080 Z' fill='%231B8F3A' opacity='0.12'/%3E%3C/svg%3E"
-            alt="Sunrise over paddy fields"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
+        <svg
+          className="absolute inset-0 w-full h-full"
+          viewBox="0 0 1920 1080"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="sunrise" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{ stopColor: "rgb(254,215,0)", stopOpacity: 0.6 }} />
+              <stop offset="30%" style={{ stopColor: "rgb(255,140,0)", stopOpacity: 0.4 }} />
+              <stop offset="60%" style={{ stopColor: "rgb(34,197,94)", stopOpacity: 0.15 }} />
+              <stop offset="100%" style={{ stopColor: "rgb(248,250,252)", stopOpacity: 0.8 }} />
+            </linearGradient>
+            <linearGradient id="field" x1="0%" y1="50%" x2="0%" y2="100%">
+              <stop offset="0%" style={{ stopColor: "rgb(27,143,58)", stopOpacity: 0.1 }} />
+              <stop offset="100%" style={{ stopColor: "rgb(27,143,58)", stopOpacity: 0.3 }} />
+            </linearGradient>
+          </defs>
+          <rect width="1920" height="1080" fill="url(#sunrise)" />
+          <path d="M0,550 Q480,450 960,500 T1920,550 L1920,1080 L0,1080 Z" fill="url(#field)" />
+          <path d="M0,680 Q480,600 960,650 T1920,680 L1920,1080 L0,1080 Z" fill="#1B8F3A" opacity="0.12" />
+        </svg>
 
         {/* Content Container */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full lg:pr-1/3">

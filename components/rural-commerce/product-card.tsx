@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { Heart, MapPin, Phone, MessageCircle, ShoppingCart, Badge } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -26,13 +25,21 @@ export function ProductCard({ product, onAddToCart, onWishlist }: ProductCardPro
     >
       <GlassCard className="h-full overflow-hidden flex flex-col bg-white/80 backdrop-blur-sm border border-white/20 hover:border-primary/30 transition-colors">
         {/* Image Container */}
-        <div className="relative w-full h-48 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
-          <Image
-            src={`/shop/${product.image.toLowerCase().replace(/\s+/g, "-")}.png`}
-            alt={product.name}
-            fill
-            className="object-cover"
-          />
+        <div className="relative w-full h-48 bg-gradient-to-br from-primary/10 to-accent/10 overflow-hidden flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-4xl mb-2">
+              {product.category === "Fresh Fruits" && "🍎"}
+              {product.category === "Fresh Vegetables" && "🥬"}
+              {product.category === "Grains & Cereals" && "🌾"}
+              {product.category === "Nursery & Plants" && "🌱"}
+              {product.category === "Livestock" && "🐄"}
+              {product.category === "Dairy" && "🥛"}
+              {product.category === "Organic Products" && "🍃"}
+              {product.category === "Farm Equipment" && "🔧"}
+              {product.category === "Agriculture Inputs" && "🧪"}
+            </div>
+            <p className="text-xs text-gray-500 font-medium">{product.category}</p>
+          </div>
           
           {/* Badge */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">

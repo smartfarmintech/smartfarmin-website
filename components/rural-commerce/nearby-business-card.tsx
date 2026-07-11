@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { MapPin, Phone, MessageCircle, Navigation, Clock } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -21,13 +20,23 @@ export function NearbyBusinessCard({ business, onDirection }: NearbyBusinessCard
     >
       <GlassCard className="h-full overflow-hidden flex flex-col bg-white/80 backdrop-blur-sm border border-white/20 hover:border-accent/30 transition-colors">
         {/* Image Container */}
-        <div className="relative w-full h-40 bg-gradient-to-br from-accent/5 to-primary/5 overflow-hidden">
-          <Image
-            src={`/shop/${business.image.toLowerCase().replace(/\s+/g, "-")}.png`}
-            alt={business.name}
-            fill
-            className="object-cover"
-          />
+        <div className="relative w-full h-40 bg-gradient-to-br from-accent/10 to-primary/10 overflow-hidden flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-5xl mb-2">
+              {business.type === "Agricultural Store" && "🏪"}
+              {business.type === "Equipment Rental" && "🚜"}
+              {business.type === "Food Market" && "🛒"}
+              {business.type === "Seeds Dealer" && "🌰"}
+              {business.type === "Veterinary Clinic" && "⚕️"}
+              {business.type === "Processing Unit" && "🏭"}
+              {business.type === "Cooperative Society" && "🤝"}
+              {business.type === "Farm Services" && "🛠️"}
+              {business.type === "Dairy Collection" && "🥛"}
+              {business.type === "Storage Facility" && "📦"}
+              {!["Agricultural Store", "Equipment Rental", "Food Market", "Seeds Dealer", "Veterinary Clinic", "Processing Unit", "Cooperative Society", "Farm Services", "Dairy Collection", "Storage Facility"].includes(business.type) && "🏢"}
+            </div>
+            <p className="text-xs text-gray-500 font-medium">{business.type}</p>
+          </div>
 
           {/* Status Badge */}
           <div className="absolute top-3 left-3">
