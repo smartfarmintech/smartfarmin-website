@@ -2,6 +2,7 @@ import { SiteHeader } from "@/components/site-header"
 import { AnnouncementBar } from "@/components/announcement-bar"
 import { HeroSection } from "@/components/hero-section"
 import { PremiumFeaturesSection } from "@/components/premium-features-section"
+import { AICropDoctorShowcase } from "@/components/ai-crop-doctor-section"
 import { FarmSnapshot } from "@/components/farm-snapshot"
 import { FarmingLifecycle } from "@/components/farming-lifecycle"
 import { ProductsSection } from "@/components/products-section"
@@ -23,6 +24,9 @@ export default function HomePage() {
 
         {/* PREMIUM FEATURES */}
         <PremiumFeaturesSection />
+
+        {/* AI CROP DOCTOR */}
+        <AICropDoctorShowcase />
 
         {/* Today's Farm Snapshot */}
         <FarmSnapshot />
