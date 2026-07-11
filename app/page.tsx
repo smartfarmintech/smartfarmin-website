@@ -1,6 +1,11 @@
 import { SiteHeader } from "@/components/site-header"
 import { AnnouncementBar } from "@/components/announcement-bar"
 import { HeroSection } from "@/components/hero-section"
+import { PremiumFeaturesSection } from "@/components/premium-features-section"
+import { AICropDoctorShowcase } from "@/components/ai-crop-doctor-section"
+import { GovernmentSchemesSection } from "@/components/government-schemes-section"
+import { EnterpriseModulesSection } from "@/components/enterprise-modules-section"
+import { PremiumCTASection } from "@/components/premium-cta-section"
 import { FarmSnapshot } from "@/components/farm-snapshot"
 import { FarmingLifecycle } from "@/components/farming-lifecycle"
 import { ProductsSection } from "@/components/products-section"
@@ -19,6 +24,21 @@ export default function HomePage() {
       <main>
         {/* HERO EXPERIENCE */}
         <HeroSection />
+
+        {/* PREMIUM FEATURES */}
+        <PremiumFeaturesSection />
+
+        {/* AI CROP DOCTOR */}
+        <AICropDoctorShowcase />
+
+        {/* GOVERNMENT SCHEMES */}
+        <GovernmentSchemesSection />
+
+        {/* ENTERPRISE MODULES */}
+        <EnterpriseModulesSection />
+
+        {/* PREMIUM CTA */}
+        <PremiumCTASection />
 
         {/* Today's Farm Snapshot */}
         <FarmSnapshot />
