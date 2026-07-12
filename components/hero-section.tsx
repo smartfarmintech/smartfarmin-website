@@ -10,6 +10,17 @@ export function HeroSection() {
     <section className="relative w-full overflow-hidden">
       {/* Cinematic Background with Sunrise Gradient */}
       <div className="relative h-screen flex items-center justify-center bg-gradient-to-b from-orange-100 via-yellow-50 to-white">
+        {/* Hero Banner Image Background */}
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="/images/hero-banner-sunrise.png"
+            alt="Agricultural landscape at sunrise with rolling green hills"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+
         {/* Sunrise Gradient Overlay */}
         <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-orange-400/20 via-yellow-300/10 to-transparent pointer-events-none" />
 

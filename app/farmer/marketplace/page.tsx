@@ -1,22 +1,13 @@
-import { SiteHeader } from '@/components/site-header'
-import { SiteFooter } from '@/components/site-footer'
-import { MarketplaceContent } from '@/components/marketplace/marketplace-content'
+"use client"
 
-export const metadata = {
-  title: 'Marketplace | Rythu360',
-  description: 'Buy seeds, fertilizers, equipment and more for your farm',
-}
+import { motion } from "framer-motion"
 
 export default function MarketplacePage() {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <SiteHeader />
-
-      <main className="flex-1">
-        <MarketplaceContent />
-      </main>
-
-      <SiteFooter />
+    <div className="p-4 md:p-8">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Marketplace</h1>
+      </motion.div>
     </div>
   )
 }

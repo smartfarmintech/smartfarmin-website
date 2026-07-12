@@ -8,6 +8,7 @@ import { InteractivePoll } from "@/components/interactive-poll"
 import { CompanyQuotes } from "@/components/company-quotes"
 import { PremiumFeaturesSection } from "@/components/premium-features-section"
 import { PremiumServices } from "@/components/premium-services"
+import { FarmerServices } from "@/components/farmer-services"
 import { NearbyServicesSection } from "@/components/nearby-services-section"
 import { TempleInformation } from "@/components/temple-information"
 import { AICropDoctorShowcase } from "@/components/ai-crop-doctor-section"
@@ -51,6 +52,9 @@ export default function HomePage() {
 
         {/* PREMIUM FEATURES */}
         <PremiumFeaturesSection />
+
+        {/* COMPREHENSIVE FARMER SERVICES (48+) */}
+        <FarmerServices />
 
         {/* PREMIUM SERVICES */}
         <PremiumServices />

@@ -10,7 +10,7 @@ import {
 } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { Rythu360Hero } from "@/components/rythu360-hero"
+import { CinematicHero } from "@/components/cinematic-hero"
 import { Rythu360Services } from "@/components/rythu360-services"
 import { Rythu360Features } from "@/components/rythu360-features"
 import { Rythu360AIPlatform } from "@/components/rythu360-ai-platform"
@@ -69,7 +69,7 @@ export default function Rythu360Page() {
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1">
-        <Rythu360Hero />
+        <CinematicHero />
         <Rythu360Services />
         <Rythu360Features />
         <Rythu360AIPlatform />
