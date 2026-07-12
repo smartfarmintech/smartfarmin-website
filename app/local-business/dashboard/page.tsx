@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = "force-dynamic"
+
 import Link from "next/link"
 
 export default function LocalBusinessDashboard() {
@@ -31,9 +33,9 @@ export default function LocalBusinessDashboard() {
         <input
           type="search"
           placeholder="Search services, businesses..."
-          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg"
         />
-        <button className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700">
+        <button className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg">
           Search
         </button>
       </div>
@@ -42,15 +44,14 @@ export default function LocalBusinessDashboard() {
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Service Categories</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {categories.map((cat) => (
-            <Link
+            <div
               key={cat.name}
-              href={`/local-business/vendors?category=${cat.name}`}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md hover:border-orange-200 transition"
+              className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center"
             >
               <div className="text-4xl mb-2">{cat.icon}</div>
               <p className="font-semibold text-gray-900 text-sm">{cat.name}</p>
               <p className="text-xs text-gray-600">{cat.count} nearby</p>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
@@ -61,7 +62,7 @@ export default function LocalBusinessDashboard() {
           {nearby.map((service, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition"
+              className="bg-white rounded-xl shadow-sm border border-gray-100 p-4"
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -71,7 +72,7 @@ export default function LocalBusinessDashboard() {
                 </div>
                 <div className="text-right">
                   <p className="text-yellow-500">⭐ {service.rating}</p>
-                  <button className="mt-2 px-4 py-1 bg-orange-100 text-orange-600 font-medium rounded text-sm hover:bg-orange-200">
+                  <button className="mt-2 px-4 py-1 bg-orange-100 text-orange-600 font-medium rounded text-sm">
                     View
                   </button>
                 </div>

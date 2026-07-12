@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = "force-dynamic"
+
 export default function DiscoverPage() {
   return (
     <div className="p-4 md:p-8">
@@ -8,7 +10,6 @@ export default function DiscoverPage() {
         <div>
           <p className="text-4xl mb-3">🗺️</p>
           <p className="text-gray-600 text-lg">Google Maps Integration</p>
-          <p className="text-gray-500 text-sm mt-2">View nearby services on interactive map</p>
         </div>
       </div>
     </div>

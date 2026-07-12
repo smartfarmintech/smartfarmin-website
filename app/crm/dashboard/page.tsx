@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = "force-dynamic"
+
 export default function CRMDashboard() {
   const kpis = [
     { label: "Total Contacts", value: "1,245", change: "+45 this month", icon: "👥" },
@@ -18,16 +20,12 @@ export default function CRMDashboard() {
     <div className="p-4 md:p-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-white mb-1">Sales Dashboard</h1>
-        <p className="text-gray-400">Today's Performance</p>
+        <p className="text-gray-400">Today&apos;s Performance</p>
       </div>
 
-      {/* KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {kpis.map((kpi) => (
-          <div
-            key={kpi.label}
-            className="bg-gray-800 rounded-lg border border-gray-700 p-6 hover:border-gray-600 transition"
-          >
+          <div key={kpi.label} className="bg-gray-800 rounded-lg border border-gray-700 p-6">
             <div className="text-3xl mb-3">{kpi.icon}</div>
             <p className="text-gray-400 text-sm">{kpi.label}</p>
             <p className="text-3xl font-bold text-white mt-1">{kpi.value}</p>
@@ -37,29 +35,17 @@ export default function CRMDashboard() {
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
-        {/* Recent Calls */}
         <div className="md:col-span-2 bg-gray-800 rounded-lg border border-gray-700 p-6">
           <h2 className="text-xl font-bold text-white mb-4">Recent Calls</h2>
           <div className="space-y-3">
             {recentCalls.map((call, idx) => (
-              <div
-                key={idx}
-                className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition"
-              >
+              <div key={idx} className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg">
                 <div>
                   <p className="font-semibold text-white">{call.name}</p>
                   <p className="text-xs text-gray-400 mt-1">{call.time}</p>
                 </div>
                 <div className="text-right">
-                  <span
-                    className={`text-xs font-semibold px-2 py-1 rounded ${
-                      call.status === "Interested"
-                        ? "bg-green-900/30 text-green-400"
-                        : call.status === "Callback"
-                          ? "bg-yellow-900/30 text-yellow-400"
-                          : "bg-red-900/30 text-red-400"
-                    }`}
-                  >
+                  <span className={`text-xs font-semibold px-2 py-1 rounded ${call.status === "Interested" ? "bg-green-900/30 text-green-400" : call.status === "Callback" ? "bg-yellow-900/30 text-yellow-400" : "bg-red-900/30 text-red-400"}`}>
                     {call.status}
                   </span>
                   <p className="text-xs text-gray-400 mt-1">{call.duration}</p>
@@ -69,22 +55,13 @@ export default function CRMDashboard() {
           </div>
         </div>
 
-        {/* Quick Actions */}
         <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
           <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
           <div className="space-y-3">
-            <button className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition">
-              New Call
-            </button>
-            <button className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
-              Add Contact
-            </button>
-            <button className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition">
-              Create Lead
-            </button>
-            <button className="w-full py-2 px-4 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg transition">
-              View Territory
-            </button>
+            <button className="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-lg">New Call</button>
+            <button className="w-full py-2 px-4 bg-green-600 text-white font-medium rounded-lg">Add Contact</button>
+            <button className="w-full py-2 px-4 bg-purple-600 text-white font-medium rounded-lg">Create Lead</button>
+            <button className="w-full py-2 px-4 bg-gray-700 text-white font-medium rounded-lg">View Territory</button>
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = "force-dynamic"
+
 export default function TempleDashboard() {
   const featured = [
     { name: "Tirupati Balaji Temple", location: "Chittoor, AP", visitors: "25M/year", rating: 4.9 },
@@ -26,7 +28,7 @@ export default function TempleDashboard() {
           placeholder="Search temples, experiences..."
           className="flex-1 px-4 py-3 border border-gray-300 rounded-lg"
         />
-        <button className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700">
+        <button className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg">
           Search
         </button>
       </div>
@@ -35,10 +37,7 @@ export default function TempleDashboard() {
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Featured Temples</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {featured.map((temple, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition"
-            >
+            <div key={idx} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="h-40 bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center text-5xl">
                 🛕
               </div>
@@ -49,9 +48,6 @@ export default function TempleDashboard() {
                   <span className="text-gray-600">{temple.visitors}</span>
                   <span className="text-yellow-500">⭐ {temple.rating}</span>
                 </div>
-                <button className="mt-4 w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition text-sm font-medium">
-                  Book Darshan
-                </button>
               </div>
             </div>
           ))}
@@ -62,10 +58,7 @@ export default function TempleDashboard() {
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Festival Calendar</h2>
         <div className="space-y-3">
           {upcomingFestivals.map((fest, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-4"
-            >
+            <div key={idx} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="font-bold text-gray-900">{fest.name}</h3>
