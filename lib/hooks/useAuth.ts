@@ -37,12 +37,19 @@ export function useAuth(): UseAuthReturn {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
-  )
+  
+  let supabase: any = null
+  try {
+    supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+    )
+  } catch (error) {
+    console.error("[v0] Supabase initialization error:", error)
+  }
 
   const loadProfile = useCallback(async (userId: string) => {
+    if (!supabase) return
     try {
       const { data, error } = await supabase
         .from("user_profiles")
@@ -59,6 +66,10 @@ export function useAuth(): UseAuthReturn {
   }, [supabase])
 
   const refresh = useCallback(async () => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
     try {
       setLoading(true)
       const { data, error } = await supabase.auth.refreshSession()
@@ -76,6 +87,7 @@ export function useAuth(): UseAuthReturn {
   }, [supabase, loadProfile])
 
   const signOut = useCallback(async () => {
+    if (!supabase) return
     try {
       await supabase.auth.signOut()
       setUser(null)
@@ -88,6 +100,11 @@ export function useAuth(): UseAuthReturn {
   }, [supabase, router])
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+    
     refresh()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
