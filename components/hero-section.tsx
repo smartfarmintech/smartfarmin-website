@@ -1,8 +1,6 @@
 "use client"
 
-import Image from "next/image"
-import { ArrowRight, Sprout } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Sprout } from "lucide-react"
 import { motion } from "framer-motion"
 
 export function HeroSection() {
@@ -34,21 +32,7 @@ export function HeroSection() {
           className="absolute top-20 right-1/4 w-48 h-48 rounded-full bg-gradient-to-b from-yellow-300 to-orange-200 blur-3xl opacity-40 pointer-events-none"
         />
 
-        {/* Farmer Image - Right Side */}
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 1 }}
-          className="absolute right-0 bottom-0 w-1/3 h-full hidden lg:block z-5"
-        >
-          <Image
-            src="/images/farmer.png"
-            alt="Farmer in paddy field at sunrise"
-            fill
-            className="object-cover object-left"
-            priority
-          />
-        </motion.div>
+
 
         {/* Gradient SVG Landscape */}
         <svg
@@ -116,27 +100,7 @@ export function HeroSection() {
               India's most advanced AI-powered agricultural platform. Connect with verified service providers, access real-time weather intelligence, detect crop diseases instantly, and optimize your harvest—all in one intelligent ecosystem.
             </motion.p>
 
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
-            >
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-lg hover:shadow-xl transition-all"
-              >
-                Get Started <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-primary text-primary hover:bg-primary/5 px-8 py-6 rounded-lg text-lg font-semibold"
-              >
-                Watch Demo
-              </Button>
-            </motion.div>
+
 
             {/* Stats Bar */}
             <motion.div
