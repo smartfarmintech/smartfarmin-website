@@ -83,7 +83,9 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-      router.push("/app/login")
+      // Simulate login with farmer role
+      login("farmer")
+      router.push("/dashboard")
     }, 900)
   }
 
@@ -94,7 +96,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
       setLoading(false)
       // Register successful - login the user
       login(regRole)
-      router.push("/app/dashboard")
+      router.push("/dashboard")
     }, 900)
   }
 
