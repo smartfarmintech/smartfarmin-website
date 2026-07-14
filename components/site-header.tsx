@@ -199,7 +199,7 @@ export function SiteHeader() {
           >
             Login
           </Button>
-          <Button render={<Link href="/pricing" />} nativeButton={false} size="sm">
+          <Button render={<Link href="/auth?mode=register" />} nativeButton={false} size="sm">
             Get Started
           </Button>
         </div>
@@ -241,7 +241,7 @@ export function SiteHeader() {
                 Login
               </Button>
               <Button
-                render={<Link href="/pricing" onClick={() => setOpen(false)} />}
+                render={<Link href="/auth?mode=register" onClick={() => setOpen(false)} />}
                 nativeButton={false}
                 size="sm"
               >

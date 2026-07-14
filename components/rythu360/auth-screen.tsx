@@ -83,7 +83,11 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
   const [mode, setMode] = useState<Mode>(initialMode)
   const [step, setStep] = useState<Step>("entry")
   const [regRole, setRegRole] = useState<RegRole>("farmer")
-  const [name, setName] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [mandal, setMandal] = useState("")
+  const [village, setVillage] = useState("")
+  const [district, setDistrict] = useState("")
   const [phone, setPhone] = useState("")
   const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""))
   const [loading, setLoading] = useState(false)
@@ -92,7 +96,10 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
   const otpRefs = useRef<Array<HTMLInputElement | null>>([])
 
   const phoneValid = phone.replace(/\D/g, "").length === 10
-  const nameValid = mode === "login" || name.trim().length >= 2
+  const nameValid =
+    mode === "login" || (firstName.trim().length >= 2 && lastName.trim().length >= 2)
+  const locationValid =
+    mode === "login" || (mandal !== "" && village !== "" && district !== "")
   const otpValue = otp.join("")
   const otpComplete = otpValue.length === OTP_LENGTH
 
@@ -410,21 +417,88 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
                     </div>
                   )}
 
-                  {/* register: name */}
                   {mode === "register" && (
-                    <div>
-                      <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
-                        Full name
-                      </label>
-                      <input
-                        id="name"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="e.g. Ramesh Kumar"
-                        className="h-12 w-full rounded-2xl border border-input bg-background/60 px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-3 focus:ring-ring/30"
-                      />
-                    </div>
+                    <>
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium">
+                            First name
+                          </label>
+                          <input
+                            id="firstName"
+                            type="text"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            placeholder="e.g. Ramesh"
+                            className="h-12 w-full rounded-2xl border border-input bg-background/60 px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-3 focus:ring-ring/30"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium">
+                            Last name
+                          </label>
+                          <input
+                            id="lastName"
+                            type="text"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            placeholder="e.g. Kumar"
+                            className="h-12 w-full rounded-2xl border border-input bg-background/60 px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-3 focus:ring-ring/30"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid gap-4 sm:grid-cols-3">
+                        <div>
+                          <label htmlFor="mandal" className="mb-1.5 block text-sm font-medium">
+                            Mandal
+                          </label>
+                          <select
+                            id="mandal"
+                            value={mandal}
+                            onChange={(e) => setMandal(e.target.value)}
+                            className="h-12 w-full rounded-2xl border border-input bg-background/60 px-4 text-sm outline-none transition-colors focus:border-primary focus:ring-3 focus:ring-ring/30"
+                          >
+                            <option value="">Select mandal</option>
+                            <option value="mandal-a">Mandhal A</option>
+                            <option value="mandal-b">Mandhal B</option>
+                            <option value="mandal-c">Mandhal C</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label htmlFor="village" className="mb-1.5 block text-sm font-medium">
+                            Village
+                          </label>
+                          <select
+                            id="village"
+                            value={village}
+                            onChange={(e) => setVillage(e.target.value)}
+                            className="h-12 w-full rounded-2xl border border-input bg-background/60 px-4 text-sm outline-none transition-colors focus:border-primary focus:ring-3 focus:ring-ring/30"
+                          >
+                            <option value="">Select village</option>
+                            <option value="village-1">Village 1</option>
+                            <option value="village-2">Village 2</option>
+                            <option value="village-3">Village 3</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label htmlFor="district" className="mb-1.5 block text-sm font-medium">
+                            District
+                          </label>
+                          <select
+                            id="district"
+                            value={district}
+                            onChange={(e) => setDistrict(e.target.value)}
+                            className="h-12 w-full rounded-2xl border border-input bg-background/60 px-4 text-sm outline-none transition-colors focus:border-primary focus:ring-3 focus:ring-ring/30"
+                          >
+                            <option value="">Select district</option>
+                            <option value="district-x">District X</option>
+                            <option value="district-y">District Y</option>
+                            <option value="district-z">District Z</option>
+                          </select>
+                        </div>
+                      </div>
+                    </>
                   )}
 
                   {/* phone */}
@@ -454,7 +528,7 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
                   <button
                     type="button"
                     onClick={sendOtp}
-                    disabled={!phoneValid || !nameValid || loading}
+                    disabled={!phoneValid || !nameValid || !locationValid || loading}
                     className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {loading ? (
