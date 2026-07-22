@@ -16,9 +16,9 @@ const fraunces = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: 'SmartFarmin — Smart Farming for a Growing India',
+  title: 'Akanksha AgreeTech — Smart Farming for a Growing India',
   description:
-    'SmartFarmin unites AI advisory, drone services, an agri-marketplace and an organic store to help farmers, enterprises and governments grow more with less.',
+    'Akanksha AgreeTech unites AI advisory, drone services, an agri-marketplace and an organic store to help farmers, enterprises and governments grow more with less.',
   generator: 'v0.app',
   icons: {
     icon: [

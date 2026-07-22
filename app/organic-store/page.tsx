@@ -7,9 +7,9 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Organic Store — Farm-Fresh, Certified Organic | SmartFarmin",
+  title: "Organic Store — Farm-Fresh, Certified Organic | Akanksha AgreeTech",
   description:
-    "Shop certified organic produce sourced directly from SmartFarmin farmers. Farm-fresh grains, vegetables, honey and more delivered to your door.",
+    "Shop certified organic produce sourced directly from Akanksha AgreeTech farmers. Farm-fresh grains, vegetables, honey and more delivered to your door.",
 }
 
 const products = [
@@ -71,7 +71,7 @@ export default function OrganicStorePage() {
         <PageHero
           eyebrow="Organic Store"
           title="Farm-fresh, certified organic, delivered"
-          description="Shop produce sourced directly from SmartFarmin farmers, better for you, better for the soil, and fairer for the people who grow it."
+          description="Shop produce sourced directly from Akanksha AgreeTech farmers, better for you, better for the soil, and fairer for the people who grow it."
         >
           <Button size="lg">Shop now</Button>
           <Button size="lg" variant="outline">

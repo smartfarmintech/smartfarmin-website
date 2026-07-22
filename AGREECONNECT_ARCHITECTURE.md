@@ -341,4 +341,4 @@ Environment variables needed:
 
 ## License
 
-Built for SmartFarmin Technologies Pvt. Ltd.
+Built for Akanksha AgreeTech Pvt Ltd.

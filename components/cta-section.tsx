@@ -11,7 +11,7 @@ export function CtaSection() {
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
             Join thousands of farmers, enterprises and institutions building the
-            future of Indian agriculture with SmartFarmin.
+            future of Indian agriculture with Akanksha AgreeTech.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button size="lg" className="gap-2">

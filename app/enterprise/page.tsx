@@ -7,9 +7,9 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Enterprise Solutions | SmartFarmin",
+  title: "Enterprise Solutions | Akanksha AgreeTech",
   description:
-    "Source, trace and finance agricultural supply chains with SmartFarmin's enterprise platform for agri-businesses and FPOs.",
+    "Source, trace and finance agricultural supply chains with Akanksha AgreeTech's enterprise platform for agri-businesses and FPOs.",
 }
 
 const capabilities = [
@@ -26,7 +26,7 @@ const capabilities = [
   {
     icon: Plug,
     title: "API & ERP integration",
-    desc: "Connect SmartFarmin data to your existing ERP, CRM and procurement systems.",
+    desc: "Connect Akanksha AgreeTech data to your existing ERP, CRM and procurement systems.",
   },
   {
     icon: LineChart,
@@ -53,7 +53,7 @@ export default function EnterprisePage() {
         <PageHero
           eyebrow="Enterprise"
           title="The operating system for agri-supply chains"
-          description="Agri-businesses, exporters and FPOs use SmartFarmin to source reliably, trace quality and finance growers — all from one platform."
+          description="Agri-businesses, exporters and FPOs use Akanksha AgreeTech to source reliably, trace quality and finance growers — all from one platform."
         >
           <Button render={<Link href="/contact" />} nativeButton={false}>
             Talk to sales

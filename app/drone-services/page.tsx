@@ -14,9 +14,9 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Drone Services — Precision Spraying & Mapping | SmartFarmin",
+  title: "Drone Services — Precision Spraying & Mapping | Akanksha AgreeTech",
   description:
-    "Book on-demand agricultural drone spraying and field mapping. Cut input costs, save water, protect your health and boost yields with SmartFarmin drones.",
+    "Book on-demand agricultural drone spraying and field mapping. Cut input costs, save water, protect your health and boost yields with Akanksha AgreeTech drones.",
 }
 
 const services = [

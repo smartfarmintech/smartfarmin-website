@@ -7,9 +7,9 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "About | SmartFarmin",
+  title: "About | Akanksha AgreeTech",
   description:
-    "SmartFarmin is building a smarter, fairer and more sustainable food system for India — from the farmer up.",
+    "Akanksha AgreeTech is building a smarter, fairer and more sustainable food system for India — from the farmer up.",
 }
 
 const values = [
@@ -31,7 +31,7 @@ const values = [
 ]
 
 const milestones = [
-  { year: "2021", text: "SmartFarmin founded; AgreeConnect pilots in Telangana." },
+  { year: "2021", text: "Akanksha AgreeTech founded; AgreeConnect pilots in Telangana." },
   { year: "2022", text: "Akanksha AI advisory launched with satellite integration." },
   { year: "2023", text: "Marketplace crosses 1M farmers; drone services introduced." },
   { year: "2024", text: "First state government partnerships for scheme delivery." },
@@ -45,7 +45,7 @@ export default function AboutPage() {
         <PageHero
           eyebrow="About us"
           title="Cultivating a fairer food system"
-          description="SmartFarmin started with a simple belief: when farmers have the same tools, data and market access as large agri-businesses, everyone eats better."
+          description="Akanksha AgreeTech started with a simple belief: when farmers have the same tools, data and market access as large agri-businesses, everyone eats better."
         >
           <Button render={<Link href="/careers" />} nativeButton={false}>
             Join our team

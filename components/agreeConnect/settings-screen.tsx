@@ -241,7 +241,7 @@ export function SettingsScreen() {
               </button>
             </GlassCard>
             <p className="mt-3 text-center text-xs text-muted-foreground">
-              SmartFarmin v3.2.0 · Made for Indian farmers
+              Akanksha AgreeTech v3.2.0 · Made for Indian farmers
             </p>
           </motion.div>
         )}
@@ -381,7 +381,7 @@ function AccountPanel() {
   return (
     <div className="space-y-5">
       <p className="px-1 text-sm text-muted-foreground">
-        Your personal details, used across SmartFarmin.
+        Your personal details, used across Akanksha AgreeTech.
       </p>
       <GlassCard className="divide-y divide-border/60 p-0">
         {PERSONAL_INFO.map((f) => (
@@ -583,7 +583,7 @@ function AboutPanel() {
           SF
         </span>
         <p className="mt-1 font-serif text-lg font-semibold tracking-tight">
-          SmartFarmin
+          Akanksha AgreeTech
         </p>
         <p className="text-sm text-muted-foreground">Version 3.2.0 (build 214)</p>
       </GlassCard>
@@ -602,7 +602,7 @@ function AboutPanel() {
         ))}
       </GlassCard>
       <p className="text-center text-xs text-muted-foreground">
-        © 2025 SmartFarmin Technologies Pvt. Ltd.
+        © 2025 Akanksha AgreeTech Pvt Ltd.
       </p>
     </div>
   )
@@ -634,7 +634,7 @@ function ConfirmLogout({ onCancel }: { onCancel: () => void }) {
             <LogOut className="size-6" />
           </span>
           <h3 className="mt-4 font-serif text-lg font-semibold tracking-tight">
-            Log out of SmartFarmin?
+            Log out of Akanksha AgreeTech?
           </h3>
           <p className="mt-1 text-sm text-muted-foreground">
             You&apos;ll need to sign in again to access your farm dashboard.

@@ -469,4 +469,4 @@ AgreeConnect V6 is a complete farmer-first reimagining of agricultural technolog
 
 *Last Updated: July 10, 2024*
 *Version: 6.0.0*
-*Team: SmartFarmin Technologies*
+*Team: Akanksha AgreeTech Pvt Ltd.*

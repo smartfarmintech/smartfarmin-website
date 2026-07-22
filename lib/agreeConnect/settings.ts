@@ -120,7 +120,7 @@ export const SECURITY_TOGGLES: ToggleSetting[] = [
 
 export const PRIVACY_TOGGLES: ToggleSetting[] = [
   { key: "location", label: "Location services", description: "Used for weather & nearby mandis", default: true },
-  { key: "analytics", label: "Share usage analytics", description: "Help improve SmartFarmin", default: true },
+  { key: "analytics", label: "Share usage analytics", description: "Help improve Akanksha AgreeTech", default: true },
   { key: "personalization", label: "Personalized content", description: "Tailor advice to your farm", default: true },
   { key: "ads", label: "Personalized ads", description: "Show relevant sponsored offers", default: false },
 ]
@@ -137,9 +137,9 @@ export const NOTIFICATION_TOGGLES: ToggleSetting[] = [
 export type SecurityEvent = { device: string; location: string; time: string; current?: boolean }
 
 export const LOGIN_HISTORY: SecurityEvent[] = [
-  { device: "iPhone 15 · SmartFarmin app", location: "Warangal, Telangana", time: "Active now", current: true },
+  { device: "iPhone 15 · Akanksha AgreeTech app", location: "Warangal, Telangana", time: "Active now", current: true },
   { device: "Chrome · Windows", location: "Hyderabad, Telangana", time: "Yesterday, 6:42 PM" },
-  { device: "SmartFarmin app · Android", location: "Warangal, Telangana", time: "12 Feb, 9:10 AM" },
+  { device: "Akanksha AgreeTech app · Android", location: "Warangal, Telangana", time: "12 Feb, 9:10 AM" },
 ]
 
 export type HelpTopic = { label: string; description: string }
@@ -156,5 +156,5 @@ export const ABOUT_LINKS: string[] = [
   "Privacy Policy",
   "Community Guidelines",
   "Open-source Licenses",
-  "Rate SmartFarmin",
+  "Rate Akanksha AgreeTech",
 ]

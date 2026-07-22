@@ -17,7 +17,7 @@ export function SolutionsSection() {
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-border shadow-xl">
               <Image
                 src="/images/farmer.png"
-                alt="Farmer using the SmartFarmin app in the field"
+                alt="Farmer using the Akanksha AgreeTech app in the field"
                 fill
                 className="object-cover"
               />
@@ -32,7 +32,7 @@ export function SolutionsSection() {
               Technology that speaks the language of the farm
             </h2>
             <p className="mt-4 text-pretty text-lg leading-relaxed text-muted-foreground">
-              We built SmartFarmin with farmers, not just for them. Every feature
+              We built Akanksha AgreeTech with farmers, not just for them. Every feature
               is designed to work on any phone, in any village, in the language you
               think in.
             </p>

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Complete visual and design system overhaul of the AgreeConnect landing page to match premium SaaS platforms like Apple, Stripe, and Vercel. The redesign maintains SmartFarmin Technologies' mission while elevating the visual presentation to attract both farmers and enterprise customers.
+Complete visual and design system overhaul of the AgreeConnect landing page to match premium SaaS platforms like Apple, Stripe, and Vercel. The redesign maintains Akanksha AgreeTech Pvt Ltd.' mission while elevating the visual presentation to attract both farmers and enterprise customers.
 
 ## Design System
 
@@ -215,6 +215,6 @@ app/
 
 ---
 
-**Deployed By**: SmartFarmin Development Team
+**Deployed By**: Akanksha AgreeTech Development Team
 **Date**: July 2026
 **Status**: PRODUCTION READY

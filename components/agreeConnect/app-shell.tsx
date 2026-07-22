@@ -166,7 +166,7 @@ export function AppShell() {
                 </span>
                 <div className="hidden leading-tight sm:block">
                   <p className="text-xs font-medium">Demo {role.label}</p>
-                  <p className="text-[11px] text-muted-foreground">SmartFarmin</p>
+                  <p className="text-[11px] text-muted-foreground">Akanksha AgreeTech</p>
                 </div>
               </Link>
             </div>

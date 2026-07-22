@@ -240,7 +240,7 @@ export function MarketingSection() {
       <div className="rounded-2xl bg-card border border-border p-8">
         <div className="flex items-center gap-3 mb-6">
           <TrendingUp className="h-6 w-6 text-primary" />
-          <h3 className="text-2xl font-bold text-foreground">Why Farmers Trust SmartFarmin</h3>
+          <h3 className="text-2xl font-bold text-foreground">Why Farmers Trust Akanksha AgreeTech</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">

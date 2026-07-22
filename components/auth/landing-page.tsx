@@ -54,7 +54,7 @@ export function LandingPage() {
                 AgreeConnect
               </motion.h1>
               <p className="text-lg sm:text-xl text-green-100 font-semibold">
-                SmartFarmin
+                Akanksha AgreeTech Pvt Ltd.
               </p>
             </div>
           </motion.div>
@@ -165,7 +165,7 @@ export function LandingPage() {
       {/* Footer */}
       <div className="relative z-10 bg-black/50 backdrop-blur-md border-t border-white/10 py-6">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-300">
-          <p>&copy; 2025 SmartFarmin. All rights reserved.</p>
+          <p>&copy; 2025 Akanksha AgreeTech Pvt Ltd. All rights reserved.</p>
           <div className="flex gap-6 mt-4 sm:mt-0">
             <Link href="#" className="hover:text-white transition">
               Terms

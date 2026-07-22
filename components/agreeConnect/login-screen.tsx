@@ -63,7 +63,7 @@ export function LoginScreen() {
             className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur"
           >
             <Sparkles className="size-3.5 text-accent" />
-            SmartFarmin Technologies · Agriculture Super App
+            Akanksha AgreeTech Pvt Ltd · Agriculture Super App
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 14 }}

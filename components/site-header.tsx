@@ -125,7 +125,7 @@ export function SiteHeader() {
             <Leaf className="size-5" />
           </span>
           <span className="font-serif text-xl font-semibold tracking-tight text-foreground">
-            SmartFarmin
+            Akanksha AgreeTech
           </span>
         </Link>
 

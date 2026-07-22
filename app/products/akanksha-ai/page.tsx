@@ -14,7 +14,7 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Akanksha AI — Precision Crop Advisory | SmartFarmin",
+  title: "Akanksha AI — Precision Crop Advisory | Akanksha AgreeTech",
   description:
     "Akanksha AI reads soil, satellite and weather data to tell farmers exactly when to sow, irrigate, fertilise and spray for the best possible yield.",
 }

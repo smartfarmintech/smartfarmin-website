@@ -5,7 +5,7 @@ import { SessionProvider } from "@/components/agreeConnect/session-provider"
 export const metadata: Metadata = {
   title: "AgreeConnect — Agriculture Super App",
   description:
-    "AgreeConnect by SmartFarmin: a multi-role agriculture super app for farmers, operators, dealers, buyers, experts and administrators.",
+    "AgreeConnect by Akanksha AgreeTech: a multi-role agriculture super app for farmers, operators, dealers, buyers, experts and administrators.",
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

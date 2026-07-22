@@ -7,9 +7,9 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Careers | SmartFarmin",
+  title: "Careers | Akanksha AgreeTech",
   description:
-    "Help build the technology that puts more value in farmers' hands. Explore open roles at SmartFarmin.",
+    "Help build the technology that puts more value in farmers' hands. Explore open roles at Akanksha AgreeTech.",
 }
 
 const perks = [

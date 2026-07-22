@@ -20,7 +20,7 @@ import { AgreeConnectDesignedFor } from "@/components/agreeConnect-designed-for"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "AgreeConnect — The Farmer Super-App | SmartFarmin",
+  title: "AgreeConnect — The Farmer Super-App | Akanksha AgreeTech",
   description:
     "AgreeConnect puts crop planning, live mandi prices, weather, credit and expert advice in every farmer's pocket, in their own language.",
 }

@@ -7,7 +7,7 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Government Solutions | SmartFarmin",
+  title: "Government Solutions | Akanksha AgreeTech",
   description:
     "Digital public infrastructure for agriculture — scheme delivery, crop monitoring and farmer welfare at state scale.",
 }
@@ -59,7 +59,7 @@ export default function GovernmentPage() {
         <PageHero
           eyebrow="Government"
           title="Digital public infrastructure for agriculture"
-          description="SmartFarmin partners with state and central agencies to deliver schemes, monitor crops and improve farmer welfare — transparently and at scale."
+          description="Akanksha AgreeTech partners with state and central agencies to deliver schemes, monitor crops and improve farmer welfare — transparently and at scale."
         >
           <Button render={<Link href="/contact" />} nativeButton={false}>
             Request a briefing

@@ -42,7 +42,7 @@ export function SiteFooter() {
                 <Leaf className="size-5" />
               </span>
               <span className="font-serif text-xl font-semibold tracking-tight text-foreground">
-                SmartFarmin
+                Akanksha AgreeTech
               </span>
             </Link>
             <p className="mt-4 max-w-sm text-pretty text-sm leading-relaxed text-muted-foreground">
@@ -72,7 +72,7 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} SmartFarmin Technologies. All rights reserved.
+            © {new Date().getFullYear()} Akanksha AgreeTech Pvt Ltd. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-muted-foreground">
             <Link href="/#about" className="hover:text-foreground">

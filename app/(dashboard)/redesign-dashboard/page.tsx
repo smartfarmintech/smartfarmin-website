@@ -25,7 +25,7 @@ export default function RedesignDashboard() {
               <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
                 SF
               </div>
-              <h1 className="text-2xl font-bold text-foreground">SmartFarmin</h1>
+              <h1 className="text-2xl font-bold text-foreground">Akanksha AgreeTech</h1>
             </div>
             <button 
               onClick={handleLogout}
@@ -57,7 +57,7 @@ export default function RedesignDashboard() {
         <div className="mt-12 rounded-2xl bg-primary px-8 py-12 text-center text-primary-foreground">
           <h3 className="text-3xl font-bold mb-4">Join the Growing Community</h3>
           <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-            Connect with thousands of farmers, access expert advice, and grow your farming business with SmartFarmin.
+            Connect with thousands of farmers, access expert advice, and grow your farming business with Akanksha AgreeTech.
           </p>
           <div className="flex gap-4 justify-center">
             <button className="px-6 py-3 bg-primary-foreground text-primary font-semibold rounded-lg hover:opacity-90 transition">
@@ -71,7 +71,7 @@ export default function RedesignDashboard() {
 
         {/* Footer */}
         <footer className="mt-16 border-t border-border py-8 text-center text-muted-foreground">
-          <p>&copy; 2024 SmartFarmin. All rights reserved. Your trusted farm marketplace.</p>
+          <p>&copy; 2024 Akanksha AgreeTech. All rights reserved. Your trusted farm marketplace.</p>
         </footer>
       </div>
 

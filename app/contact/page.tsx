@@ -6,9 +6,9 @@ import { PageHero } from "@/components/page-hero"
 import { ContactForm } from "@/components/contact-form"
 
 export const metadata: Metadata = {
-  title: "Contact | SmartFarmin",
+  title: "Contact | Akanksha AgreeTech",
   description:
-    "Get in touch with the SmartFarmin team for farmer support, enterprise, government or press inquiries.",
+    "Get in touch with the Akanksha AgreeTech team for farmer support, enterprise, government or press inquiries.",
 }
 
 const channels = [

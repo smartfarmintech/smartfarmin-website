@@ -7,7 +7,7 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Pricing | SmartFarmin",
+  title: "Pricing | Akanksha AgreeTech",
   description:
     "Simple, transparent pricing for farmers, agri-businesses and institutions. Start free and scale as you grow.",
 }

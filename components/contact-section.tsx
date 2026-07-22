@@ -24,7 +24,7 @@ const contactChannels = [
     icon: MapPin,
     title: "Visit Us",
     description: "Hyderabad, India",
-    contact: "SmartFarmin HQ",
+    contact: "Akanksha AgreeTech HQ",
     link: "#",
   },
 ]

@@ -7,9 +7,9 @@ import { PageHero } from "@/components/page-hero"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Investors | SmartFarmin",
+  title: "Investors | Akanksha AgreeTech",
   description:
-    "Investing in the digital backbone of Indian agriculture. Explore SmartFarmin's traction, mission and opportunity.",
+    "Investing in the digital backbone of Indian agriculture. Explore Akanksha AgreeTech's traction, mission and opportunity.",
 }
 
 const metrics = [
@@ -27,7 +27,7 @@ export default function InvestorsPage() {
         <PageHero
           eyebrow="Investors"
           title="Backing the future of agriculture"
-          description="We're building the digital backbone for the world's most important industry. Here's why long-term investors are partnering with SmartFarmin."
+          description="We're building the digital backbone for the world's most important industry. Here's why long-term investors are partnering with Akanksha AgreeTech."
         >
           <Button render={<Link href="/contact" />} nativeButton={false}>
             Request investor deck
@@ -54,7 +54,7 @@ export default function InvestorsPage() {
               <h2 className="font-serif text-2xl font-semibold text-foreground">The opportunity</h2>
               <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
                 Agriculture employs nearly half of India&apos;s workforce yet remains one of the
-                least digitized sectors. SmartFarmin sits at the intersection of data, financial
+                least digitized sectors. Akanksha AgreeTech sits at the intersection of data, financial
                 services and commerce — a durable, compounding position across the entire value
                 chain.
               </p>
