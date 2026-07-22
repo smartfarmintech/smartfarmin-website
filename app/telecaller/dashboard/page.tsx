@@ -7,7 +7,7 @@ import { MetricSummary } from '@/components/dashboard/metric-summary'
 import { ActionCard, ActionCardGrid } from '@/components/dashboard/action-card'
 
 export const metadata = {
-  title: 'Telecaller Dashboard | Rythu360',
+  title: 'Telecaller Dashboard | AgreeConnect',
   description: 'Manage leads, make calls, and track conversions',
 }
 

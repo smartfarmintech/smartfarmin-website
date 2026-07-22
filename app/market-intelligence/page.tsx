@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { marketPrices } from '@/lib/ecosystems/business-ecosystem'
 
 export const metadata: Metadata = {
-  title: 'Market Intelligence | Rythu360',
+  title: 'Market Intelligence | AgreeConnect',
   description: 'Real-time market prices and AI price forecasts for 50+ agricultural products',
 }
 

@@ -1,5 +1,5 @@
 -- =====================================================================
--- Rythu360 :: 03 :: Authentication schema
+-- AgreeConnect :: 03 :: Authentication schema
 --   Built on Supabase auth.users. Adds profile, devices, sessions,
 --   tokens, MFA factors, and login history.
 -- Applied via Supabase migration: authentication_schema

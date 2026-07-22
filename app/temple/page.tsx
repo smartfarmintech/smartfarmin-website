@@ -3,7 +3,7 @@ import { temples, templeServices, templeMarketplace } from '@/lib/ecosystems/tem
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Temple & Pilgrimage | Rythu360',
+  title: 'Temple & Pilgrimage | AgreeConnect',
   description: 'Discover sacred temples, pilgrimage services, and spiritual marketplace across India',
 }
 

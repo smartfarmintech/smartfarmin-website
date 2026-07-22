@@ -11,10 +11,10 @@ import {
 
 const products = [
   {
-    name: "Rythu360",
+    name: "AgreeConnect",
     tag: "Farmer super-app",
     icon: Smartphone,
-    href: "/products/rythu360",
+    href: "/products/AgreeConnect",
     desc: "One app for crop planning, weather, mandi prices, credit and expert support in your language.",
   },
   {

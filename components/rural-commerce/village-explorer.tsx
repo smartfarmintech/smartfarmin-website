@@ -13,7 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { GlassCard } from "@/components/rythu360/glass-card"
+import { GlassCard } from "@/components/agreeConnect/glass-card"
 import Link from "next/link"
 
 type ExploreCategory = {

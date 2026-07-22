@@ -1,4 +1,4 @@
-import { FieldDashboard } from "@/components/rythu360/field-dashboard"
+import { FieldDashboard } from "@/components/agreeConnect/field-dashboard"
 
 export default function FieldPage() {
   return <FieldDashboard />

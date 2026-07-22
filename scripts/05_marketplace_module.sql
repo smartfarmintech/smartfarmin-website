@@ -1,5 +1,5 @@
 -- =====================================================================
--- Rythu360 :: 05 :: Marketplace Module
+-- AgreeConnect :: 05 :: Marketplace Module
 --   Sellers, catalog, inventory, carts, orders, returns, reviews.
 --   Built on auth.users / public.user_profiles.
 -- =====================================================================

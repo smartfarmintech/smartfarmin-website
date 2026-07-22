@@ -98,7 +98,7 @@ const ecosystems = [
 ]
 
 const products = [
-  { name: "Rythu360", desc: "Farmer super-app", href: "/products/rythu360" },
+  { name: "AgreeConnect", desc: "Farmer super-app", href: "/products/agreeConnect" },
   { name: "Akanksha AI", desc: "AI crop advisory", href: "/products/akanksha-ai" },
   { name: "Marketplace", desc: "Buy & sell produce", href: "/marketplace" },
   { name: "Organic Store", desc: "Farm-fresh goods", href: "/organic-store" },

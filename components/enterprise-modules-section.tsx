@@ -157,7 +157,7 @@ export function EnterpriseModulesSection() {
           className="bg-gradient-to-r from-primary via-primary/5 to-accent/10 rounded-2xl border-2 border-primary/20 p-12"
         >
           <h3 className="text-3xl font-bold text-gray-900 mb-12 text-center">
-            Why Enterprise Teams Choose Rythu360
+            Why Enterprise Teams Choose AgreeConnect
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -207,7 +207,7 @@ export function EnterpriseModulesSection() {
             Ready to Transform Your Enterprise?
           </h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Get personalized demo from our enterprise team. See how leading agricultural companies use Rythu360 to scale operations.
+            Get personalized demo from our enterprise team. See how leading agricultural companies use AgreeConnect to scale operations.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8">

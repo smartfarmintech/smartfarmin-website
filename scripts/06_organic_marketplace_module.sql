@@ -1,5 +1,5 @@
 -- =====================================================================
--- Rythu360 :: 06 :: Organic Marketplace Module
+-- AgreeConnect :: 06 :: Organic Marketplace Module
 --   Certified-organic farms, certificates, catalog, orders, reviews.
 --   Built on auth.users / farmers / villages / record_status /
 --   is_platform_admin() and shared trigger functions.

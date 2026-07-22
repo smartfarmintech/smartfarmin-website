@@ -1,4 +1,4 @@
-import { LoginScreen } from "@/components/rythu360/login-screen"
+import { LoginScreen } from "@/components/agreeConnect/login-screen"
 
 export default function LoginPage() {
   return <LoginScreen />

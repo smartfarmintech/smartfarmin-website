@@ -193,7 +193,7 @@ function ImpactCounters() {
     >
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-white sm:text-4xl">Live Impact Metrics</h2>
-        <p className="mt-3 text-white/60">Real numbers from real farmers using Rythu360 today</p>
+        <p className="mt-3 text-white/60">Real numbers from real farmers using AgreeConnect today</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
@@ -344,7 +344,7 @@ export function CinematicHero() {
       <div className="absolute inset-0 w-full h-full">
         <Image
           src="/images/hero-cinematic-farm.png"
-          alt="Cinematic agricultural sunrise scene with farmer using Rythu360"
+          alt="Cinematic agricultural sunrise scene with farmer using AgreeConnect"
           fill
           className="object-cover"
           priority

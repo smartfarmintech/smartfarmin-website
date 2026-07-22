@@ -1,5 +1,5 @@
 -- =====================================================================
--- Rythu360 :: 04 :: Farmer Module
+-- AgreeConnect :: 04 :: Farmer Module
 --   Farmers, lands, soil, crops, health, irrigation, docs.
 --   Built on public.user_profiles / auth.users and geo (villages).
 -- =====================================================================

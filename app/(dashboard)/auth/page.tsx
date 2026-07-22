@@ -1,4 +1,4 @@
-import { AuthScreen } from "@/components/rythu360/auth-screen"
+import { AuthScreen } from "@/components/agreeConnect/auth-screen"
 
 export default async function AuthPage({
   searchParams,

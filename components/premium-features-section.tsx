@@ -47,7 +47,7 @@ export function PremiumFeaturesSection() {
             Everything Farmers Need in One Platform
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Rythu360 brings together AI intelligence, verified service providers, marketplace access, and 24/7 expert support.
+            AgreeConnect brings together AI intelligence, verified service providers, marketplace access, and 24/7 expert support.
           </p>
         </motion.div>
 
@@ -105,7 +105,7 @@ export function PremiumFeaturesSection() {
           className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl border-2 border-primary/10 p-12"
         >
           <h3 className="text-3xl font-bold text-gray-900 mb-12 text-center">
-            Why Farmers Trust Rythu360
+            Why Farmers Trust AgreeConnect
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[

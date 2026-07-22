@@ -1,4 +1,4 @@
-import { ShopMarketplace } from "@/components/rythu360/shop-marketplace"
+import { ShopMarketplace } from "@/components/agreeConnect/shop-marketplace"
 
 export default function ShopPage() {
   return <ShopMarketplace />

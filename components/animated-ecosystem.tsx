@@ -82,7 +82,7 @@ export function AnimatedEcosystem() {
           >
             <div className="text-center">
               <div className="text-4xl mb-2">🌾</div>
-              <div className="text-sm font-bold text-white">Rythu360</div>
+              <div className="text-sm font-bold text-white">AgreeConnect</div>
             </div>
           </motion.div>
 

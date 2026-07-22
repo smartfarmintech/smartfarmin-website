@@ -66,7 +66,7 @@ const steps = [
   {
     step: "03",
     title: "Act with confidence",
-    desc: "Receive simple, timely recommendations in Rythu360 and watch your yields and margins improve.",
+    desc: "Receive simple, timely recommendations in AgreeConnect and watch your yields and margins improve.",
   },
 ]
 
@@ -100,7 +100,7 @@ export default function AkankshaAIPage() {
               <ul className="mt-6 space-y-3">
                 {[
                   "Works with any crop and any field size",
-                  "Delivers advice directly inside Rythu360",
+                  "Delivers advice directly inside AgreeConnect",
                   "Improves with every season of local data",
                 ].map((point) => (
                   <li key={point} className="flex items-start gap-3">

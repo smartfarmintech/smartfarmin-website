@@ -3,8 +3,8 @@
 import { Heart, MapPin, Phone, MessageCircle, ShoppingCart, Badge } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { GlassCard } from "@/components/rythu360/glass-card"
-import { formatINR, discountPct, type RuralProduct } from "@/lib/rythu360/rural-commerce"
+import { GlassCard } from "@/components/agreeConnect/glass-card"
+import { formatINR, discountPct, type RuralProduct } from "@/lib/agreeConnect/rural-commerce"
 import { useState } from "react"
 
 interface ProductCardProps {

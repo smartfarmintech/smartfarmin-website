@@ -1,4 +1,4 @@
-// Rythu360 Enterprise Design System - Motion & Animation Utilities
+// AgreeConnect Enterprise Design System - Motion & Animation Utilities
 // Framer Motion configurations for consistent animations
 
 export const motionConfig = {

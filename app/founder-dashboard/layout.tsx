@@ -22,7 +22,7 @@ export default function FounderLayout({ children }: { children: ReactNode }) {
       <div className="flex h-screen">
         <aside className="w-72 bg-gray-900 border-r border-gray-800 flex flex-col">
           <div className="p-6 border-b border-gray-800">
-            <h1 className="text-2xl font-bold text-blue-400">Rythu360</h1>
+            <h1 className="text-2xl font-bold text-blue-400">AgreeConnect</h1>
             <p className="text-xs text-gray-500 mt-1">Founder Dashboard v1.0</p>
           </div>
 

@@ -1,4 +1,4 @@
-# Rythu360 Enterprise Design System - 300+ Components
+# AgreeConnect Enterprise Design System - 300+ Components
 
 ## Overview
 

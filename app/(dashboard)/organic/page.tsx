@@ -1,4 +1,4 @@
-import { OrganicStore } from "@/components/rythu360/organic-store"
+import { OrganicStore } from "@/components/agreeConnect/organic-store"
 
 export default function OrganicPage() {
   return <OrganicStore />

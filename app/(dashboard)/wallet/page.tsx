@@ -1,4 +1,4 @@
-import { WalletDashboard } from "@/components/rythu360/wallet-dashboard"
+import { WalletDashboard } from "@/components/agreeConnect/wallet-dashboard"
 
 export default function WalletPage() {
   return <WalletDashboard />

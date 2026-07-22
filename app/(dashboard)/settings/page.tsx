@@ -1,4 +1,4 @@
-import { SettingsScreen } from "@/components/rythu360/settings-screen"
+import { SettingsScreen } from "@/components/agreeConnect/settings-screen"
 
 export default function SettingsPage() {
   return <SettingsScreen />

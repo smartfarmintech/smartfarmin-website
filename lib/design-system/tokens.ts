@@ -1,4 +1,4 @@
-// Rythu360 Enterprise Design System - Design Tokens
+// AgreeConnect Enterprise Design System - Design Tokens
 // Foundation for all 300+ components across 8 products
 
 export const designTokens = {

@@ -3,7 +3,7 @@ import { tourismDestinations, homestays, farmstays } from '@/lib/ecosystems/tour
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Rural Tourism | Rythu360',
+  title: 'Rural Tourism | AgreeConnect',
   description: 'Explore 100+ authentic tourism destinations including farm stays, homestays, and cultural experiences',
 }
 

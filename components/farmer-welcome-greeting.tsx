@@ -11,7 +11,7 @@ interface FarmerWelcomeGreetingProps {
 
 const greetings = {
   en: {
-    title: 'Welcome to Rythu360',
+    title: 'Welcome to AgreeConnect',
     subtitle: 'What would you like to do today?',
     voiceAssistant: 'Voice Assistant',
   },
@@ -21,7 +21,7 @@ const greetings = {
     voiceAssistant: 'వాయిస్ సహాయక',
   },
   hi: {
-    title: 'Rythu360 में स्वागत है',
+    title: 'AgreeConnect में स्वागत है',
     subtitle: 'आज आप क्या करना चाहते हैं?',
     voiceAssistant: 'वॉयस सहायक',
   },

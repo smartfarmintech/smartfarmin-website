@@ -5,7 +5,7 @@ const columns = [
   {
     title: "Products",
     links: [
-      { label: "Rythu360", href: "/products/rythu360" },
+      { label: "AgreeConnect", href: "/products/agreeConnect" },
       { label: "Akanksha AI", href: "/products/akanksha-ai" },
       { label: "Marketplace", href: "/marketplace" },
       { label: "Organic Store", href: "/organic-store" },

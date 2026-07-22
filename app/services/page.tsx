@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { nearbyServices } from '@/lib/ecosystems/services-and-marketplace'
 
 export const metadata: Metadata = {
-  title: 'Nearby Services | Rythu360',
+  title: 'Nearby Services | AgreeConnect',
   description: 'Find 20+ nearby essential services in your village',
 }
 

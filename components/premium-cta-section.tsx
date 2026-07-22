@@ -23,7 +23,7 @@ export function PremiumCTASection() {
           {/* Main Headline */}
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             Join 250,000+ Farmers<br />
-            Already Using Rythu360
+            Already Using AgreeConnect
           </h2>
 
           {/* Subheading */}

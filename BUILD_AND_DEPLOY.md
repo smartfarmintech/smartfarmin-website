@@ -16,7 +16,7 @@
 
 *Static Pages (42):*
 - Home page with premium hero (farmer + sunrise)
-- Product pages (Akanksha AI, Rythu360)
+- Product pages (Akanksha AI, AgreeConnect)
 - Feature pages (crop doctor, drone services, machinery)
 - Marketplace pages (shop, organic store, farmer marketplace)
 - Role-based pages (government schemes, enterprise, investors)

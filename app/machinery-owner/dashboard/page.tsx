@@ -7,7 +7,7 @@ import { MetricSummary } from '@/components/dashboard/metric-summary'
 import { ActionCard, ActionCardGrid } from '@/components/dashboard/action-card'
 
 export const metadata = {
-  title: 'Machinery Owner Dashboard | Rythu360',
+  title: 'Machinery Owner Dashboard | AgreeConnect',
   description: 'Manage your machines, bookings, and revenue',
 }
 

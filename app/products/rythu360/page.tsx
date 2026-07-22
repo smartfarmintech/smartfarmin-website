@@ -11,18 +11,18 @@ import {
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { CinematicHero } from "@/components/cinematic-hero"
-import { Rythu360Services } from "@/components/rythu360-services"
-import { Rythu360Features } from "@/components/rythu360-features"
-import { Rythu360AIPlatform } from "@/components/rythu360-ai-platform"
-import { Rythu360Marketplace } from "@/components/rythu360-marketplace"
-import { Rythu360HowItWorks } from "@/components/rythu360-how-it-works"
-import { Rythu360DesignedFor } from "@/components/rythu360-designed-for"
+import { AgreeConnectServices } from "@/components/agreeConnect-services"
+import { AgreeConnectFeatures } from "@/components/agreeConnect-features"
+import { AgreeConnectAIPlatform } from "@/components/agreeConnect-ai-platform"
+import { AgreeConnectMarketplace } from "@/components/agreeConnect-marketplace"
+import { AgreeConnectHowItWorks } from "@/components/agreeConnect-how-it-works"
+import { AgreeConnectDesignedFor } from "@/components/agreeConnect-designed-for"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
-  title: "Rythu360 — The Farmer Super-App | SmartFarmin",
+  title: "AgreeConnect — The Farmer Super-App | SmartFarmin",
   description:
-    "Rythu360 puts crop planning, live mandi prices, weather, credit and expert advice in every farmer's pocket, in their own language.",
+    "AgreeConnect puts crop planning, live mandi prices, weather, credit and expert advice in every farmer's pocket, in their own language.",
 }
 
 const features = [
@@ -64,25 +64,25 @@ const stats = [
   { value: "18%", label: "Avg. income uplift" },
 ]
 
-export default function Rythu360Page() {
+export default function AgreeConnectPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1">
         <CinematicHero />
-        <Rythu360Services />
-        <Rythu360Features />
-        <Rythu360AIPlatform />
-        <Rythu360Marketplace />
-        <Rythu360HowItWorks />
-        <Rythu360DesignedFor />
+        <AgreeConnectServices />
+        <AgreeConnectFeatures />
+        <AgreeConnectAIPlatform />
+        <AgreeConnectMarketplace />
+        <AgreeConnectHowItWorks />
+        <AgreeConnectDesignedFor />
 
         <section className="py-16 lg:py-24">
           <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border">
               <Image
                 src="/images/farmer.png"
-                alt="A farmer using the Rythu360 app in the field"
+                alt="A farmer using the AgreeConnect app in the field"
                 fill
                 className="object-cover"
               />
@@ -92,7 +92,7 @@ export default function Rythu360Page() {
                 Built for the field, not the boardroom
               </h2>
               <p className="mt-4 text-pretty text-lg leading-relaxed text-muted-foreground">
-                Rythu360 works on entry-level phones and patchy networks. Every
+                AgreeConnect works on entry-level phones and patchy networks. Every
                 screen is voice-friendly and designed with farmers, so the advice
                 that matters is always one tap away.
               </p>

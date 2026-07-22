@@ -90,7 +90,7 @@ export default function MarketInsightsPage() {
             </thead>
             <tbody>
               {[
-                { name: "Rythu360", share: "12.5%", strength: "AI, Multi-platform", position: "Us" },
+                { name: "AgreeConnect", share: "12.5%", strength: "AI, Multi-platform", position: "Us" },
                 { name: "Competitor A", share: "22.3%", strength: "Scale, Brand", position: "Above" },
                 { name: "Competitor B", share: "18.7%", strength: "Niche focus", position: "Above" },
                 { name: "Competitor C", share: "8.2%", strength: "Local presence", position: "Below" },

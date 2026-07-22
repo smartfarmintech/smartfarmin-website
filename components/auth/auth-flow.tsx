@@ -275,7 +275,7 @@ export function AuthFlow({ initialMode = "login" }: { initialMode?: "login" | "r
                 🎉
               </motion.div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Rythu360!</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to AgreeConnect!</h2>
                 <p className="text-gray-600">Your account is ready to explore farming solutions.</p>
               </div>
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">

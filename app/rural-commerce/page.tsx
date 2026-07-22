@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, MapPin, ShoppingCart, Users, TrendingUp } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Rural Commerce Platform | Rythu360",
+  title: "Rural Commerce Platform | AgreeConnect",
   description: "Connect directly with farmers, traders, and local businesses. Fresh produce, grains, livestock, equipment - all in one marketplace.",
 }
 
@@ -75,7 +75,7 @@ export default function RuralCommercePage() {
       {/* Features Section */}
       <section className="py-16 px-4 bg-white/50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">Why Rythu360 Marketplace</h2>
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">Why AgreeConnect Marketplace</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[

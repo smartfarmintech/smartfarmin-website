@@ -7,7 +7,7 @@ import { MetricSummary } from '@/components/dashboard/metric-summary'
 import { ActionCard, ActionCardGrid } from '@/components/dashboard/action-card'
 
 export const metadata = {
-  title: 'Drone Operator Dashboard | Rythu360',
+  title: 'Drone Operator Dashboard | AgreeConnect',
   description: 'Manage drone missions, flights, and earnings',
 }
 

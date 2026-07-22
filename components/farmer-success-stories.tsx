@@ -27,7 +27,7 @@ export function FarmerSuccessStories() {
             Success Stories
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Real farmers transforming their lives with Rythu360
+            Real farmers transforming their lives with AgreeConnect
           </p>
         </motion.div>
 

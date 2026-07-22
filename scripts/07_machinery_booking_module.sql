@@ -1,5 +1,5 @@
 -- =====================================================================
--- Rythu360 :: 07 :: Machinery Booking Module
+-- AgreeConnect :: 07 :: Machinery Booking Module
 --   Farm machinery rental: catalog, operators, pricing, availability,
 --   bookings, payments, maintenance, reviews, live GPS tracking.
 --   Built on auth.users / farmers / villages / record_status /

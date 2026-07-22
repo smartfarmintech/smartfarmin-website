@@ -1,4 +1,4 @@
-import { MarketDashboard } from "@/components/rythu360/market-dashboard"
+import { MarketDashboard } from "@/components/agreeConnect/market-dashboard"
 
 export default function MarketPage() {
   return <MarketDashboard />

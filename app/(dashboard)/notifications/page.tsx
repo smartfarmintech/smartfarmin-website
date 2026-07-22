@@ -1,4 +1,4 @@
-import { NotificationCenter } from "@/components/rythu360/notification-center"
+import { NotificationCenter } from "@/components/agreeConnect/notification-center"
 
 export default function NotificationsPage() {
   return <NotificationCenter />

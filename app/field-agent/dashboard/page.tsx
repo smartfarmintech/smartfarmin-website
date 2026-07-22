@@ -7,7 +7,7 @@ import { MetricSummary } from '@/components/dashboard/metric-summary'
 import { ActionCard, ActionCardGrid } from '@/components/dashboard/action-card'
 
 export const metadata = {
-  title: 'Field Agent Dashboard | Rythu360',
+  title: 'Field Agent Dashboard | AgreeConnect',
   description: 'Track visits, check in with GPS, and submit reports',
 }
 

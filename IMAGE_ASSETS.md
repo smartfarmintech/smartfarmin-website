@@ -15,7 +15,7 @@ All image assets for SmartFarmin are present and accounted for. The application 
 | Drone Services | `/images/drone.png` | 2.1 MB | Drone booking UI showcase |
 | Marketplace | `/images/marketplace.png` | 2.9 MB | Shop and marketplace header |
 | Organic Store | `/images/organic-store.png` | 2.5 MB | Organic marketplace showcase |
-| Rythu360 Hero | `/images/rythu360-hero.png` | 2.3 MB | Rythu360 product page hero |
+| AgreeConnect Hero | `/images/AgreeConnect-hero.png` | 2.3 MB | AgreeConnect product page hero |
 
 **Total**: ~14 MB
 
@@ -37,7 +37,7 @@ All image assets for SmartFarmin are present and accounted for. The application 
 **Total**: ~4.7 MB
 
 **Usage**: Displayed in organic marketplace category navigation
-**Referenced in**: `lib/rythu360/organic.ts` - `categoryImage()` function
+**Referenced in**: `lib/AgreeConnect/organic.ts` - `categoryImage()` function
 
 ### 3. Shop Category Images (`/public/shop/`)
 **Count**: 7 images
@@ -55,13 +55,13 @@ All image assets for SmartFarmin are present and accounted for. The application 
 **Total**: ~3.7 MB
 
 **Usage**: Displayed in shop/marketplace category cards
-**Referenced in**: `lib/rythu360/shop.ts` - `productImage()` function
+**Referenced in**: `lib/AgreeConnect/shop.ts` - `productImage()` function
 
 ## Asset Mapping
 
 ### Organic Categories
 ```typescript
-// From lib/rythu360/organic.ts
+// From lib/AgreeConnect/organic.ts
 const ORGANIC_CATEGORIES = [
   { category: "Organic Rice", image: "/organic/rice.png" },
   { category: "Millets", image: "/organic/millets.png" },
@@ -77,7 +77,7 @@ const ORGANIC_CATEGORIES = [
 
 ### Shop Categories
 ```typescript
-// From lib/rythu360/shop.ts
+// From lib/AgreeConnect/shop.ts
 const CATEGORY_IMAGE = {
   Seeds: "/shop/seeds.png",
   Fertilizers: "/shop/fertilizers.png",

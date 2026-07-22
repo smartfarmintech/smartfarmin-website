@@ -32,7 +32,7 @@ export function LiveCounters() {
             Growing Every Day
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Real-time metrics showing the impact of Rythu360 across rural India
+            Real-time metrics showing the impact of AgreeConnect across rural India
           </p>
         </motion.div>
 

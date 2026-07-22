@@ -2,8 +2,8 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { useSession } from "@/components/rythu360/session-provider"
-import { OnboardingScreen } from "@/components/rythu360/onboarding-screen"
+import { useSession } from "@/components/agreeConnect/session-provider"
+import { OnboardingScreen } from "@/components/agreeConnect/onboarding-screen"
 import { Sprout } from "lucide-react"
 
 export default function AppIndexPage() {
@@ -20,7 +20,7 @@ export default function AppIndexPage() {
       <div className="flex min-h-svh items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3 text-muted-foreground">
           <Sprout className="size-8 animate-pulse text-primary" />
-          <p className="text-sm">Loading Rythu360…</p>
+          <p className="text-sm">Loading AgreeConnect…</p>
         </div>
       </div>
     )

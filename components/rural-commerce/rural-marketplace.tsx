@@ -21,7 +21,7 @@ import {
   NEARBY_BUSINESS_LIST,
   type RuralCommerceCategory,
   type RuralProduct,
-} from "@/lib/rythu360/rural-commerce"
+} from "@/lib/agreeConnect/rural-commerce"
 
 const CATEGORIES: { key: RuralCommerceCategory; icon: typeof Leaf; label: string }[] = [
   { key: "Fresh Fruits", icon: Leaf, label: "Fresh Fruits" },

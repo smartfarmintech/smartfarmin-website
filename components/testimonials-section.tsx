@@ -5,7 +5,7 @@ import { Star } from "lucide-react"
 
 const testimonials = [
   {
-    quote: "Rythu360 has transformed how I manage my farm. The AI recommendations save me thousands every season.",
+    quote: "AgreeConnect has transformed how I manage my farm. The AI recommendations save me thousands every season.",
     author: "Ramesh Yadav",
     role: "Farmer, Andhra Pradesh",
     rating: 5,
@@ -17,7 +17,7 @@ const testimonials = [
     rating: 5,
   },
   {
-    quote: "As a drone operator, Rythu360 opened new income opportunities. The booking system is seamless and payments are instant.",
+    quote: "As a drone operator, AgreeConnect opened new income opportunities. The booking system is seamless and payments are instant.",
     author: "Priya Singh",
     role: "Drone Operator, Punjab",
     rating: 5,
@@ -49,7 +49,7 @@ export function TestimonialsSection() {
             Trusted by thousands across India
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Real farmers, real results. See how Rythu360 is transforming agriculture.
+            Real farmers, real results. See how AgreeConnect is transforming agriculture.
           </p>
         </motion.div>
 

@@ -31,7 +31,7 @@ const values = [
 ]
 
 const milestones = [
-  { year: "2021", text: "SmartFarmin founded; Rythu360 pilots in Telangana." },
+  { year: "2021", text: "SmartFarmin founded; AgreeConnect pilots in Telangana." },
   { year: "2022", text: "Akanksha AI advisory launched with satellite integration." },
   { year: "2023", text: "Marketplace crosses 1M farmers; drone services introduced." },
   { year: "2024", text: "First state government partnerships for scheme delivery." },

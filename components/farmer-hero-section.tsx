@@ -69,7 +69,7 @@ export function FarmerHeroSection() {
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 leading-tight mb-4">
               🌱 Welcome to{' '}
               <span className="bg-gradient-to-r from-forest-green via-leaf-green to-fresh-mint bg-clip-text text-transparent">
-                Rythu360
+                AgreeConnect
               </span>
             </h1>
             <p className="text-lg sm:text-2xl text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">

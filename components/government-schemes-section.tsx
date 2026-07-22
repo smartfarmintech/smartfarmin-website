@@ -77,7 +77,7 @@ export function GovernmentSchemesSection() {
             Government Schemes Made Easy
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Rythu360 connects you with all available government benefits, subsidies, and schemes. Get eligibility checks and application assistance instantly.
+            AgreeConnect connects you with all available government benefits, subsidies, and schemes. Get eligibility checks and application assistance instantly.
           </p>
         </motion.div>
 
@@ -153,7 +153,7 @@ export function GovernmentSchemesSection() {
             Don't Miss Out on Government Benefits
           </h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Rythu360 tracks all schemes, notifies you of new opportunities, and helps you apply in minutes—not hours.
+            AgreeConnect tracks all schemes, notifies you of new opportunities, and helps you apply in minutes—not hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">

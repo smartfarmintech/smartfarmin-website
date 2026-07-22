@@ -34,7 +34,7 @@ export function RealityOfAgriculture() {
             The Reality of Indian Agriculture
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            14 major challenges farmers face daily. Rythu360 solves them all.
+            14 major challenges farmers face daily. <b>AgreeConnect</b> solves them all.
           </p>
         </motion.div>
 

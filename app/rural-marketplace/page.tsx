@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { RuralMarketplace } from "@/components/rural-commerce/rural-marketplace"
 
 export const metadata: Metadata = {
-  title: "Rural Commerce Marketplace | Rythu360",
+  title: "Rural Commerce Marketplace | AgreeConnect",
   description: "Connect directly with farmers, traders, and local businesses. Fresh produce, grains, nursery plants, livestock, and farm equipment.",
 }
 

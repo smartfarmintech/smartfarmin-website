@@ -43,7 +43,7 @@ export function MobileAppSection() {
               Farm smarter from your pocket
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Download Rythu360 and get instant access to machinery, AI advisory, and a community of farmers and experts.
+              Download AgreeConnect and get instant access to machinery, AI advisory, and a community of farmers and experts.
             </p>
 
             <div className="grid gap-4 mb-8">
@@ -98,7 +98,7 @@ export function MobileAppSection() {
                 {/* Screen */}
                 <div className="rounded-2xl bg-gradient-to-b from-primary/20 to-primary/10 p-6 h-screen flex flex-col items-center justify-center text-center">
                   <div className="text-white space-y-4">
-                    <h3 className="text-2xl font-bold">Rythu360</h3>
+                    <h3 className="text-2xl font-bold">AgreeConnect</h3>
                     <p className="text-sm opacity-80">Farm Smart</p>
                     <motion.div
                       animate={{ y: [0, -10, 0] }}

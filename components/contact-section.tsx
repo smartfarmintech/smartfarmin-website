@@ -62,7 +62,7 @@ export function ContactSection() {
             Get in touch
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have questions? Our team is here to help you succeed with Rythu360.
+            Have questions? Our team is here to help you succeed with AgreeConnect.
           </p>
         </motion.div>
 

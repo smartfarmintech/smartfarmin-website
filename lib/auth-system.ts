@@ -1,4 +1,4 @@
-// Rythu360 Authentication System - Complete Configuration
+// AgreeConnect Authentication System - Complete Configuration
 
 export const AUTH_ROLES = {
   FARMER: "farmer",
@@ -94,7 +94,7 @@ export const ROLE_DETAILS = {
 export const ONBOARDING_SCREENS = [
   {
     id: 1,
-    title: "Welcome to Rythu360",
+    title: "Welcome to AgreeConnect",
     subtitle: "One Platform. Every Farming Solution.",
     description: "India's most comprehensive agriculture ecosystem",
     icon: "🌾",
@@ -156,7 +156,7 @@ export const REGISTRATION_STEPS = [
   {
     id: 1,
     title: "Select Your Role",
-    description: "Choose how you want to use Rythu360",
+    description: "Choose how you want to use AgreeConnect",
     field: "role",
   },
   {

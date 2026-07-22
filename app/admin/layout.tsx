@@ -30,7 +30,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <div className="flex min-h-screen">
         <aside className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col">
           <div className="p-6 border-b border-gray-700">
-            <h1 className="text-2xl font-bold text-white">Rythu360 Admin</h1>
+            <h1 className="text-2xl font-bold text-white">AgreeConnect Admin</h1>
             <p className="text-xs text-gray-400">Enterprise Control Center</p>
           </div>
 

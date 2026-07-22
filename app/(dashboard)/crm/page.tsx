@@ -1,4 +1,4 @@
-import { CrmDashboard } from "@/components/rythu360/crm-dashboard"
+import { CrmDashboard } from "@/components/agreeConnect/crm-dashboard"
 
 export default function CrmPage() {
   return <CrmDashboard />

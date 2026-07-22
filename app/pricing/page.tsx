@@ -19,7 +19,7 @@ const tiers = [
     period: "/forever",
     tagline: "For individual farmers getting started.",
     features: [
-      "Rythu360 super-app access",
+      "AgreeConnect super-app access",
       "Weather & mandi price alerts",
       "Community crop advisory",
       "List up to 5 marketplace items",

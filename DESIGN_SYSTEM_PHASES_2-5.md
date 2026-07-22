@@ -1,4 +1,4 @@
-# Rythu360 Enterprise Design System - Phases 2-5 Implementation Plan
+# AgreeConnect Enterprise Design System - Phases 2-5 Implementation Plan
 
 ## Phase 2: Base Components (50) - IMPLEMENTATION GUIDE
 

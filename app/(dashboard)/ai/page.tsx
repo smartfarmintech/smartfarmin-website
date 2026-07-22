@@ -1,4 +1,4 @@
-import { AkankshaAI } from "@/components/rythu360/akanksha-ai"
+import { AkankshaAI } from "@/components/agreeConnect/akanksha-ai"
 
 export default function AiPage() {
   return <AkankshaAI />

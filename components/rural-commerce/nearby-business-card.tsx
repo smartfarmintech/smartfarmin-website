@@ -3,8 +3,8 @@
 import { MapPin, Phone, MessageCircle, Navigation, Clock } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { GlassCard } from "@/components/rythu360/glass-card"
-import { type NearbyBusiness } from "@/lib/rythu360/rural-commerce"
+import { GlassCard } from "@/components/agreeConnect/glass-card"
+import { type NearbyBusiness } from "@/lib/agreeConnect/rural-commerce"
 
 interface NearbyBusinessCardProps {
   business: NearbyBusiness

@@ -26,7 +26,7 @@ export function FarmingLifecycle() {
             Interactive Farming Lifecycle
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            From seed to harvest, Rythu360 guides every step with AI-powered intelligence
+            From seed to harvest, AgreeConnect guides every step with AI-powered intelligence
           </p>
         </motion.div>
 

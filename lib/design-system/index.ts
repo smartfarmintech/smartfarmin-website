@@ -1,4 +1,4 @@
-// Rythu360 Enterprise Design System - Master Index
+// AgreeConnect Enterprise Design System - Master Index
 // 300+ Production-Ready Components for 8 Products
 
 export { designTokens, themeConfig, componentSizes, interactionStates } from "./tokens"

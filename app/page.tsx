@@ -39,7 +39,7 @@ export default function HomePage() {
         <LiveCounters />
 
         {/* ECOSYSTEM CIRCLE */}
-        <AnimatedEcosystem />
+        {/* <AnimatedEcosystem /> */}
 
         {/* REALITY OF AGRICULTURE */}
         <RealityOfAgriculture />
@@ -83,7 +83,7 @@ export default function HomePage() {
         {/* Interactive Farming Lifecycle */}
         <FarmingLifecycle />
 
-        {/* Explore the Rythu360 Ecosystem */}
+        {/* Explore the AgreeConnect Ecosystem */}
         <ProductsSection />
 
         {/* For Every Stakeholder */}

@@ -9,7 +9,7 @@ const faqCategories = [
     title: "For Farmers",
     items: [
       {
-        q: "How do I book machinery on Rythu360?",
+        q: "How do I book machinery on AgreeConnect?",
         a: "Download the app, sign up with your phone number, choose the machinery or service you need, select a date, and confirm the booking. Payment is made securely through the app.",
       },
       {
@@ -114,7 +114,7 @@ export function FAQSection() {
             Frequently asked questions
           </h2>
           <p className="text-lg text-muted-foreground">
-            Find answers to common questions about Rythu360
+            Find answers to common questions about AgreeConnect
           </p>
         </motion.div>
 

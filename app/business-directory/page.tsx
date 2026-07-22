@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { businesses } from '@/lib/ecosystems/business-ecosystem'
 
 export const metadata: Metadata = {
-  title: 'Business Directory | Rythu360',
+  title: 'Business Directory | AgreeConnect',
   description: 'Connect with 100+ verified agricultural businesses and traders',
 }
 

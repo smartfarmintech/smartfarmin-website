@@ -1,5 +1,5 @@
-import { PageSpinner } from "@/components/rythu360/status-screens"
+import { PageSpinner } from "@/components/agreeConnect/status-screens"
 
 export default function RootLoading() {
-  return <PageSpinner label="Loading Rythu360…" />
+  return <PageSpinner label="Loading AgreeConnect…" />
 }

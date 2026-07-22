@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { Compass, Home, LayoutDashboard } from "lucide-react"
-import { BrandMark } from "@/components/rythu360/status-screens"
+import { BrandMark } from "@/components/agreeConnect/status-screens"
 import { Button } from "@/components/ui/button"
 
 export default function NotFound() {
   return (
     <div className="flex min-h-svh flex-col bg-background">
       <div className="px-6 py-5">
-        <Link href="/" aria-label="Rythu360 home">
+        <Link href="/" aria-label="AgreeConnect home">
           <BrandMark />
         </Link>
       </div>

@@ -1,4 +1,4 @@
-import { OrdersScreen } from "@/components/rythu360/orders-screen"
+import { OrdersScreen } from "@/components/agreeConnect/orders-screen"
 
 export default function OrdersPage() {
   return <OrdersScreen />

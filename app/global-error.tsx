@@ -58,7 +58,7 @@ export default function GlobalError({
               fontSize: "15px",
             }}
           >
-            Rythu360 ran into an unexpected problem. Please reload the application to
+            AgreeConnect ran into an unexpected problem. Please reload the application to
             continue.
           </p>
           <button
@@ -75,7 +75,7 @@ export default function GlobalError({
               fontWeight: 600,
             }}
           >
-            Reload Rythu360
+            Reload AgreeConnect
           </button>
         </div>
       </body>

@@ -17,7 +17,7 @@ export function HeroSection() {
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/drone-video-FMEbqnZWe8aRDxyTlYpbTIFNrD9IVW.mp4"
+            src="/videos/farm-hero.mp4"
             type="video/mp4"
           />
         </video>
@@ -43,9 +43,9 @@ export function HeroSection() {
         >
           <defs>
             <linearGradient id="sunrise" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style={{ stopColor: "rgb(254,215,0)", stopOpacity: 0.6 }} />
-              <stop offset="30%" style={{ stopColor: "rgb(255,140,0)", stopOpacity: 0.4 }} />
-              <stop offset="60%" style={{ stopColor: "rgb(34,197,94)", stopOpacity: 0.15 }} />
+              {/* <stop offset="0%" style={{ stopColor: "rgb(254,215,0)", stopOpacity: 0.6 }} /> */}
+              <stop offset="30%" style={{ stopColor: "rgb(237, 199, 152)", stopOpacity: 0.4 }} />
+              <stop offset="60%" style={{ stopColor: "rgb(165, 234, 190)", stopOpacity: 0.15 }} />
               <stop offset="100%" style={{ stopColor: "rgb(248,250,252)", stopOpacity: 0.8 }} />
             </linearGradient>
             <linearGradient id="field" x1="0%" y1="50%" x2="0%" y2="100%">
@@ -86,7 +86,7 @@ export function HeroSection() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-tight"
             >
-              Empower Every Farmer<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Empower Every Farmer<br /></span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">with Technology</span>
             </motion.h1>
 
@@ -95,7 +95,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-xl text-gray-700 max-w-3xl mx-auto mb-8 leading-relaxed"
+              className="text-xl text-white max-w-3xl mx-auto mb-8 leading-relaxed"
             >
               India's most advanced AI-powered agricultural platform. Connect with verified service providers, access real-time weather intelligence, detect crop diseases instantly, and optimize your harvest—all in one intelligent ecosystem.
             </motion.p>

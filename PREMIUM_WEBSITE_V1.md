@@ -1,8 +1,8 @@
-# Rythu360 Premium Website Redesign - Phase 1
+# AgreeConnect Premium Website Redesign - Phase 1
 
 ## Overview
 
-Complete visual and design system overhaul of the Rythu360 landing page to match premium SaaS platforms like Apple, Stripe, and Vercel. The redesign maintains SmartFarmin Technologies' mission while elevating the visual presentation to attract both farmers and enterprise customers.
+Complete visual and design system overhaul of the AgreeConnect landing page to match premium SaaS platforms like Apple, Stripe, and Vercel. The redesign maintains SmartFarmin Technologies' mission while elevating the visual presentation to attract both farmers and enterprise customers.
 
 ## Design System
 
@@ -158,7 +158,7 @@ app/
 
 ## SEO & Metadata
 
-- Meta title: "Rythu360 - AI-Powered Agriculture Platform for Indian Farmers"
+- Meta title: "AgreeConnect - AI-Powered Agriculture Platform for Indian Farmers"
 - Meta description: "Connect with verified service providers, book machinery and drones, detect crop diseases with AI, and access marketplace for seeds and fertilizers."
 - OG image: Hero section visual
 - Viewport: Mobile optimized

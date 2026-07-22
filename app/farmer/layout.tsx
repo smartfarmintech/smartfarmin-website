@@ -61,7 +61,7 @@ export default function FarmerLayout({ children }: { children: ReactNode }) {
           className="hidden md:flex md:w-64 bg-white border-r border-gray-200 flex-col"
         >
           <div className="p-6 border-b border-gray-200">
-            <h1 className="text-2xl font-bold text-green-600">Rythu360</h1>
+            <h1 className="text-2xl font-bold text-green-600">AgreeConnect</h1>
             <p className="text-sm text-gray-600">{profile?.full_name}</p>
           </div>
 

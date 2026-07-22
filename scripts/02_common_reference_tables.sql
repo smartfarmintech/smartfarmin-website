@@ -1,5 +1,5 @@
 -- =====================================================================
--- Rythu360 :: 02 :: Common reference tables (RBAC, settings, geo, i18n)
+-- AgreeConnect :: 02 :: Common reference tables (RBAC, settings, geo, i18n)
 -- Applied via Supabase migration: common_reference_tables
 -- =====================================================================
 

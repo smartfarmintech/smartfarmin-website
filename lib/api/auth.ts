@@ -17,6 +17,6 @@ export async function getServerSession(req: NextRequest) {
 export function requireFounderRole() {
   return (user: any) => {
     // Check if user has founder role
-    return user?.user_metadata?.role === "founder" || user?.email?.endsWith("@rythu360.com");
+    return user?.user_metadata?.role === "founder" || user?.email?.endsWith("@agreeConnect.com");
   };
 }

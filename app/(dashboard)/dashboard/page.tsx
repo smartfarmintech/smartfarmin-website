@@ -1,4 +1,4 @@
-import { AppShell } from "@/components/rythu360/app-shell"
+import { AppShell } from "@/components/agreeConnect/app-shell"
 
 export default function DashboardPage() {
   return <AppShell />

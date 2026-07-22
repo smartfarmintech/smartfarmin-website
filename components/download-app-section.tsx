@@ -16,7 +16,7 @@ export function DownloadAppSection() {
           className="text-center"
         >
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Download Rythu360 Today
+            Download AgreeConnect Today
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Get access to all features including AI advisory, machinery booking, and market prices in one app

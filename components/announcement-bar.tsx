@@ -18,7 +18,7 @@ export function AnnouncementBar() {
     >
       <div className="flex-1 text-center">
         <p className="text-sm font-medium text-foreground">
-          <span className="text-primary font-semibold">Rythu360 is live!</span> Join 2,50,000+ farmers already growing smarter.{" "}
+          <span className="text-primary font-semibold">AgreeConnect is live!</span> Join 2,50,000+ farmers already growing smarter.{" "}
           <a href="#" className="underline hover:text-primary transition-colors">
             Download now
           </a>

@@ -18,7 +18,7 @@ export function Navigation() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/70 text-white font-bold">
               R
             </div>
-            <span className="hidden sm:inline font-semibold text-foreground">Rythu360</span>
+            <span className="hidden sm:inline font-semibold text-foreground">AgreeConnect</span>
           </Link>
 
           {/* Desktop Navigation */}

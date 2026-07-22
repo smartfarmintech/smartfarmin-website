@@ -1,8 +1,8 @@
-# Rythu360 - Farmer-First Digital Agriculture Platform
+# AgreeConnect - Farmer-First Digital Agriculture Platform
 
 ## Overview
 
-Rythu360 is India's most farmer-friendly digital agriculture platform, designed specifically for users with little to no technical knowledge. The platform follows WhatsApp/PhonePe's principle of "simplicity first" with large buttons, colorful cards, and icon-driven interfaces.
+AgreeConnect is India's most farmer-friendly digital agriculture platform, designed specifically for users with little to no technical knowledge. The platform follows WhatsApp/PhonePe's principle of "simplicity first" with large buttons, colorful cards, and icon-driven interfaces.
 
 ## Design Principles
 
@@ -314,7 +314,7 @@ schemes {
 
 ## Support
 
-For questions about the Rythu360 farmer dashboard architecture, refer to:
-- RYTHU360_ARCHITECTURE.md for technical details
+For questions about the AgreeConnect farmer dashboard architecture, refer to:
+- AgreeConnect.md for technical details
 - This guide for design and component documentation
 - Individual dashboard pages for implementation examples
