@@ -109,7 +109,7 @@ export function WalletDashboard() {
           <div className="min-w-0">
             <h1 className="truncate font-serif text-2xl font-semibold tracking-tight sm:text-3xl">Wallet</h1>
             <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <ShieldCheck className="size-4 text-primary" /> Secured by Rythu360 · UPI enabled
+              <ShieldCheck className="size-4 text-primary" /> Secured by AgreeConnect · UPI enabled
             </p>
           </div>
           <button
@@ -234,7 +234,7 @@ function BalanceCard({ onAdd, onWithdraw }: { onAdd: () => void; onWithdraw: () 
               <WalletIcon className="size-5" />
             </span>
             <div className="leading-tight">
-              <p className="text-sm font-medium">Rythu360 Wallet</p>
+              <p className="text-sm font-medium">AgreeConnect Wallet</p>
               <p className="text-xs text-primary-foreground/70">ravikumar@rythu</p>
             </div>
           </div>

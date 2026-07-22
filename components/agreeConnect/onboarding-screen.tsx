@@ -18,7 +18,7 @@ import {
 import { ThemeToggle } from "@/components/agreeConnect/theme-toggle"
 import { cn } from "@/lib/utils"
 
-const LANG_KEY = "rythu360.lang"
+const LANG_KEY = "agreeConnect.lang"
 
 const LANGUAGES = [
   { id: "en", label: "English", native: "English" },

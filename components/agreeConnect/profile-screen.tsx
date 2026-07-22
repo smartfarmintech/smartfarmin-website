@@ -639,7 +639,7 @@ export function ProfileScreen() {
         </section>
 
         <p className="mt-8 text-center text-xs text-muted-foreground">
-          Rythu360 · v2.4.0 · Made for Indian farmers
+          AgreeConnect · v2.4.0 · Made for Indian farmers
         </p>
       </div>
     </div>

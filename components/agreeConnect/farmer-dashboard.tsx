@@ -351,7 +351,7 @@ function Overview() {
                 <Crown className="size-5" />
               </span>
               <div>
-                <h2 className="font-semibold tracking-tight">Rythu360 Plus</h2>
+                <h2 className="font-semibold tracking-tight">AgreeConnect Plus</h2>
                 <p className="text-xs text-muted-foreground">Subscription status</p>
               </div>
             </div>
@@ -677,7 +677,7 @@ function SettingsSection() {
               ["Location", "Warangal, Telangana"],
               ["Land holding", "6.5 acres"],
               ["Language", "Telugu"],
-              ["Rythu360 ID", "RY-TG-2048"],
+              ["AgreeConnect ID", "RY-TG-2048"],
             ].map(([k, v]) => (
               <div key={k} className="flex items-center justify-between py-2.5">
                 <dt className="text-muted-foreground">{k}</dt>

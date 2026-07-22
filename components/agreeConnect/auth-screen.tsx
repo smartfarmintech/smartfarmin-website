@@ -17,7 +17,7 @@ import {
   Tractor,
   Wheat,
 } from "lucide-react"
-import { useSession } from "@/components/rythu360/session-provider"
+import { useSession } from "@/components/agreeConnect/session-provider"
 import { ThemeToggle } from "@/components/agreeConnect/theme-toggle"
 import { cn } from "@/lib/utils"
 
@@ -106,8 +106,8 @@ export function AuthScreen({ initialMode = "login" }: { initialMode?: Mode }) {
 
   const subheading = useMemo(() => {
     return mode === "login"
-      ? "Log in to your Rythu360 workspace"
-      : "Join Rythu360 as a farmer or field operator"
+      ? "Log in to your AgreeConnect workspace"
+      : "Join AgreeConnect as a farmer or field operator"
   }, [mode])
 
   return (

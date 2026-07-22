@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import type { RoleId } from "@/lib/agreeConnect/roles"
 
-const STORAGE_KEY = "rythu360.role"
+const STORAGE_KEY = "agreeConnect.role"
 
 type SessionContextValue = {
   roleId: RoleId | null

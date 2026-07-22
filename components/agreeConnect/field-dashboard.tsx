@@ -376,7 +376,7 @@ export function FieldDashboard() {
                 </ul>
                 <div className="mt-4 flex items-center gap-2 rounded-2xl border border-border/60 bg-muted/30 p-3 text-xs text-muted-foreground">
                   <Wallet className="size-4 text-primary" />
-                  Incentives are credited to your Rythu360 wallet every Friday.
+                  Incentives are credited to your AgreeConnect wallet every Friday.
                 </div>
               </GlassCard>
             </motion.div>

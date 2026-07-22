@@ -6,7 +6,7 @@ import Link from "next/link"
 import { motion } from "motion/react"
 import { ArrowRight, Leaf, ShieldCheck, Sparkles } from "lucide-react"
 import { ROLES, type RoleId } from "@/lib/agreeConnect/roles"
-import { useSession } from "@/components/rythu360/session-provider"
+import { useSession } from "@/components/agreeConnect/session-provider"
 import { ThemeToggle } from "@/components/agreeConnect/theme-toggle"
 import { cn } from "@/lib/utils"
 
@@ -79,7 +79,7 @@ export function LoginScreen() {
             transition={{ duration: 0.45, delay: 0.1 }}
             className="mx-auto mt-3 max-w-md text-pretty leading-relaxed text-muted-foreground"
           >
-            One platform, ten roles. Select how you work with Rythu360 to enter
+            One platform, ten roles. Select how you work with AgreeConnect to enter
             your personalised dashboard.
           </motion.p>
         </div>

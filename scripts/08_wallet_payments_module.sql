@@ -1,5 +1,5 @@
 -- =====================================================================
--- Rythu360 :: 08 :: Wallet & Payments Module
+-- AgreeConnect :: 08 :: Wallet & Payments Module
 --   Wallets, ledger transactions, add-money/withdraw requests,
 --   subscriptions, gateway logs, cashback, reward points,
 --   settlements, commission, invoices, GST records.

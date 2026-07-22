@@ -209,7 +209,7 @@ function TrustRow() {
   )
 }
 
-export function Rythu360Hero() {
+export function AgreeConnectHero() {
   return (
     <section className="relative min-h-screen overflow-hidden bg-background">
       {/* Background elements */}
@@ -281,7 +281,7 @@ export function Rythu360Hero() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground"
             >
-              Rythu360 is your trusted farming companion. Book tractors and agricultural machinery, schedule drone spraying, hire farm labour, detect crop diseases with AI, receive weather alerts, access government schemes, connect with agricultural experts, and manage your farm—all from one easy-to-use application.
+              AgreeConnect is your trusted farming companion. Book tractors and agricultural machinery, schedule drone spraying, hire farm labour, detect crop diseases with AI, receive weather alerts, access government schemes, connect with agricultural experts, and manage your farm—all from one easy-to-use application.
             </motion.p>
 
             <motion.div
@@ -347,8 +347,8 @@ export function Rythu360Hero() {
               className="relative size-full overflow-hidden rounded-3xl border border-border shadow-2xl"
             >
               <Image
-                src="/images/rythu360-hero.png"
-                alt="Agricultural drone spraying over lush paddy fields with farmer using Rythu360 app"
+                src="/images/agreeConnect-hero.png"
+                alt="Agricultural drone spraying over lush paddy fields with farmer using AgreeConnect app"
                 fill
                 priority
                 className="object-cover"
@@ -398,7 +398,7 @@ export function Rythu360Hero() {
               Trusted by Farmers Across India
             </h3>
             <p className="mt-3 text-muted-foreground">
-              Real numbers from real farmers using Rythu360 today
+              Real numbers from real farmers using AgreeConnect today
             </p>
           </div>
           <AnimatedStatistics />
